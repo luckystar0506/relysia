@@ -16,13 +16,13 @@ const theme = createMuiTheme(
       // contrastThreshold: 2,
       primary: {
         // light: will be calculated from palette.primary.main,
-        main: "#5d78ff",
+        main: "#613aea",
         // dark: will be calculated from palette.primary.main,
         // contrastText: will be calculated to contrast with palette.primary.main
       },
       secondary: {
         // light: will be calculated from palette.primary.main,
-        main: "#0abb87",
+        main: "#ff2868",
         // dark: will be calculated from palette.primary.main,
         contrastText: "#ffffff",
       },
@@ -31,6 +31,11 @@ const theme = createMuiTheme(
         main: "#fd397a",
         // dark: will be calculated from palette.primary.main,
         // contrastText: will be calculated to contrast with palette.primary.main
+      },
+      textColors: {
+        head1: "#757885",
+        para1: "#584d4d",
+        para2: "#686363",
       },
     },
 

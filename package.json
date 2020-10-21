@@ -40,6 +40,7 @@
     "@material-ui/lab": "^4.0.0-alpha.49",
     "@material-ui/pickers": "^3.2.8",
     "@material-ui/styles": "^4.6.0",
+    "@moneybutton/react-money-button": "^0.38.4",
     "antd": "^4.4.0",
     "antd-img-crop": "^3.9.0",
     "bootstrap": "^4.4.1",
