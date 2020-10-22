@@ -1633,3 +1633,12 @@ kbd kbd {
   background-position: right top;
   background-size: cover;
 }
+
+//custom textfield
+.custom-padding label {
+  transform: translate(12px, 12px) scale(1);
+}
+
+.custom-padding input {
+  padding: 12px 12px;
+}

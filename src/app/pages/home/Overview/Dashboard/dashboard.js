@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -13,8 +13,33 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Avatar from "@material-ui/core/Avatar";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
-import MoneyButton from "@moneybutton/react-money-button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Slide from "@material-ui/core/Slide";
+import TextField from "@material-ui/core/TextField";
+import { useSnackbar } from "notistack";
+import { connect } from "react-redux";
+import firebase from "firebase/app";
+import "firebase/functions";
+import "firebase/database";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import CloseIcon from "@material-ui/icons/Close";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import FileCopyIcon from "@material-ui/icons/FileCopy";
 
+var QRCode = require("qrcode.react");
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+let field1 = "";
+let field2 = "";
+let field3 = "";
+let selectedReqBsvindex = 0;
 const useStyles = makeStyles((theme) => ({
   walletEleCon: {
     borderRadius: 15,
@@ -55,27 +80,180 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 20,
   },
   menuIcon: { float: "right", position: "releative", left: 5, bottom: 5 },
+  closeButton: {
+    position: "absolute",
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500],
+  },
 }));
 
-function Dashboard() {
+function Dashboard(props) {
   const classes = useStyles();
   const theme = useTheme();
-  const [walletsList, setwalletsList] = useState([
-    {
-      id: "wwww",
-      btcBal: 3.87,
-      dollarBal: 201.8,
-      title: "Vianex Wallet",
-    },
-    {
-      id: "wwww",
-      btcBal: 3.87,
-      dollarBal: 301.8,
-      title: "jenne Wallet",
-    },
-  ]);
-  const [selectedActivityState, setselectedActivityState] = useState(0);
   const matchesMD = useMediaQuery(theme.breakpoints.down("sm"));
+  const { enqueueSnackbar } = useSnackbar();
+  const [walletsList, setwalletsList] = useState([]);
+  const [selectedActivityState, setselectedActivityState] = useState(0);
+  const [diologueState, setdiologueState] = useState(false);
+  const [generatingWalletKeys, setgeneratingWalletKeys] = useState(false);
+  const [requestBsvDiologueState, setrequestBsvDiologueState] = useState(false);
+
+  useEffect(() => {
+    if (props.user && props.user.uid) {
+      getUserWallets();
+    }
+  }, [props.user]);
+
+  const getUserWallets = async () => {
+    let walletData = await firebase
+      .database()
+      .ref("userWallets/" + props.user.uid)
+      .once("value")
+      .then((snap) => (snap.val() ? snap.val() : {}));
+    setwalletsList(Object.values(walletData));
+  };
+
+  const submitCreateWallet = async () => {
+    setgeneratingWalletKeys(true);
+    let pass = true;
+
+    //validation vals
+    if (field1 === "") {
+      pass = false;
+      enqueueSnackbar("Please provide Wallet Name", { variant: "error" });
+    }
+    if (field2 === "") {
+      pass = false;
+      enqueueSnackbar("Please provide Wallet Password", { variant: "error" });
+    } else if (field2.length <= 5) {
+      pass = false;
+      enqueueSnackbar("Wallet Password should contain atleast 6 chracters", { variant: "error" });
+    }
+    if (pass) {
+      enqueueSnackbar("Generating Wallet Keys..", { variant: "info" });
+      try {
+        let createWalletAPI = firebase.functions().httpsCallable("createWallet");
+        let walletRes = await createWalletAPI({
+          title: field1,
+          password: field2,
+        });
+
+        console.log("recieve", walletRes);
+        if (walletRes && walletRes.data && walletRes.data.status === "success") {
+          //updating local state
+          let modifiedObj = [...walletsList];
+          modifiedObj.push(walletRes.data.walletObj);
+          setwalletsList(modifiedObj);
+
+          setgeneratingWalletKeys(false);
+          setdiologueState(false);
+          enqueueSnackbar("Wallet created Successfully!", { variant: "success" });
+        } else {
+          setgeneratingWalletKeys(false);
+          enqueueSnackbar("An error occures, Try again!", { variant: "error" });
+        }
+      } catch (err) {
+        console.log("catch err", err);
+        setgeneratingWalletKeys(false);
+        enqueueSnackbar("An error occures, Try again!", { variant: "error" });
+      }
+    } else {
+      setgeneratingWalletKeys(false);
+      return null;
+    }
+  };
+
+  const EditDialog = (
+    <Dialog
+      open={diologueState}
+      TransitionComponent={Transition}
+      keepMounted
+      aria-labelledby="edit-dialog-slide-title"
+      fullWidth
+      maxWidth="sm"
+    >
+      <DialogTitle style={{ paddingBottom: 1 }}>New Wallet Details</DialogTitle>
+      <DialogContent>
+        <DialogContentText style={{ marginBottom: 0 }}>After the creation of Wallet, details can't be change.</DialogContentText>
+        <div style={{ display: "flex", flexDirection: "column", width: "70%" }}>
+          <TextField
+            defaultValue=""
+            onChange={(e) => {
+              field1 = e.target.value;
+            }}
+            label="Wallet Name"
+            variant="outlined"
+            className={`custom-padding`}
+            style={{ marginTop: 15, marginBottom: 10 }}
+          />
+          <TextField
+            defaultValue=""
+            onChange={(e) => {
+              field2 = e.target.value;
+            }}
+            label="Wallet Password"
+            variant="outlined"
+            type="password"
+            className={`custom-padding`}
+          />
+        </div>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={() => setdiologueState(false)} color="primary">
+          Cancel
+        </Button>
+
+        <Button onClick={submitCreateWallet} color="primary">
+          {generatingWalletKeys ? <CircularProgress color="primary" size={20} thickness={4} /> : "Submit"}
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+
+  const RequestBsvDialog = (
+    <Dialog
+      open={requestBsvDiologueState}
+      TransitionComponent={Transition}
+      keepMounted
+      fullWidth
+      maxWidth="sm"
+      onClose={() => setrequestBsvDiologueState(false)}
+    >
+      <IconButton aria-label="close" className={classes.closeButton} onClick={() => setrequestBsvDiologueState(false)}>
+        <CloseIcon />
+      </IconButton>
+      <DialogTitle style={{ paddingBottom: 1 }}>Add Funds</DialogTitle>
+      <DialogContent>
+        <DialogContentText style={{ marginBottom: 0 }}>Use your QR scan to add money to your wallet.</DialogContentText>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 30 }}>
+          <div style={{ margin: "22px 0px" }}>
+            {walletsList[selectedReqBsvindex] ? (
+              <QRCode value={"bitcoin:" + walletsList[selectedReqBsvindex].address + "?sv"} renderAs="svg" />
+            ) : (
+              <CircularProgress style={{ margin: "10px 0px" }} color="secondary" />
+            )}
+          </div>
+          <CopyToClipboard
+            text={walletsList[selectedReqBsvindex] ? walletsList[selectedReqBsvindex].address : "-"}
+            onCopy={() => enqueueSnackbar("Address Copied", { variant: "success" })}
+          >
+            <div style={{ cursor: "pointer" }}>
+              <FileCopyIcon color="primary" style={{ float: "right", height: 15, width: 15 }} />
+
+              <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
+                BITCOIN SV ADDRESS
+              </Typography>
+
+              <Typography style={{ color: theme.palette.textColors.para2 }} variant="body1">
+                {walletsList[selectedReqBsvindex] ? walletsList[selectedReqBsvindex].address : "-"}
+              </Typography>
+            </div>
+          </CopyToClipboard>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
 
   return (
     <div style={{ width: "100%", minWidth: 300, maxWidth: 1380, margin: "0px auto", marginTop: 20 }}>
@@ -95,7 +273,7 @@ function Dashboard() {
                       backgroundRepeat: "no-repeat",
                       backgroundSize: "cover",
                     }}
-                    key={item.id + index}
+                    key={item.id}
                   >
                     <div style={{ display: "flex", alignItems: "center" }}>
                       <Typography
@@ -123,19 +301,37 @@ function Dashboard() {
                       <Button className={classes.reqBtns} startIcon={<ArrowUpwardRoundedIcon />}>
                         Send BTC
                       </Button>
-                      <Button className={classes.reqBtns} style={{ marginLeft: 10 }} startIcon={<ArrowDownwardRoundedIcon />}>
+                      <Button
+                        onClick={() => {
+                          selectedReqBsvindex = index;
+                          setrequestBsvDiologueState(true);
+                        }}
+                        className={classes.reqBtns}
+                        style={{ marginLeft: 10 }}
+                        startIcon={<ArrowDownwardRoundedIcon />}
+                      >
                         Request BTC
                       </Button>
                     </div>
                   </Paper>
                 );
               })}
+              {walletsList.length === 0 && (
+                <Typography variant="caption" color="textSecondary">
+                  You didnt have any wallet yet
+                </Typography>
+              )}
             </div>
             <Button
               startIcon={<AddRoundedIcon />}
               color="primary"
               variant="contained"
               style={{ marginLeft: 10, borderRadius: 50, paddingLeft: 25, paddingRight: 25 }}
+              onClick={() => {
+                field1 = "";
+                field2 = "";
+                setdiologueState(true);
+              }}
             >
               Add new Wallet
             </Button>
@@ -273,8 +469,14 @@ function Dashboard() {
           </div>
         </Grid>
       </Grid>
+      {EditDialog}
+      {RequestBsvDialog}
     </div>
   );
 }
 
-export default Dashboard;
+const mapStateToProps = ({ auth: { user } }) => ({
+  user,
+});
+
+export default connect(mapStateToProps, {})(Dashboard);
