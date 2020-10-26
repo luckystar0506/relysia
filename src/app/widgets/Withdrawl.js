@@ -199,10 +199,7 @@ export default function WithdrawlComponent(props) {
     );
   } else {
     return (
-      <div
-        className="kt-portlet kt-portlet--height-fluid"
-        style={{ marginTop: 9, padding: 0, marginBottom: 10, height: "auto", minHeight: 295 }}
-      >
+      <div style={{ height: "auto", minHeight: 295 }}>
         <div className="kt-portlet__head">
           <div className="kt-portlet__head-label">
             <span>

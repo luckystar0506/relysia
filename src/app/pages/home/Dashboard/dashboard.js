@@ -6,7 +6,7 @@ import { useTheme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import ArrowUpwardRoundedIcon from "@material-ui/icons/ArrowUpwardRounded";
 import ArrowDownwardRoundedIcon from "@material-ui/icons/ArrowDownwardRounded";
-import { toAbsoluteUrl } from "../../../../../_metronic";
+import { toAbsoluteUrl } from "../../../../_metronic";
 import Paper from "@material-ui/core/Paper";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -29,6 +29,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import CloseIcon from "@material-ui/icons/Close";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
+import UpdateWallet from "./updateWallet";
+import { DB1 } from "../../../../index";
 
 var QRCode = require("qrcode.react");
 
@@ -40,6 +42,7 @@ let field1 = "";
 let field2 = "";
 let field3 = "";
 let selectedReqBsvindex = 0;
+
 const useStyles = makeStyles((theme) => ({
   walletEleCon: {
     borderRadius: 15,
@@ -98,20 +101,30 @@ function Dashboard(props) {
   const [diologueState, setdiologueState] = useState(false);
   const [generatingWalletKeys, setgeneratingWalletKeys] = useState(false);
   const [requestBsvDiologueState, setrequestBsvDiologueState] = useState(false);
+  const [totalBalances, settotalBalances] = useState({
+    btcBal: 0,
+    dollarBal: 0,
+  });
 
   useEffect(() => {
     if (props.user && props.user.uid) {
+      console.log("run", props.user);
       getUserWallets();
+    } else {
+      props.history.push("/auth");
     }
   }, [props.user]);
 
   const getUserWallets = async () => {
-    let walletData = await firebase
-      .database()
-      .ref("userWallets/" + props.user.uid)
-      .once("value")
-      .then((snap) => (snap.val() ? snap.val() : {}));
-    setwalletsList(Object.values(walletData));
+    let walletListAPI = firebase.functions().httpsCallable("getWalletBalances");
+    let walletListRes = await walletListAPI();
+    console.log("walletListRes", walletListRes);
+    if (walletListRes && walletListRes.data && walletListRes.data.status === "success") {
+      setwalletsList(Object.values(walletListRes.data.data));
+      if (walletListRes.data.totalBalances) {
+        settotalBalances(walletListRes.data.totalBalances);
+      }
+    }
   };
 
   const submitCreateWallet = async () => {
@@ -256,7 +269,18 @@ function Dashboard(props) {
   );
 
   return (
-    <div style={{ width: "100%", minWidth: 300, maxWidth: 1380, margin: "0px auto", marginTop: 20 }}>
+    <div
+      style={{
+        width: "100%",
+        minWidth: 300,
+        maxWidth: 1380,
+        margin: "0px auto",
+        marginTop: 20,
+        padding: 10,
+        paddingBottom: 50,
+        paddingTop: "4%",
+      }}
+    >
       <Grid container style={{ padding: "0px 5%" }} justify="space-between">
         <Grid item xs={12} md={6}>
           <div>
@@ -290,16 +314,16 @@ function Dashboard(props) {
 
                     <div style={{ marginBottom: 12 }}>
                       <Typography component="h4" variant="h4">
-                        {item.btcBal} BTC
+                        {item.btcBal} BSV
                       </Typography>
                       <Typography component="h4" variant="subtitle2">
                         ${item.dollarBal}
                       </Typography>
                     </div>
 
-                    <div>
+                    <div style={{ display: "flex", alignItems: "center" }}>
                       <Button className={classes.reqBtns} startIcon={<ArrowUpwardRoundedIcon />}>
-                        Send BTC
+                        Send BSV
                       </Button>
                       <Button
                         onClick={() => {
@@ -310,8 +334,15 @@ function Dashboard(props) {
                         style={{ marginLeft: 10 }}
                         startIcon={<ArrowDownwardRoundedIcon />}
                       >
-                        Request BTC
+                        Request BSV
                       </Button>
+                      <UpdateWallet
+                        userID={props.user ? props.user.uid : ""}
+                        walletDetails={item}
+                        walletIndex={index}
+                        walletsList={walletsList}
+                        setwalletsList={setwalletsList}
+                      />
                     </div>
                   </Paper>
                 );
@@ -354,7 +385,7 @@ function Dashboard(props) {
                     </Typography>
                     <div style={{ marginTop: 15, marginBottom: 15, marginLeft: 5 }}>
                       <Typography style={{ color: theme.palette.textColors.para1, fontWeight: 600 }} variant="h5">
-                        $2,876.2
+                        ${totalBalances.dollarBal}
                       </Typography>
                       <Typography style={{ color: theme.palette.textColors.para1, marginTop: -2 }} variant="caption" component="p">
                         Avaliable
@@ -452,7 +483,7 @@ function Dashboard(props) {
                             color: theme.palette.textColors.para1,
                           }}
                         >
-                          +0.5 BTC
+                          +0.5 BSV
                         </Typography>
                         <Typography variant="body2" style={{ fontWeight: 500, color: theme.palette.textColors.para2 }}>
                           $165.8

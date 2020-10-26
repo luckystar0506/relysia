@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -17,6 +17,14 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
 import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
 import SettingsIcon from "@material-ui/icons/Settings";
+import Typography from "@material-ui/core/Typography";
+import { connect } from "react-redux";
+import firebase from "firebase/app";
+import "firebase/functions";
+import "firebase/database";
+import "firebase/auth";
+import { updateUserData } from "../../app/store/ducks/auth.duck";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -58,16 +66,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LeftDrawer(props) {
+function LeftDrawer(props) {
   const classes = useStyles();
+
   const [sideBarTabs, setsideBarTabs] = useState([
     { route: "dashboard", title: "Dashboard" },
     { route: "wallet", title: "Wallet" },
     { route: "transactions", title: "Transactions" },
-    { route: "profile", title: "Profile" },
     { route: "settings", title: "Settings" },
     { route: "logout", title: "Logout" },
   ]);
+
+  const logoutUser = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        props.updateUserData(null);
+      });
+  };
 
   return (
     <Drawer
@@ -84,78 +101,55 @@ export default function LeftDrawer(props) {
       }}
       style={{ zIndex: 1 }}
     >
-      <Toolbar />
-
-      <List style={{ paddingTop: 0, overflow: "hidden",  }}>
-        {sideBarTabs.slice(0, 4).map((item, index) => (
-          <ListItem
-            button
-            key={item.title + index}
-            onClick={() => {
-              if (item.title === "Profile") {
-                props.history.push("/profile");
-              } else {
-                props.history.push("/overview/" + item.route);
-              }
-            }}
-            style={{
-              color: props.location.pathname && props.location.pathname.includes(item.route) ? "#3f50b5" : "",
-              backgroundColor: props.location.pathname && props.location.pathname.includes(item.route) ? "rgba(0,0,0,0.1)" : "",
-            }}
-          >
-            <ListItemIcon
+      <Toolbar>
+        {props.open && (
+          <Typography component="h1" variant="h5" style={{ padding: "20px 10px", color: "#5c5c5c", fontWeight: 500, overflow: "hidden" }}>
+            Wallet
+          </Typography>
+        )}
+      </Toolbar>
+      <div style={{ height: "75%", display: "flex", alignItems: "center", width: "100%" }}>
+        <List style={{ paddingTop: 0, overflow: "hidden", width: "100%" }}>
+          {sideBarTabs.map((item, index) => (
+            <ListItem
+              button
+              key={item.title + index}
+              onClick={() => {
+                if (item.title === "Logout") {
+                  logoutUser();
+                } else {
+                  props.history.push(item.route);
+                }
+              }}
               style={{
                 color: props.location.pathname && props.location.pathname.includes(item.route) ? "#3f50b5" : "",
+                backgroundColor: props.location.pathname && props.location.pathname.includes(item.route) ? "rgba(0,0,0,0.1)" : "",
               }}
             >
-              {(() => {
-                if (index === 0) {
-                  return <DashboardIcon />;
-                } else if (index === 1) {
-                  return <AccountBalanceWalletIcon />;
-                } else if (index === 2) {
-                  return <AccountBalanceIcon />;
-                } else if (index === 3) {
-                  return <PersonIcon />;
-                }
-              })()}
-            </ListItemIcon>
-            <ListItemText primary={item.title} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List style={{ overflow: "hidden" }}>
-        {sideBarTabs.slice(4, 6).map((item, index) => (
-          <ListItem
-            button
-            key={item.title + index}
-            onClick={() => {
-              props.history.push("/overview/" + item.route);
-            }}
-            style={{
-              color: props.location.pathname && props.location.pathname.includes(item.route) ? "#3f50b5" : "",
-              backgroundColor: props.location.pathname && props.location.pathname.includes(item.route) ? "rgba(0,0,0,0.1)" : "",
-            }}
-          >
-            <ListItemIcon
-              style={{
-                color: props.location.pathname && props.location.pathname.includes(item.route) ? "#3f50b5" : "",
-              }}
-            >
-              {(() => {
-                if (index === 0) {
-                  return <SettingsIcon />;
-                } else if (index === 1) {
-                  return <ExitToAppIcon />;
-                }
-              })()}
-            </ListItemIcon>
-
-            <ListItemText primary={item.title} />
-          </ListItem>
-        ))}
-      </List>
+              <ListItemIcon
+                style={{
+                  color: props.location.pathname && props.location.pathname.includes(item.route) ? "#3f50b5" : "",
+                }}
+              >
+                {(() => {
+                  if (index === 0) {
+                    return <DashboardIcon />;
+                  } else if (index === 1) {
+                    return <AccountBalanceWalletIcon />;
+                  } else if (index === 2) {
+                    return <AccountBalanceIcon />;
+                  } else if (index === 3) {
+                    return <SettingsIcon />;
+                  } else if (index === 4) {
+                    return <ExitToAppIcon />;
+                  }
+                })()}
+              </ListItemIcon>
+              <ListItemText primary={item.title} />
+            </ListItem>
+          ))}
+        </List>
+      </div>
       <div style={{ marginTop: "auto" }}>
         <Divider />
 
@@ -174,3 +168,9 @@ export default function LeftDrawer(props) {
     </Drawer>
   );
 }
+
+const mapStateToProps = ({ auth: { user } }) => ({
+  user,
+});
+
+export default connect(mapStateToProps, { updateUserData })(LeftDrawer);

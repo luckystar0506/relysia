@@ -14,6 +14,7 @@ import SchoolIcon from "@material-ui/icons/School";
 import EmojiEventsIcon from "@material-ui/icons/EmojiEvents";
 import { useLocation } from "react-router-dom";
 import clsx from "clsx";
+import LeftDrawer from "./leftDrawer";
 
 const Header = loadable(() => import("./header/Header"));
 const HeaderMobile = loadable(() => import("./header/HeaderMobile"));
@@ -24,6 +25,7 @@ const KtContent = loadable(() => import("./KtContent"));
 const styles1 = [];
 const htmlClassService = new HTMLClassService();
 const useStyles = makeStyles((theme) => ({}));
+let drawerStateLocalStorage = localStorage.getItem("drawer-state") === "false" ? false : true;
 
 function Layout({
   children,
@@ -34,6 +36,7 @@ function Layout({
   contentContainerClasses,
   contentClasses,
   history,
+  location,
 }) {
   htmlClassService.setConfig(layoutConfig);
   contentClasses = htmlClassService.classes.content.join(" ");
@@ -43,31 +46,53 @@ function Layout({
   window.scrollTo(0, 0);
   const classes = useStyles();
   const routeLocation = useLocation();
+  const [drawerState, setdrawerState] = React.useState(drawerStateLocalStorage);
+
   return selfLayout !== "blank" ? (
     <LayoutInitializer styles={styles1} menuConfig={MenuConfig} layoutConfig={LayoutConfig} htmlClassService={htmlClassService}>
       {/* <!-- begin:: Header Mobile --> */}
-      <HeaderMobile htmlClassService={htmlClassService} history={history} />
+      {/* <HeaderMobile htmlClassService={htmlClassService} history={history} /> */}
       {/* <!-- end:: Header Mobile --> */}
 
       <div className="kt-grid kt-grid--hor kt-grid--root">
-        <div className="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
-          <div className="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
+        <div
+        // className="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page"
+        >
+          <div
+          // className="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper"
+          >
             {/* <!-- begin:: Header READY --> */}
 
-            <Header history={history} />
+            {/* <Header history={history} /> */}
             {/* <!-- end:: Header --> */}
 
             {/* <!-- begin:: Content --> */}
-            <div className="kt-body kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-grid--stretch" id="kt_body">
+            <div
+              // className="kt-body kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-grid--stretch"
+              // id="kt_body"
+              style={
+                location.pathname.includes("auth")
+                  ? {}
+                  : {
+                      flexGrow: 1,
+                      height: "100%",
+                      width: "100%",
+                      margin: "auto",
+                      display: "flex",
+                    }
+              }
+            >
+              {/* //left drawer */}
+              {!location.pathname.includes("auth") && (
+                <LeftDrawer open={drawerState} setOpen={setdrawerState} history={history} location={location} />
+              )}
               <div
                 className={`kt-content ${contentClasses} kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor`}
-                id="kt_content" 
-                style={{ padding: 0, width: "100%" }}
+                id="kt_content"
+                style={{ padding: 0, width: "100%", height: "100%" }}
               >
                 {children}
               </div>
-
-              {/*<!-- end:: Content Body -->*/}
             </div>
             {/* <!-- end:: Content --> */}
           </div>
@@ -75,7 +100,7 @@ function Layout({
         {/* <!-- end:: Body --> */}
       </div>
       <ScrollTop />
-      <QuickPanel />
+      {/* <QuickPanel /> */}
     </LayoutInitializer>
   ) : (
     <div className="kt-grid kt-grid--ver kt-grid--root kt-page">
