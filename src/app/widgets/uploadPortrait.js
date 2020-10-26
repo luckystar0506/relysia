@@ -14,7 +14,6 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/storage";
 
-
 function UpdatePortraitComponent(props) {
   const [fileList, setFileList] = useState([]);
   const [visible, setvisible] = useState(false);
@@ -124,8 +123,8 @@ function UpdatePortraitComponent(props) {
   };
 
   return (
-    <Card style={{ marginTop: 8 }}>
-      <Button style={{ width: "100%", padding: 15 }} onClick={() => setvisible(true)}>
+    <>
+      <Button variant="contained" color="secondary" className={props.btnStyles} onClick={() => setvisible(true)}>
         <FormattedMessage id="PRFILE.CHANGEPORTRAIT" defaultMessage="Update Portrait" />
       </Button>
       <Modal
@@ -168,7 +167,7 @@ function UpdatePortraitComponent(props) {
           </Upload>
         </ImgCrop>
       </Modal>
-    </Card>
+    </>
   );
 }
 

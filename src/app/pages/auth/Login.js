@@ -64,10 +64,10 @@ function Login(props) {
           props.setLoginPopup(false);
           if (goTo) {
             props.history.push(goTo);
-            // props.history.push("/overview");
+            // props.history.push("/dashboard");
           }
         } else {
-          props.history.push("/overview");
+          props.history.push("/dashboard");
         }
         updateUserInRedux();
 
@@ -100,10 +100,10 @@ function Login(props) {
           props.setLoginPopup(false);
           if (goTo) {
             props.history.push(goTo);
-            // props.history.push("/overview");
+            // props.history.push("/dashboard");
           }
         } else {
-          props.history.push("/overview");
+          props.history.push("/dashboard");
         }
         updateUserInRedux();
         // ...
@@ -187,10 +187,10 @@ function Login(props) {
                       props.setLoginPopup(false);
                       if (goTo) {
                         props.history.push(goTo);
-                        // props.history.push("/overview");
+                        // props.history.push("/dashboard");
                       }
                     } else {
-                      props.history.push("/overview");
+                      props.history.push("/dashboard");
                     }
                     updateUserInRedux();
                   })
@@ -244,6 +244,9 @@ function Login(props) {
                 <div className="kt-login__actions">
                   <Link to="/auth/forgot-password" className="kt-link kt-login__link-forgot">
                     <FormattedMessage id="AUTH.GENERAL.FORGOT_BUTTON" />
+                  </Link>
+                  <Link to="/auth/registration" className="kt-link kt-login__link-forgot">
+                    <FormattedMessage id="AUTH.GENERAL.REGISTER_BUTTON" defaultMessage="Register" />
                   </Link>
 
                   <button

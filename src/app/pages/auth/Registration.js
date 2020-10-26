@@ -83,12 +83,13 @@ function Registration(props) {
                   })
                   .then(function() {})
                   .catch(function(error) {});
-                props.history.push("/");
                 firebase.auth().onAuthStateChanged((user) => {
+                  console.log("uucheck", user);
                   if (user) {
-                    updateUserData(user);
+                    props.updateUserData(user);
                   }
                 });
+                props.history.push("/dashboard");
               })
               .catch(function(error) {
                 // eslint-disable-next-line
@@ -208,4 +209,4 @@ function Registration(props) {
   );
 }
 
-export default injectIntl(connect(null, {updateUserData})(Registration));
+export default injectIntl(connect(null, { updateUserData })(Registration));

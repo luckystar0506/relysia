@@ -37,7 +37,6 @@ export const reducer = persistReducer(
         return { ...state, updateTutorStatus: !state.updateTutorStatus };
       }
 
-
       case actionTypes.isTutorConnectedToMeeting: {
         return {
           ...state,
@@ -64,8 +63,6 @@ export const actions = {};
 export function updateProfilePicFunc(value) {
   return { type: actionTypes.UserProilePicUpdated, payload: value };
 }
-
-
 
 export function updateUserData(value) {
   return { type: actionTypes.UserLoggedData, payload: value };

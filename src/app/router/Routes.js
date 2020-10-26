@@ -15,16 +15,22 @@ import { updateUserData } from "../store/ducks/auth.duck";
 const ErrorsPage = loadable(() => import("../pages/errors/ErrorsPage"));
 const HomePage = loadable(() => import("../pages/home/HomePage"));
 
-const Routes = withRouter(({ history, updateUserData }) => {
+const Routes = withRouter(({ history, updateUserData, userdata }) => {
   let user = null;
 
   React.useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
+      if (user && !userdata) {
         updateUserData(user);
       }
     });
   }, []);
+
+  React.useEffect(() => {
+    if (!userdata) {
+      history.push("/auth");
+    }
+  }, [userdata]);
 
   const lastLocation = useLastLocation();
   routerHelpers.saveLastLocation(lastLocation);
@@ -58,7 +64,7 @@ const Routes = withRouter(({ history, updateUserData }) => {
 });
 
 const mapStateToProps = ({ auth: { user } }) => ({
-  user,
+  userdata: user,
 });
 
 export default connect(mapStateToProps, { updateUserData })(Routes);
