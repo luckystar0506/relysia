@@ -91,6 +91,8 @@ function SendBSV(props) {
         enqueueSnackbar(sendBsvRes.data.msg, { variant: "success" });
         setsendLoader(false);
         setsendBsvDiologueState(false);
+        setamountField("");
+        setaddressField("");
       }
     }
   };

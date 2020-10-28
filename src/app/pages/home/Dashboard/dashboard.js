@@ -36,10 +36,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-let field1 = "";
-let field2 = "";
-let field3 = "";
-
 const useStyles = makeStyles((theme) => ({
   walletEleCon: {
     borderRadius: 15,
@@ -96,10 +92,11 @@ function Dashboard(props) {
   const [activities, setactivities] = useState([]);
   const [bsvRate, setbsvRate] = useState(100);
   const [refreshBalances, setrefreshBalances] = useState(false);
+  const [walletName, setwalletName] = useState("");
+  const [walletPassword, setwalletPassword] = useState("");
 
   useEffect(() => {
     if (props.user && props.user.uid) {
-      console.log("run", props.user);
       getUserWallets();
     } else {
       props.history.push("/auth");
@@ -139,14 +136,14 @@ function Dashboard(props) {
     let pass = true;
 
     //validation vals
-    if (field1 === "") {
+    if (walletName === "") {
       pass = false;
       enqueueSnackbar("Please provide Wallet Name", { variant: "error" });
     }
-    if (field2 === "") {
+    if (walletPassword === "") {
       pass = false;
       enqueueSnackbar("Please provide Wallet Password", { variant: "error" });
-    } else if (field2.length <= 5) {
+    } else if (walletPassword.length <= 5) {
       pass = false;
       enqueueSnackbar("Wallet Password should contain atleast 6 chracters", { variant: "error" });
     }
@@ -155,8 +152,8 @@ function Dashboard(props) {
       try {
         let createWalletAPI = firebase.functions().httpsCallable("createWallet");
         let walletRes = await createWalletAPI({
-          title: field1,
-          password: field2,
+          title: walletName,
+          password: walletPassword,
         });
 
         if (walletRes && walletRes.data && walletRes.data.status === "success") {
@@ -203,20 +200,20 @@ function Dashboard(props) {
         <DialogContentText style={{ marginBottom: 0 }}>After the creation of Wallet, details can't be change.</DialogContentText>
         <div style={{ display: "flex", flexDirection: "column", width: "70%" }}>
           <TextField
-            defaultValue=""
             onChange={(e) => {
-              field1 = e.target.value;
+              setwalletName(e.target.value);
             }}
+            value={walletName}
             label="Wallet Name"
             variant="outlined"
             className={`custom-padding`}
             style={{ marginTop: 15, marginBottom: 10 }}
           />
           <TextField
-            defaultValue=""
             onChange={(e) => {
-              field2 = e.target.value;
+              setwalletPassword(e.target.value);
             }}
+            value={walletPassword}
             label="Wallet Password"
             variant="outlined"
             type="password"
@@ -315,8 +312,8 @@ function Dashboard(props) {
               variant="contained"
               style={{ marginLeft: 10, borderRadius: 50, paddingLeft: 25, paddingRight: 25 }}
               onClick={() => {
-                field1 = "";
-                field2 = "";
+                setwalletName("");
+                setwalletPassword("");
                 setdiologueState(true);
               }}
             >

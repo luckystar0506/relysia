@@ -89,12 +89,9 @@ function RequestBSV(props) {
   }, [props.walletObj]);
 
   const getDynamicAddress = () => {
-    if (props.walletObj.address && props.walletObj.address.length < 20) {
-      //generate new
-    } else {
-      //use randomly
-      setcurrentAddress(props.walletObj.address[getRandomInt(0, 20)]);
-    }
+    //use randomly
+    console.log("len");
+    setcurrentAddress(props.walletObj.address[getRandomInt(0, props.walletObj.address.length - 1)]);
   };
 
   const getRandomInt = (min, max) => {
@@ -102,9 +99,6 @@ function RequestBSV(props) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
-
-  console.log("c-address", currentAddress);
-  console.log("walletObj", props.walletObj.address);
 
   return (
     <>
