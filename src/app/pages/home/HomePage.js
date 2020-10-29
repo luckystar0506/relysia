@@ -8,6 +8,7 @@ const LayoutSplashScreen = loadable(() => import("../../../_metronic"));
 const Dashboard = loadable(() => import("./Dashboard/dashboard"));
 const Transactions = loadable(() => import("./Transctions/transctions"));
 const Wallet = loadable(() => import("./Wallet/wallet"));
+const Tokens = loadable(() => import("./Tokens/tokensPage"));
 
 export default function HomePage(props) {
   return (
@@ -18,7 +19,7 @@ export default function HomePage(props) {
         <Route path="/wallet" component={Wallet} />
         <Route path="/transactions" component={Transactions} />
         <Route path="/settings" component={Settings} />
-
+        <Route path="/tokens" component={Tokens} />
         <Route path="/auth" component={AuthPage} />
 
         <Redirect to="/error/error-v1" />

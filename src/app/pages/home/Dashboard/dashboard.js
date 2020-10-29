@@ -24,13 +24,13 @@ import firebase from "firebase/app";
 import "firebase/functions";
 import "firebase/database";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
 import UpdateWallet from "./updateWallet";
 import { DB1 } from "../../../../index";
 import Activity from "./Activity";
 import RequestBSV from "./requestBsv";
 import SendBSV from "./sendBsv";
 import RefreshIcon from "@material-ui/icons/Refresh";
+import { updateUserWalletsData } from "../../../store/ducks/auth.duck";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -97,7 +97,17 @@ function Dashboard(props) {
 
   useEffect(() => {
     if (props.user && props.user.uid) {
-      getUserWallets();
+      if (props.walletsData) {
+        setwalletsList(Object.values(props.walletsData.data.data));
+        if (props.walletsData.data.totalBalances) {
+          settotalBalances(props.walletsData.data.totalBalances);
+        }
+        if (props.walletsData.data.totalBalances) {
+          setactivities(props.walletsData.data.transctions);
+        }
+      } else {
+        getUserWallets();
+      }
     } else {
       props.history.push("/auth");
     }
@@ -118,6 +128,7 @@ function Dashboard(props) {
     let walletListRes = await walletListAPI();
     console.log("walletListRes", walletListRes);
     if (walletListRes && walletListRes.data && walletListRes.data.status === "success") {
+      props.updateUserWalletsData(walletListRes);
       setwalletsList(Object.values(walletListRes.data.data));
       if (walletListRes.data.totalBalances) {
         settotalBalances(walletListRes.data.totalBalances);
@@ -409,8 +420,9 @@ function Dashboard(props) {
   );
 }
 
-const mapStateToProps = ({ auth: { user } }) => ({
+const mapStateToProps = ({ auth: { user, walletsData } }) => ({
   user,
+  walletsData,
 });
 
-export default connect(mapStateToProps, {})(Dashboard);
+export default connect(mapStateToProps, { updateUserWalletsData })(Dashboard);

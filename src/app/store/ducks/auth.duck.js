@@ -10,7 +10,7 @@ export const actionTypes = {
   UserProilePicUpdated: "[User] PROFILE PIC UPDATE",
   updateTutorStatus: "[] updateTutorStatus",
   userStatus: "[] userStatus",
-  isTutorConnectedToMeeting: "[] isTutorConnectedToMeeting",
+  userWalletsData: "[] update wallets data",
 };
 
 const initialAuthState = {
@@ -19,6 +19,7 @@ const initialAuthState = {
   updateProfilePic: false,
   profilePicUrl: "",
   updateTutorStatus: false,
+  walletsData: null,
 };
 
 export const reducer = persistReducer(
@@ -37,19 +38,16 @@ export const reducer = persistReducer(
         return { ...state, updateTutorStatus: !state.updateTutorStatus };
       }
 
-      case actionTypes.isTutorConnectedToMeeting: {
-        return {
-          ...state,
-          isTutorConnectedToMeeting: action.payload,
-          meetingID: action.meetingID,
-          attendiID: action.attendiID,
-        };
-      }
-
       case actionTypes.UserLoggedData: {
         return {
           ...state,
           user: action.payload,
+        };
+      }
+      case actionTypes.userWalletsData: {
+        return {
+          ...state,
+          walletsData: action.payload,
         };
       }
 
@@ -67,5 +65,10 @@ export function updateProfilePicFunc(value) {
 export function updateUserData(value) {
   return { type: actionTypes.UserLoggedData, payload: value };
 }
+
+export function updateUserWalletsData(value) {
+  return { type: actionTypes.userWalletsData, payload: value };
+}
+
 
 export function* saga() {}

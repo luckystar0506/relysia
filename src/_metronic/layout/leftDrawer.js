@@ -71,7 +71,7 @@ function LeftDrawer(props) {
 
   const [sideBarTabs, setsideBarTabs] = useState([
     { route: "dashboard", title: "Dashboard" },
-    { route: "wallet", title: "Wallet" },
+    { route: "tokens", title: "Tokens" },
     { route: "transactions", title: "Transactions" },
     { route: "settings", title: "Settings" },
     { route: "logout", title: "Logout" },
@@ -134,7 +134,9 @@ function LeftDrawer(props) {
                 {(() => {
                   if (index === 0) {
                     return <DashboardIcon />;
-                  } else if (index === 1) {
+                  }
+                  
+                  else if (index === 1) {
                     return <AccountBalanceWalletIcon />;
                   } else if (index === 2) {
                     return <AccountBalanceIcon />;
