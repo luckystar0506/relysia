@@ -1,16 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { useTheme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import ArrowUpwardRoundedIcon from "@material-ui/icons/ArrowUpwardRounded";
-import ArrowDownwardRoundedIcon from "@material-ui/icons/ArrowDownwardRounded";
-import { toAbsoluteUrl } from "../../../../_metronic";
-import Paper from "@material-ui/core/Paper";
-import AddRoundedIcon from "@material-ui/icons/AddRounded";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import Avatar from "@material-ui/core/Avatar";
+
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import Dialog from "@material-ui/core/Dialog";
@@ -21,7 +14,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import TextField from "@material-ui/core/TextField";
 import { useSnackbar } from "notistack";
-import { connect } from "react-redux";
 import SettingsIcon from "@material-ui/icons/Settings";
 import firebase from "firebase/app";
 import "firebase/functions";

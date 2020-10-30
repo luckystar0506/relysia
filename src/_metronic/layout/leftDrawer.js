@@ -23,7 +23,7 @@ import firebase from "firebase/app";
 import "firebase/functions";
 import "firebase/database";
 import "firebase/auth";
-import { updateUserData } from "../../app/store/ducks/auth.duck";
+import { updateUserData, updateUserWalletsData } from "../../app/store/ducks/auth.duck";
 
 const drawerWidth = 240;
 
@@ -71,7 +71,7 @@ function LeftDrawer(props) {
 
   const [sideBarTabs, setsideBarTabs] = useState([
     { route: "dashboard", title: "Dashboard" },
-    { route: "wallet", title: "Wallet" },
+    { route: "tokens", title: "Tokens" },
     { route: "transactions", title: "Transactions" },
     { route: "settings", title: "Settings" },
     { route: "logout", title: "Logout" },
@@ -83,6 +83,7 @@ function LeftDrawer(props) {
       .signOut()
       .then(() => {
         props.updateUserData(null);
+        props.updateUserWalletsData(null);
       });
   };
 
@@ -173,4 +174,4 @@ const mapStateToProps = ({ auth: { user } }) => ({
   user,
 });
 
-export default connect(mapStateToProps, { updateUserData })(LeftDrawer);
+export default connect(mapStateToProps, { updateUserData, updateUserWalletsData })(LeftDrawer);
