@@ -33,12 +33,66 @@ const useStyles = makeStyles((theme) => ({}));
 function SendToken(props) {
   const classes = useStyles();
   const theme = useTheme();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [toField, settoField] = useState("");
   const [amountField, setamountField] = useState("");
+  const [sendTokenLoading, setsendTokenLoading] = useState(false);
+
   const [first] = props.tokens;
   const balance = props.tokens.reduce((acc, token) => acc + parseInt(token.coins, 10), 0);
-  const sendTokens = () => {};
+
+  const sendTokens = () => {
+    setsendTokenLoading(true);
+
+    let pass = true;
+    if (toField === "") {
+      pass = false;
+      enqueueSnackbar("Please provide a public key!", { variant: "error" });
+    }
+    if (Number(amountField) <= 0) {
+      pass = false;
+      enqueueSnackbar("Please provide a valid token amount!", { variant: "error" });
+    }
+    if (pass) {
+      //send tokens
+      send();
+    } else {
+      setsendTokenLoading(false);
+    }
+  };
+
+  const send = async () => {
+    const balance = props.tokens.reduce((acc, token) => acc + parseInt(token.coins, 10), 0);
+    if (amountField > balance) {
+      enqueueSnackbar("You didnt have enough tokens!", { variant: "error" });
+      setsendTokenLoading(false);
+
+      return null;
+    }
+    try {
+      props.tokens.sort((a, b) => a.coins - b.coins);
+      const newTokens = [];
+      let leftToSpend = amountField;
+      for (const token of props.tokens) {
+        const tokenCoins = parseInt(token.coins, 10);
+        if (0 < leftToSpend && 0 < tokenCoins) {
+          newTokens.push(await token.send(Math.min(leftToSpend, tokenCoins), toField));
+          leftToSpend -= tokenCoins;
+        }
+      }
+      setTimeout(() => {
+        enqueueSnackbar("Tokens sent successfully", { variant: "success" });
+        setsendTokenLoading(false);
+        settoField("");
+        setamountField("");
+      }, 1500);
+    } catch (err) {
+      enqueueSnackbar(`error: ${err.message}`, { variant: "error" });
+      console.log("err", err);
+      setsendTokenLoading(false);
+    }
+  };
 
   return (
     <>
@@ -87,9 +141,10 @@ function SendToken(props) {
             sendTokens();
           }}
           style={{ marginLeft: 10, color: "#ffffff" }}
-          startIcon={<SendIcon />}
+          startIcon={sendTokenLoading ? null : <SendIcon />}
+          disabled={sendTokenLoading}
         >
-          Send
+          {sendTokenLoading ? <CircularProgress style={{ color: "#ffffff" }} size={20} /> : "Send"}
         </Button>
       </div>
     </>

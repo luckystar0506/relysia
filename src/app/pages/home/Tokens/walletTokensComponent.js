@@ -9,27 +9,6 @@ import { toAbsoluteUrl } from "../../../../_metronic";
 import Paper from "@material-ui/core/Paper";
 import SendToken from "./sendToken";
 
-import AddRoundedIcon from "@material-ui/icons/AddRounded";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import SendIcon from "@material-ui/icons/Send";
-import IconButton from "@material-ui/core/IconButton";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Slide from "@material-ui/core/Slide";
-import TextField from "@material-ui/core/TextField";
-import { useSnackbar } from "notistack";
-import { connect } from "react-redux";
-import firebase from "firebase/app";
-import "firebase/functions";
-import "firebase/database";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import { DB1 } from "../../../../index";
-import RefreshIcon from "@material-ui/icons/Refresh";
-import { updateUserWalletsData } from "../../../store/ducks/auth.duck";
-
 const useStyles = makeStyles((theme) => ({
   walletEleCon: {
     borderRadius: 15,
@@ -59,7 +38,14 @@ function WalletTokens(props) {
     const refresh = async () => {
       if (props.computer) {
         const revs = await props.computer.getRevs(props.computer.db.wallet.getPublicKey().toString());
-        settokensList(await Promise.all(revs.map(async (rev) => props.computer.sync(rev))));
+
+        settokensList(
+          await Promise.all(
+            revs.map(async (rev) => {
+              return props.computer.sync(rev);
+            })
+          )
+        );
       }
     };
     refresh();
@@ -73,11 +59,10 @@ function WalletTokens(props) {
       }),
       {}
     );
-
+  console.log("Object.values(groupByRoot(tokensList))", Object.values(groupByRoot(tokensList)));
   return (
-    <>
+    <> 
       {Object.values(groupByRoot(tokensList)).map((tokens, index) => {
-        // console.log("tokens", tokens);
         return (
           <Paper
             className={classes.walletEleCon}

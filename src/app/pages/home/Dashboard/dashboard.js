@@ -4,7 +4,6 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { useTheme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-
 import { toAbsoluteUrl } from "../../../../_metronic";
 import Paper from "@material-ui/core/Paper";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
@@ -176,6 +175,7 @@ function Dashboard(props) {
           setgeneratingWalletKeys(false);
           setdiologueState(false);
           enqueueSnackbar("Wallet created Successfully!", { variant: "success" });
+          getRefreshBalances();
         } else {
           setgeneratingWalletKeys(false);
           enqueueSnackbar("An error occures, Try again!", { variant: "error" });

@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import { useTheme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import IconButton from "@material-ui/core/IconButton";
@@ -20,10 +16,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import TextField from "@material-ui/core/TextField";
 import { useSnackbar } from "notistack";
-import { connect } from "react-redux";
-import firebase from "firebase/app";
-import "firebase/functions";
-import "firebase/database";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Utils from "./utils";
 import CloseIcon from "@material-ui/icons/Close";
@@ -54,10 +46,11 @@ function MintTokenBtn(props) {
   const mintToken = async () => {
     let pass = true;
     setmintingLoader(true);
-    if (supplyField <= 0) {
+    if (Number(supplyField) <= 0) {
       pass = false;
       enqueueSnackbar("Token Supply should be greater than 0", { variant: "error" });
     }
+
     if (mintNameField === "") {
       pass = false;
       enqueueSnackbar("Please provide a valid Token name", { variant: "error" });
@@ -69,14 +62,14 @@ function MintTokenBtn(props) {
         try {
           const publicKey = props.computer[Number(selectedWallet)].db.wallet.getPublicKey().toString();
           const TokenSc = await Utils.importFromPublic("/token-sc.js");
-          console.log("TokenSc", publicKey, supplyField, mintNameField, TokenSc,props.computer[Number(selectedWallet)]);
-
+          console.log("TokenSc", publicKey, supplyField, mintNameField, TokenSc, props.computer[Number(selectedWallet)]);
           const token = await props.computer[Number(selectedWallet)].new(TokenSc, [publicKey, supplyField, mintNameField]);
-
           console.log(`Minted ${token.name} with supply ${supplyField} and id ${token._id}`);
-          enqueueSnackbar(`Minted ${token.name} token successfully!`, { variant: "success" });
-
-          setmintingLoader(false);
+          setTimeout(() => {
+            enqueueSnackbar(`Minted ${token.name} token successfully!`, { variant: "success" });
+            setmintingLoader(false);
+            setmintDiologueState(false);
+          }, 1000);
         } catch (err) {
           console.log("err", err);
           if (err.message.startsWith("Insufficient balance in address")) {
@@ -109,6 +102,7 @@ function MintTokenBtn(props) {
             variant="outlined"
             className={`custom-padding`}
             style={{ marginTop: 10 }}
+            type="number"
           />
           <TextField
             fullWidth
