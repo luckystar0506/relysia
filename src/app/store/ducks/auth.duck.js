@@ -11,6 +11,8 @@ export const actionTypes = {
   updateTutorStatus: "[] updateTutorStatus",
   userStatus: "[] userStatus",
   userWalletsData: "[] update wallets data",
+  userTokensData: "[] update tokens data",
+
 };
 
 const initialAuthState = {
@@ -20,6 +22,8 @@ const initialAuthState = {
   profilePicUrl: "",
   updateTutorStatus: false,
   walletsData: null,
+  tokensData: null,
+
 };
 
 export const reducer = persistReducer(
@@ -51,6 +55,13 @@ export const reducer = persistReducer(
         };
       }
 
+      case actionTypes.userTokensData: {
+        return {
+          ...state,
+          tokensData: action.payload,
+        };
+      }
+
       default:
         return state;
     }
@@ -69,6 +80,11 @@ export function updateUserData(value) {
 export function updateUserWalletsData(value) {
   return { type: actionTypes.userWalletsData, payload: value };
 }
+
+export function updateUserTokensData(value) {
+  return { type: actionTypes.userTokensData, payload: value };
+}
+
 
 
 export function* saga() {}

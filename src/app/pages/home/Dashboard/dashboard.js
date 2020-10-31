@@ -29,7 +29,7 @@ import Activity from "./Activity";
 import RequestBSV from "./requestBsv";
 import SendBSV from "./sendBsv";
 import RefreshIcon from "@material-ui/icons/Refresh";
-import { updateUserWalletsData } from "../../../store/ducks/auth.duck";
+import { updateUserWalletsData, updateUserTokensData } from "../../../store/ducks/auth.duck";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -108,6 +108,8 @@ function Dashboard(props) {
         getUserWallets();
       }
     } else {
+      console.log("dash push");
+      
       props.history.push("/auth");
     }
   }, [props.user]);
@@ -128,6 +130,7 @@ function Dashboard(props) {
     console.log("walletListRes", walletListRes);
     if (walletListRes && walletListRes.data && walletListRes.data.status === "success") {
       props.updateUserWalletsData(walletListRes);
+      props.updateUserTokensData(null);
       setwalletsList(Object.values(walletListRes.data.data));
       if (walletListRes.data.totalBalances) {
         settotalBalances(walletListRes.data.totalBalances);
@@ -425,4 +428,4 @@ const mapStateToProps = ({ auth: { user, walletsData } }) => ({
   walletsData,
 });
 
-export default connect(mapStateToProps, { updateUserWalletsData })(Dashboard);
+export default connect(mapStateToProps, { updateUserWalletsData, updateUserTokensData })(Dashboard);

@@ -19,7 +19,19 @@ import { useSnackbar } from "notistack";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Utils from "./utils";
 import CloseIcon from "@material-ui/icons/Close";
+import { Upload, message } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import ImgCrop from "antd-img-crop";
+import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
+import { Typography } from "@material-ui/core";
+import { v4 as uuidv4 } from "uuid";
+import firebase from "firebase/app";
+import "firebase/storage";
 
+const storageRef = firebase
+  .app()
+  .storage("gs://wallettokens_vionex/")
+  .ref();
 const useStyles = makeStyles((theme) => ({
   closeButton: {
     position: "absolute",
@@ -42,6 +54,8 @@ function MintTokenBtn(props) {
   const [supplyField, setsupplyField] = useState(0);
   const [mintNameField, setmintNameField] = useState("");
   const [selectedWallet, setselectedWallet] = useState(0);
+  const [mintDesc, setmintDesc] = useState("");
+  const [imageFile, setimageFile] = useState([]);
 
   const mintToken = async () => {
     let pass = true;
@@ -55,20 +69,33 @@ function MintTokenBtn(props) {
       pass = false;
       enqueueSnackbar("Please provide a valid Token name", { variant: "error" });
     }
+
+    if (!imageFile[0]) {
+      pass = false;
+      enqueueSnackbar("Please provide Token Image!", { variant: "error" });
+    }
+
     if (!pass) {
       setmintingLoader(false);
     } else {
       if (props.computer[Number(selectedWallet)]) {
+        let imageId = uuidv4();
+        let uploadTask = storageRef.child("tokensLogos/" + imageId);
+        uploadTask.put(imageFile[0].originFileObj);
+        let logo = `https://firebasestorage.googleapis.com/v0/b/wallettokens_vionex/o/tokensLogos%2F${imageId}?alt=media`;
         try {
           const publicKey = props.computer[Number(selectedWallet)].db.wallet.getPublicKey().toString();
           const TokenSc = await Utils.importFromPublic("/token-sc.js");
-          console.log("TokenSc", publicKey, supplyField, mintNameField, TokenSc, props.computer[Number(selectedWallet)]);
-          const token = await props.computer[Number(selectedWallet)].new(TokenSc, [publicKey, supplyField, mintNameField]);
+          const token = await props.computer[Number(selectedWallet)].new(TokenSc, [publicKey, supplyField, mintNameField, mintDesc, logo]);
           console.log(`Minted ${token.name} with supply ${supplyField} and id ${token._id}`);
           setTimeout(() => {
             enqueueSnackbar(`Minted ${token.name} token successfully!`, { variant: "success" });
             setmintingLoader(false);
             setmintDiologueState(false);
+            setimageFile([]);
+            setmintNameField("");
+            setmintDesc("");
+            setsupplyField(0);
           }, 1000);
         } catch (err) {
           console.log("err", err);
@@ -83,8 +110,37 @@ function MintTokenBtn(props) {
     }
   };
 
+  const dummyRequest = ({ file, onSuccess }) => {
+    setTimeout(() => {
+      onSuccess("ok");
+    }, 0);
+  };
+
+  const onChangeImage = ({ fileList: newFileList }) => {
+    if (newFileList[0] && newFileList[0].size > 625000) {
+      message.error("Image must smaller than 5MB!");
+    } else {
+      setimageFile(newFileList);
+    }
+  };
+
+  const onPreview = async (file) => {
+    let src = file.url;
+    if (!src) {
+      src = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj);
+        reader.onload = () => resolve(reader.result);
+      });
+    }
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+    imgWindow.document.write(image.outerHTML);
+  };
+
   const MintDialog = (
-    <Dialog open={mintDiologueState} TransitionComponent={Transition} keepMounted fullWidth maxWidth="sm">
+    <Dialog style={{ zIndex: 100 }} open={mintDiologueState} TransitionComponent={Transition} keepMounted fullWidth maxWidth="sm">
       <IconButton disabled={mintingLoader} aria-label="close" className={classes.closeButton} onClick={() => setmintDiologueState(false)}>
         <CloseIcon />
       </IconButton>
@@ -115,6 +171,20 @@ function MintTokenBtn(props) {
             className={`custom-padding`}
             style={{ marginTop: 10 }}
           />
+          <TextField
+            fullWidth
+            multiline
+            value={mintDesc}
+            onChange={(e) => {
+              setmintDesc(e.target.value);
+            }}
+            rows={2}
+            rowsMax={10}
+            label="Token Description"
+            variant="outlined"
+            className={`custom-padding`}
+            style={{ marginTop: 10 }}
+          />
           <FormControl style={{ marginTop: 10, width: "70%", marginLeft: 4 }}>
             <InputLabel>Wallet</InputLabel>
             <Select
@@ -132,6 +202,24 @@ function MintTokenBtn(props) {
               })}
             </Select>
           </FormControl>
+          <div style={{ marginTop: 15 }}>
+            <Typography variant="caption" color="textSecondary">
+              Token Logo
+            </Typography>
+            <div style={{ marginTop: 6 }}>
+              <ImgCrop rotate>
+                <Upload
+                  customRequest={dummyRequest}
+                  listType="picture-card"
+                  fileList={imageFile}
+                  onChange={onChangeImage}
+                  onPreview={onPreview}
+                >
+                  {imageFile.length < 1 && <PlusOutlined />}
+                </Upload>
+              </ImgCrop>
+            </div>
+          </div>
         </div>
       </DialogContent>
       <DialogActions>

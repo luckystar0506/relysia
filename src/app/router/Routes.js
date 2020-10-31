@@ -25,9 +25,11 @@ const Routes = withRouter(({ history, updateUserData, userdata }) => {
       }
     });
   }, []);
+  console.log("props.user", userdata);
 
   React.useEffect(() => {
     if (!userdata) {
+      console.log("force push");
       history.push("/auth");
     }
   }, [userdata]);
