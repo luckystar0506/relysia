@@ -6,6 +6,9 @@ import useInterval from "./useInterval";
 import { toAbsoluteUrl } from "../../../../_metronic";
 import Paper from "@material-ui/core/Paper";
 import MintTokenDrawer from "./sendDrawer";
+import firebase from "firebase/app";
+import "firebase/functions";
+import "firebase/database";
 
 const useStyles = makeStyles((theme) => ({
   walletEleCon: {
@@ -39,7 +42,7 @@ function WalletTokens(props) {
   const refresh = async () => {
     if (props.computer) {
       const revs = await props.computer.getRevs(props.computer.db.wallet.getPublicKey().toString());
-
+      console.log("revs", revs);
       settokensList(
         await Promise.all(
           revs.map(async (rev) => {
@@ -49,7 +52,7 @@ function WalletTokens(props) {
       );
     }
   };
-
+  console.log("tokensList", tokensList);
   useInterval(() => {
     refresh();
   }, 3000);
@@ -65,6 +68,7 @@ function WalletTokens(props) {
   return (
     <>
       {Object.values(groupByRoot(tokensList)).map((tokens, index) => {
+        // console.log("tokens", tokens);
         return (
           <Paper
             className={classes.walletEleCon}
@@ -75,7 +79,7 @@ function WalletTokens(props) {
             }}
             key={tokens[0]._id}
           >
-            <MintTokenDrawer tokens={tokens} />
+            <MintTokenDrawer verfied={props.verfiedTokens.includes(tokens[0]._id)} tokens={tokens} />
           </Paper>
         );
       })}

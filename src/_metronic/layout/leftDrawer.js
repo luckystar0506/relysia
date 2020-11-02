@@ -24,6 +24,7 @@ import "firebase/functions";
 import "firebase/database";
 import "firebase/auth";
 import { updateUserData, updateUserWalletsData } from "../../app/store/ducks/auth.duck";
+import GavelIcon from '@material-ui/icons/Gavel';
 
 const drawerWidth = 240;
 
@@ -68,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
 
 function LeftDrawer(props) {
   const classes = useStyles();
-
+  const [isUserAdmin, setisUserAdmin] = useState(false);
   const [sideBarTabs, setsideBarTabs] = useState([
     { route: "dashboard", title: "Dashboard" },
     { route: "tokens", title: "Tokens" },
@@ -76,6 +77,23 @@ function LeftDrawer(props) {
     { route: "settings", title: "Settings" },
     { route: "logout", title: "Logout" },
   ]);
+
+  useEffect(() => {
+    if (props.user && props.user.uid) {
+      firebase
+        .database()
+        .ref("admins/" + props.user.uid)
+        .once("value")
+        .then((snap) => {
+          if (snap.val()) {
+            setisUserAdmin(true);
+            let modifiedArr = [...sideBarTabs];
+            modifiedArr.push({ route: "token-verification", title: "Tokens Verification" });
+            setsideBarTabs(modifiedArr);
+          }
+        });
+    }
+  }, [props.user]);
 
   const logoutUser = () => {
     firebase
@@ -143,6 +161,8 @@ function LeftDrawer(props) {
                     return <SettingsIcon />;
                   } else if (index === 4) {
                     return <ExitToAppIcon />;
+                  } else if (index === 5 && isUserAdmin) {
+                    return <GavelIcon />;
                   }
                 })()}
               </ListItemIcon>

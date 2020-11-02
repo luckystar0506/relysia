@@ -51,6 +51,7 @@ function Tokens(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
+  const [verfiedTokens, setverfiedTokens] = useState([]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -59,7 +60,6 @@ function Tokens(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   useEffect(() => {
     if (props.user && props.user.uid) {
       if (props.walletsData) {
@@ -67,6 +67,7 @@ function Tokens(props) {
       } else {
         getUserWallets();
       }
+      getUserVerfiedTokens();
     } else {
       props.history.push("/auth");
     }
@@ -99,6 +100,20 @@ function Tokens(props) {
       setComputer(props.tokensData);
     }
   }, [walletsList, computer]);
+
+  const getUserVerfiedTokens = () => {
+    firebase
+      .database()
+      .ref("tokens/" + props.user.uid)
+      .orderByChild("verfied")
+      .equalTo(true)
+      .once("value")
+      .then((snap) => {
+        if (snap.val()) {
+          setverfiedTokens(Object.keys(snap.val()));
+        }
+      });
+  };
 
   const getUserWallets = async () => {
     let walletListAPI = firebase.functions().httpsCallable("getWalletBalances");
@@ -159,7 +174,12 @@ function Tokens(props) {
                 Tokens
               </Typography>
 
-              <MintTokenBtn walletsList={walletsList} computer={computer} />
+              <MintTokenBtn
+                walletsList={walletsList}
+                computer={computer}
+                userID={props.user.uid ? props.user.uid : null}
+                userEmail={props.user.email ? props.user.email : "-"}
+              />
             </div>
             <div style={{ marginTop: 10 }}>
               {walletsList.map((wallet, index1) => {
@@ -178,7 +198,7 @@ function Tokens(props) {
                       {wallet.title}
                     </Typography>
                     <div style={{ marginTop: 12, marginBottom: 20, display: "flex", flexWrap: "wrap" }}>
-                      <WalletTokens computer={computer ? computer[index1] : null} walletDetails={wallet} />
+                      <WalletTokens verfiedTokens={verfiedTokens} computer={computer ? computer[index1] : null} walletDetails={wallet} />
 
                       {walletsList.length === 0 && (
                         <Typography variant="caption" color="textSecondary">
