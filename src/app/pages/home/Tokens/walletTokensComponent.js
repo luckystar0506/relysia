@@ -1,24 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { useTheme } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import useInterval from "./useInterval";
 import { toAbsoluteUrl } from "../../../../_metronic";
 import Paper from "@material-ui/core/Paper";
-import SendToken from "./sendToken";
+import MintTokenDrawer from "./sendDrawer";
 
 const useStyles = makeStyles((theme) => ({
   walletEleCon: {
     borderRadius: 15,
-    maxHeight: 210,
-    width: 300,
+    height: 210,
+    width: 200,
     display: "flex",
     flexDirection: "column",
     color: "#ffffff",
     justifyContent: "space-between",
-    padding: "12px 18px",
+    padding: "15px 18px",
     marginBottom: 12,
     marginRight: 10,
     marginLeft: 10,
@@ -34,20 +32,25 @@ function WalletTokens(props) {
   const theme = useTheme();
   const [tokensList, settokensList] = useState([]);
 
-  useInterval(() => {
-    const refresh = async () => {
-      if (props.computer) {
-        const revs = await props.computer.getRevs(props.computer.db.wallet.getPublicKey().toString());
+  useEffect(() => {
+    refresh();
+  }, [props.computer]);
 
-        settokensList(
-          await Promise.all(
-            revs.map(async (rev) => {
-              return props.computer.sync(rev);
-            })
-          )
-        );
-      }
-    };
+  const refresh = async () => {
+    if (props.computer) {
+      const revs = await props.computer.getRevs(props.computer.db.wallet.getPublicKey().toString());
+
+      settokensList(
+        await Promise.all(
+          revs.map(async (rev) => {
+            return props.computer.sync(rev);
+          })
+        )
+      );
+    }
+  };
+
+  useInterval(() => {
     refresh();
   }, 3000);
 
@@ -59,9 +62,8 @@ function WalletTokens(props) {
       }),
       {}
     );
-  console.log("Object.values(groupByRoot(tokensList))", Object.values(groupByRoot(tokensList)));
   return (
-    <> 
+    <>
       {Object.values(groupByRoot(tokensList)).map((tokens, index) => {
         return (
           <Paper
@@ -73,7 +75,7 @@ function WalletTokens(props) {
             }}
             key={tokens[0]._id}
           >
-            <SendToken tokens={tokens} />
+            <MintTokenDrawer tokens={tokens} />
           </Paper>
         );
       })}

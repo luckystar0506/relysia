@@ -11,8 +11,7 @@ import { connect } from "react-redux";
 import firebase from "firebase/app";
 import "firebase/functions";
 import "firebase/database";
-import { updateUserWalletsData } from "../../../store/ducks/auth.duck";
-import useInterval from "./useInterval";
+import { updateUserWalletsData, updateUserTokensData } from "../../../store/ducks/auth.duck";
 import MintTokenBtn from "./mintDialog";
 import WalletTokens from "./walletTokensComponent";
 import { useSnackbar } from "notistack";
@@ -73,8 +72,8 @@ function Tokens(props) {
     }
   }, [props.user]);
 
-  useInterval(() => {
-    if (walletsList && walletsList.length > 0 && !computer) {
+  useEffect(() => {
+    if (walletsList && walletsList.length > 0 && !computer && !props.tokensData) {
       let computerArray = [];
       walletsList.map((walletItem, index) => {
         try {
@@ -93,8 +92,13 @@ function Tokens(props) {
       });
       console.log("computerArray", computerArray);
       setComputer(computerArray);
+      props.updateUserTokensData(computerArray);
+    } else if (walletsList && walletsList.length > 0 && !computer) {
+      console.log("from redux");
+
+      setComputer(props.tokensData);
     }
-  }, 3000);
+  }, [walletsList, computer]);
 
   const getUserWallets = async () => {
     let walletListAPI = firebase.functions().httpsCallable("getWalletBalances");
@@ -194,9 +198,10 @@ function Tokens(props) {
   );
 }
 
-const mapStateToProps = ({ auth: { user, walletsData } }) => ({
+const mapStateToProps = ({ auth: { user, walletsData, tokensData } }) => ({
   user,
   walletsData,
+  tokensData,
 });
 
-export default connect(mapStateToProps, { updateUserWalletsData })(Tokens);
+export default connect(mapStateToProps, { updateUserWalletsData, updateUserTokensData })(Tokens);

@@ -31,10 +31,11 @@ function Login(props) {
     paddingRight: "2.5rem",
   });
 
-  const updateUserInRedux = () => {
+  const updateUserInRedux = (path) => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        updateUserData(user);
+        props.updateUserData(user);
+        props.history.push(path);
       }
     });
   };
@@ -63,13 +64,11 @@ function Login(props) {
         if (props.isPopup) {
           props.setLoginPopup(false);
           if (goTo) {
-            props.history.push(goTo);
-            // props.history.push("/dashboard");
+            updateUserInRedux(goTo);
           }
         } else {
-          props.history.push("/dashboard");
+          updateUserInRedux("/dashboard");
         }
-        updateUserInRedux();
 
         // ...
       })
@@ -99,13 +98,11 @@ function Login(props) {
         if (props.isPopup) {
           props.setLoginPopup(false);
           if (goTo) {
-            props.history.push(goTo);
-            // props.history.push("/dashboard");
+            updateUserInRedux(goTo);
           }
         } else {
-          props.history.push("/dashboard");
+          updateUserInRedux("/dashboard");
         }
-        updateUserInRedux();
         // ...
       })
       .catch(function(error) {
@@ -186,13 +183,11 @@ function Login(props) {
                     if (props.isPopup) {
                       props.setLoginPopup(false);
                       if (goTo) {
-                        props.history.push(goTo);
-                        // props.history.push("/dashboard");
+                        updateUserInRedux(goTo);
                       }
                     } else {
-                      props.history.push("/dashboard");
+                      updateUserInRedux("/dashboard");
                     }
-                    updateUserInRedux();
                   })
                   .catch((error) => {
                     disableLoading();
