@@ -24,6 +24,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import firebase from "firebase/app";
 import "firebase/functions";
 import "firebase/database";
+import ClickNHold from "react-click-n-hold";
 
 var QRCode = require("qrcode.react");
 
@@ -49,22 +50,26 @@ function SendBSV(props) {
   const [amountField, setamountField] = useState("");
   const [sendLoader, setsendLoader] = useState(false);
 
-  const sendBsvfunc = () => {
-    setsendLoader(true);
-    let confirmSend = true;
-    if (addressField.length === 0) {
-      confirmSend = false;
-      enqueueSnackbar("Please enter the address!", { variant: "error" });
-    }
-    if (amountField.length === 0) {
-      confirmSend = false;
-      enqueueSnackbar("Please enter the amount!", { variant: "error" });
-    }
+  const sendBsvfunc = (e, enough) => {
+    if (enough) {
+      setsendLoader(true);
+      let confirmSend = true;
+      if (addressField.length === 0) {
+        confirmSend = false;
+        enqueueSnackbar("Please enter the address!", { variant: "error" });
+      }
+      if (amountField.length === 0) {
+        confirmSend = false;
+        enqueueSnackbar("Please enter the amount!", { variant: "error" });
+      }
 
-    if (confirmSend) {
-      makeTransctionFunc();
+      if (confirmSend) {
+        makeTransctionFunc();
+      } else {
+        setsendLoader(false);
+      }
     } else {
-      setsendLoader(false);
+      enqueueSnackbar("Press and hold the Button for 2 seconds", { variant: "info" });
     }
   };
 
@@ -140,9 +145,12 @@ function SendBSV(props) {
         <Button disabled={sendLoader} color="primary" onClick={() => setsendBsvDiologueState(false)}>
           Cancel
         </Button>
-        <Button disabled={sendLoader} color="primary" onClick={sendBsvfunc}>
-          {sendLoader ? <CircularProgress size={20} /> : "Send"}
-        </Button>
+
+        <ClickNHold time={1.5} onEnd={sendBsvfunc}>
+          <Button disabled={sendLoader} color="primary" style={{ width: 100 }}>
+            {sendLoader ? <CircularProgress size={20} /> : "Send BSV"}
+          </Button>
+        </ClickNHold>
       </DialogActions>
     </Dialog>
   );

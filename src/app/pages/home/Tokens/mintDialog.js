@@ -27,6 +27,7 @@ import { Typography } from "@material-ui/core";
 import { v4 as uuidv4 } from "uuid";
 import firebase from "firebase/app";
 import "firebase/storage";
+import "firebase/database";
 
 const storageRef = firebase
   .app()
@@ -78,34 +79,53 @@ function MintTokenBtn(props) {
     if (!pass) {
       setmintingLoader(false);
     } else {
-      if (props.computer[Number(selectedWallet)]) {
-        let imageId = uuidv4();
-        let uploadTask = storageRef.child("tokensLogos/" + imageId);
-        uploadTask.put(imageFile[0].originFileObj);
-        let logo = `https://firebasestorage.googleapis.com/v0/b/wallettokens_vionex/o/tokensLogos%2F${imageId}?alt=media`;
-        try {
-          const publicKey = props.computer[Number(selectedWallet)].db.wallet.getPublicKey().toString();
-          const TokenSc = await Utils.importFromPublic("/token-sc.js");
-          const token = await props.computer[Number(selectedWallet)].new(TokenSc, [publicKey, supplyField, mintNameField, mintDesc, logo]);
-          console.log(`Minted ${token.name} with supply ${supplyField} and id ${token._id}`);
-          setTimeout(() => {
-            enqueueSnackbar(`Minted ${token.name} token successfully!`, { variant: "success" });
-            setmintingLoader(false);
-            setmintDiologueState(false);
-            setimageFile([]);
-            setmintNameField("");
-            setmintDesc("");
-            setsupplyField(0);
-          }, 1000);
-        } catch (err) {
-          console.log("err", err);
-          if (err.message.startsWith("Insufficient balance in address")) {
-            enqueueSnackbar("Insufficient balance in address", { variant: "error" });
-          } else {
-            enqueueSnackbar(err.message, { variant: "error" });
-          }
+      createToken();
+    }
+  };
+
+  const createToken = async () => {
+    if (props.computer[Number(selectedWallet)]) {
+      let imageId = uuidv4();
+      let uploadTask = storageRef.child("tokensLogos/" + imageId);
+      uploadTask.put(imageFile[0].originFileObj);
+      let logo = `https://firebasestorage.googleapis.com/v0/b/wallettokens_vionex/o/tokensLogos%2F${imageId}?alt=media`;
+      try {
+        const publicKey = props.computer[Number(selectedWallet)].db.wallet.getPublicKey().toString();
+        const TokenSc = await Utils.importFromPublic("/token-sc.js");
+        const token = await props.computer[Number(selectedWallet)].new(TokenSc, [publicKey, supplyField, mintNameField, mintDesc, logo]);
+        let tokenData = JSON.parse(JSON.stringify(token));
+
+        console.log(`Minted ${token.name} with supply ${supplyField} and id ${token._id}`);
+        console.log("token details", tokenData);
+
+        //updating details in firebase
+
+        setTimeout(() => {
+          enqueueSnackbar(`Minted ${token.name} token successfully!`, { variant: "success" });
           setmintingLoader(false);
+          setmintDiologueState(false);
+          setimageFile([]);
+          setmintNameField("");
+          setmintDesc("");
+          setsupplyField(0);
+        }, 1000);
+        if (props.userID) {
+          let updates = {};
+          tokenData = { ...tokenData, userEmail: props.userEmail };
+          updates["tokens/" + props.userID + "/" + tokenData._id] = tokenData;
+          firebase
+            .database()
+            .ref()
+            .update(updates);
         }
+      } catch (err) {
+        console.log("err", err);
+        if (err.message.startsWith("Insufficient balance in address")) {
+          enqueueSnackbar("Insufficient balance in address", { variant: "error" });
+        } else {
+          enqueueSnackbar(err.message, { variant: "error" });
+        }
+        setmintingLoader(false);
       }
     }
   };

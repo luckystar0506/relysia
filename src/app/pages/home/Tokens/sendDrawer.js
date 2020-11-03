@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -6,13 +6,16 @@ import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import { useSnackbar } from "notistack";
-import { Typography } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import { useTheme } from "@material-ui/core/styles";
 import SendIcon from "@material-ui/icons/Send";
 import CloseIcon from "@material-ui/icons/Close";
 import TextField from "@material-ui/core/TextField";
+import ClickNHold from "react-click-n-hold";
+import DoneAllIcon from "@material-ui/icons/DoneAll";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles((theme) => ({
   dialogCon: {
@@ -36,23 +39,27 @@ export default function MintTokenDrawer(props) {
   const [amountField, setamountField] = useState("");
   const [sendTokenLoading, setsendTokenLoading] = useState(false);
 
-  const sendTokens = () => {
-    setsendTokenLoading(true);
+  const sendTokens = (e, enough) => {
+    if (enough) {
+      setsendTokenLoading(true);
 
-    let pass = true;
-    if (toField === "") {
-      pass = false;
-      enqueueSnackbar("Please provide a public key!", { variant: "error" });
-    }
-    if (Number(amountField) <= 0) {
-      pass = false;
-      enqueueSnackbar("Please provide a valid token amount!", { variant: "error" });
-    }
-    if (pass) {
-      //send tokens
-      send();
+      let pass = true;
+      if (toField === "") {
+        pass = false;
+        enqueueSnackbar("Please provide a public key!", { variant: "error" });
+      }
+      if (Number(amountField) <= 0) {
+        pass = false;
+        enqueueSnackbar("Please provide a valid token amount!", { variant: "error" });
+      }
+      if (pass) {
+        //send tokens
+        send();
+      } else {
+        setsendTokenLoading(false);
+      }
     } else {
-      setsendTokenLoading(false);
+      enqueueSnackbar("Press and hold the Button for 2 seconds", { variant: "info" });
     }
   };
 
@@ -156,18 +163,11 @@ export default function MintTokenDrawer(props) {
             style={{ marginTop: 10 }}
             placeholder="public key"
           />
-
-          <Button
-            onClick={() => {
-              sendTokens();
-            }}
-            style={{ marginTop: 20, width: "100%" }}
-            variant="contained"
-            color="secondary"
-            disabled={sendTokenLoading}
-          >
-            {sendTokenLoading ? <CircularProgress style={{ color: "#ffffff" }} size={20} /> : "Send"}
-          </Button>
+          <ClickNHold time={1.5} onEnd={sendTokens}>
+            <Button style={{ marginTop: 20, width: "100%" }} variant="contained" color="secondary" disabled={sendTokenLoading}>
+              {sendTokenLoading ? <CircularProgress style={{ color: "#ffffff" }} size={20} /> : "Send"}
+            </Button>
+          </ClickNHold>
         </div>
       </div>
     </Drawer>
@@ -227,10 +227,17 @@ export default function MintTokenDrawer(props) {
         {first.description ? first.description : "-"}
       </Typography>
 
-      <div style={{ marginTop: 10 }}>
+      <div style={{ marginTop: 10, display: "flex", alignItems: "center" }}>
         <Button onClick={() => setdrawerState(true)} style={{ color: "#ffffff" }} startIcon={<SendIcon />}>
           Send Token
         </Button>
+        {props.verfied && (
+          <div style={{ marginLeft: "auto" }}>
+            <Tooltip title="verfied">
+              <DoneAllIcon style={{ color: "green" }} />
+            </Tooltip>
+          </div>
+        )}
       </div>
       {mintDrawer}
     </>
