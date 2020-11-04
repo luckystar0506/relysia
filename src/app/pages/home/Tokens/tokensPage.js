@@ -177,7 +177,7 @@ function Tokens(props) {
               <MintTokenBtn
                 walletsList={walletsList}
                 computer={computer}
-                userID={props.user.uid ? props.user.uid : null}
+                userID={props.user ? props.user.uid : null}
                 userEmail={props.user.email ? props.user.email : "-"}
               />
             </div>
