@@ -25,7 +25,6 @@ const Routes = withRouter(({ history, updateUserData, userdata }) => {
       }
     });
   }, []);
-  console.log("props.user", userdata);
 
   React.useEffect(() => {
     if (!userdata) {

@@ -12,7 +12,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import { useSnackbar } from "notistack";
 import CloseIcon from "@material-ui/icons/Close";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
@@ -25,8 +24,6 @@ import firebase from "firebase/app";
 import "firebase/functions";
 import "firebase/database";
 import ClickNHold from "react-click-n-hold";
-
-var QRCode = require("qrcode.react");
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -45,48 +42,43 @@ function SendBSV(props) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const theme = useTheme();
-  const [sendBsvDiologueState, setsendBsvDiologueState] = useState(false);
   const [addressField, setaddressField] = useState("");
   const [amountField, setamountField] = useState("");
   const [sendLoader, setsendLoader] = useState(false);
 
-  const sendBsvfunc = (e, enough) => {
-    if (enough) {
-      setsendLoader(true);
-      let confirmSend = true;
-      if (addressField.length === 0) {
-        confirmSend = false;
-        enqueueSnackbar("Please enter the address!", { variant: "error" });
-      }
-      if (amountField.length === 0) {
-        confirmSend = false;
-        enqueueSnackbar("Please enter the amount!", { variant: "error" });
-      }
+  const sendBsvfunc = () => {
+    setsendLoader(true);
+    let confirmSend = true;
+    if (addressField.length === 0) {
+      confirmSend = false;
+      enqueueSnackbar("Please enter the address!", { variant: "error" });
+    }
+    if (amountField.length === 0) {
+      confirmSend = false;
+      enqueueSnackbar("Please enter the amount!", { variant: "error" });
+    }
 
-      if (confirmSend) {
-        makeTransctionFunc();
-      } else {
-        setsendLoader(false);
-      }
+    if (confirmSend) {
+      makeTransctionFunc();
     } else {
-      enqueueSnackbar("Press and hold the Button for 2 seconds", { variant: "info" });
+      setsendLoader(false);
     }
   };
 
   const makeTransctionFunc = async () => {
     let sendBsvAPI = firebase.functions().httpsCallable("walletSendBsv");
     let sendBsvRes = await sendBsvAPI({
-      hdPrivateKey: props.walletObj.hdPrivateKey,
+      hdPrivateKey: "ff",
       opData: ["wallet", "withdrawl"],
       bsvPrice: props.bsvRate,
       withdrawlValues: {
         amount: amountField,
         address: addressField,
       },
-      address: props.walletObj.address,
-      id: props.walletObj.id,
-      password: props.walletObj.password ? props.walletObj.password : "",
-      dollarBal: props.walletObj.dollarBal,
+      //   address: props.walletObj.address,
+      //   id: props.walletObj.id,
+      //   password: props.walletObj.password ? props.walletObj.password : "",
+      //   dollarBal: props.walletObj.dollarBal,
     });
     if (sendBsvRes && sendBsvRes.data) {
       if (sendBsvRes.data.status && sendBsvRes.data.status === "error") {
@@ -95,24 +87,36 @@ function SendBSV(props) {
       } else if (sendBsvRes.data.status && sendBsvRes.data.status === "success") {
         enqueueSnackbar(sendBsvRes.data.msg, { variant: "success" });
         setsendLoader(false);
-        setsendBsvDiologueState(false);
+        props.setopenBsvPopup(false);
         setamountField("");
         setaddressField("");
       }
     }
   };
 
+  const switchAccount = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        props.setopenBsvPopup(false);
+        props.sendBsv();
+      });
+  };
+
   const SendBsvDialog = (
-    <Dialog open={sendBsvDiologueState} TransitionComponent={Transition} keepMounted fullWidth maxWidth="sm">
-      <IconButton disabled={sendLoader} aria-label="close" className={classes.closeButton} onClick={() => setsendBsvDiologueState(false)}>
+    <Dialog open={props.openBsvPopup} TransitionComponent={Transition} keepMounted fullWidth maxWidth="sm">
+      <IconButton disabled={sendLoader} aria-label="close" className={classes.closeButton} onClick={() => props.setopenBsvPopup(false)}>
         <CloseIcon />
       </IconButton>
       <DialogTitle style={{ paddingBottom: 1 }}>Send BSVs</DialogTitle>
       <DialogContent>
         <DialogContentText style={{ marginBottom: 0 }}>
-          {props.walletObj.btcBal} BSV (1 BSV = {props.bsvRate} USD)
+          BSV (1 BSV = {props.bsvRate} USD)
+          <br />
+          Account: {props.userData ? props.userData.email : "-"}
         </DialogContentText>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 30, marginTop: 20, width: "80%" }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 10, marginTop: 20, width: "80%" }}>
           <FormControl className={`custom-padding`} fullWidth variant="outlined">
             <InputLabel htmlFor="standard-adornment-amount">Amount</InputLabel>
             <OutlinedInput
@@ -140,26 +144,27 @@ function SendBSV(props) {
             style={{ marginTop: 10 }}
           />
         </div>
+        <Button onClick={switchAccount} color="primary">
+          switch account
+        </Button>
       </DialogContent>
       <DialogActions>
-        <Button disabled={sendLoader} color="primary" onClick={() => setsendBsvDiologueState(false)}>
+        <Button disabled={sendLoader} color="primary" onClick={() => props.setopenBsvPopup(false)}>
           Cancel
         </Button>
 
-        <ClickNHold time={1.5} onEnd={sendBsvfunc}>
-          <Button disabled={sendLoader} color="primary" style={{ width: 100 }}>
-            {sendLoader ? <CircularProgress size={20} /> : "Send BSV"}
-          </Button>
-        </ClickNHold>
+        <Button onClick={sendBsvfunc} disabled={sendLoader} color="primary" style={{ width: 100 }}>
+          {sendLoader ? <CircularProgress size={20} /> : "Send BSV"}
+        </Button>
       </DialogActions>
     </Dialog>
-  ); 
+  );
 
   return (
     <>
       <Button
         onClick={() => {
-          setsendBsvDiologueState(true);
+          props.setopenBsvPopup(true);
         }}
         style={{ marginLeft: 10, color: "#ffffff" }}
         startIcon={<ArrowUpwardRoundedIcon />}
