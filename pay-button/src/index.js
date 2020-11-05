@@ -21,7 +21,7 @@ ReactDOM.render(
   <SnackbarProvider maxSnack={6}>
     <App />
   </SnackbarProvider>,
-  document.getElementById("root")
+  document.getElementById("pay-button-root")
 );
 
 // If you want to start measuring performance in your app, pass a function

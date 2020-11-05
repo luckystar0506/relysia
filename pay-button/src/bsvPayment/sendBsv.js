@@ -66,20 +66,13 @@ function SendBSV(props) {
   };
 
   const makeTransctionFunc = async () => {
-    let sendBsvAPI = firebase.functions().httpsCallable("walletSendBsv");
+    let sendBsvAPI = firebase.functions().httpsCallable("walletPayButton");
     let sendBsvRes = await sendBsvAPI({
-      hdPrivateKey: "ff",
-      opData: ["wallet", "withdrawl"],
-      bsvPrice: props.bsvRate,
-      withdrawlValues: {
-        amount: amountField,
-        address: addressField,
-      },
-      //   address: props.walletObj.address,
-      //   id: props.walletObj.id,
-      //   password: props.walletObj.password ? props.walletObj.password : "",
-      //   dollarBal: props.walletObj.dollarBal,
+      amount: amountField,
+      address: addressField,
     });
+
+    console.log("res recieved", sendBsvRes);
     if (sendBsvRes && sendBsvRes.data) {
       if (sendBsvRes.data.status && sendBsvRes.data.status === "error") {
         enqueueSnackbar(sendBsvRes.data.msg, { variant: "error" });
@@ -104,7 +97,7 @@ function SendBSV(props) {
       });
   };
 
-  const SendBsvDialog = (
+  return (
     <Dialog open={props.openBsvPopup} TransitionComponent={Transition} keepMounted fullWidth maxWidth="sm">
       <IconButton disabled={sendLoader} aria-label="close" className={classes.closeButton} onClick={() => props.setopenBsvPopup(false)}>
         <CloseIcon />
@@ -158,21 +151,6 @@ function SendBSV(props) {
         </Button>
       </DialogActions>
     </Dialog>
-  );
-
-  return (
-    <>
-      <Button
-        onClick={() => {
-          props.setopenBsvPopup(true);
-        }}
-        style={{ marginLeft: 10, color: "#ffffff" }}
-        startIcon={<ArrowUpwardRoundedIcon />}
-      >
-        Send BSV
-      </Button>
-      {SendBsvDialog}
-    </>
   );
 }
 

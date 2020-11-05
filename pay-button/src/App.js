@@ -19,6 +19,7 @@ function App() {
   const [userData, setuserData] = useState(null);
 
   useEffect(() => {
+    console.log("runnnn 123");
     firebase
       .database()
       .ref("stats/market_price_usd")
@@ -36,7 +37,7 @@ function App() {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           console.log("user avliable");
-          setuserData(user)
+          setuserData(user);
           setopenBsvPopup(true);
         } else {
           console.log("user not avliable");
@@ -49,7 +50,16 @@ function App() {
   };
 
   const loginPopup = <LoginPopup openLoginPopup={openLoginPopup} setLoginPopup={setopenLoginPopup} sendBsv={sendBsv} />;
-  const bsvPopup = <SendBSVDialog userData={userData} bsvRate={bsvRate} openBsvPopup={openBsvPopup} walletObj={{}} setopenBsvPopup={setopenBsvPopup} sendBsv={sendBsv} />;
+  const bsvPopup = (
+    <SendBSVDialog
+      userData={userData}
+      bsvRate={bsvRate}
+      openBsvPopup={openBsvPopup}
+      walletObj={{}}
+      setopenBsvPopup={setopenBsvPopup}
+      sendBsv={sendBsv}
+    />
+  );
 
   return (
     <div className="App">
