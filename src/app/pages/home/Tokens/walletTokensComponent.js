@@ -42,7 +42,7 @@ function WalletTokens(props) {
   const refresh = async () => {
     if (props.computer) {
       const revs = await props.computer.getRevs(props.computer.db.wallet.getPublicKey().toString());
-      console.log("revs", revs);
+      // console.log("revs", revs);
       settokensList(
         await Promise.all(
           revs.map(async (rev) => {
@@ -52,7 +52,7 @@ function WalletTokens(props) {
       );
     }
   };
-  console.log("tokensList", tokensList);
+  // console.log("tokensList", tokensList);
   useInterval(() => {
     refresh();
   }, 3000);
@@ -68,7 +68,7 @@ function WalletTokens(props) {
   return (
     <>
       {Object.values(groupByRoot(tokensList)).map((tokens, index) => {
-        // console.log("tokens", tokens);
+        console.log("tokens", props.computer);
         return (
           <Paper
             className={classes.walletEleCon}

@@ -30,6 +30,8 @@ import RequestBSV from "./requestBsv";
 import SendBSV from "./sendBsv";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import { updateUserWalletsData, updateUserTokensData } from "../../../store/ducks/auth.duck";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import TimeSeriesChart from "./transctionsGraph";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -55,16 +57,14 @@ const useStyles = makeStyles((theme) => ({
   },
   accountBox1: {
     borderRadius: 15,
-    width: "100%",
+    width: "48%",
     padding: "15px 18px",
     marginBottom: 12,
   },
 
   accountBox1Btn: {
     borderRadius: 50,
-    paddingLeft: 25,
-    paddingRight: 25,
-    marginRight: 20,
+    margin: "5px 5px",
   },
   menuIcon: { float: "right", position: "releative", left: 5, bottom: 5 },
   closeButton: {
@@ -79,6 +79,7 @@ function Dashboard(props) {
   const classes = useStyles();
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.down("sm"));
+  const matchesMDUp = useMediaQuery(theme.breakpoints.down("md"));
   const { enqueueSnackbar } = useSnackbar();
   const [walletsList, setwalletsList] = useState([]);
   const [selectedActivityState, setselectedActivityState] = useState(2);
@@ -109,7 +110,7 @@ function Dashboard(props) {
       }
     } else {
       console.log("dash push");
-      
+
       props.history.push("/auth");
     }
   }, [props.user]);
@@ -261,7 +262,7 @@ function Dashboard(props) {
       }}
     >
       <Grid container style={{ padding: "0px 5%" }} justify="space-between">
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={5}>
           <div>
             <Typography variant="h6" component="h2" style={{ color: theme.palette.textColors.head1 }}>
               Wallets
@@ -335,81 +336,90 @@ function Dashboard(props) {
             </Button>
           </div>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={7}>
           <div style={{ marginTop: matchesMD ? 30 : 0 }}>
             <Typography variant="h6" component="h2" style={{ color: theme.palette.textColors.head1 }}>
               Account
             </Typography>
-            <div style={{ marginTop: 12, marginBottom: 20 }}>
-              <Paper className={classes.accountBox1}>
+            <div style={{ marginTop: 12, marginBottom: 20, display: "flex", justifyContent: "space-between", flexWrap: "wrap" }}>
+              <Paper className={classes.accountBox1} style={{ width: matchesMDUp ? "100%" : "48%" }}>
                 <IconButton className={classes.menuIcon}>
                   <MoreVertIcon />
                 </IconButton>
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <div>
-                    <Typography
-                      style={{ color: theme.palette.textColors.para1, fontWeight: 500, display: "flex", alignItems: "center" }}
-                      variant="subtitle1"
-                    >
-                      <span> Your ballance</span>
-                      <div>
-                        <IconButton
-                          disabled={refreshBalances}
-                          onClick={getRefreshBalances}
-                          size="small"
-                          color="primary"
-                          style={{ marginLeft: 10 }}
-                        >
-                          {refreshBalances ? (
-                            <CircularProgress size={16} thickness={4} />
-                          ) : (
-                            <RefreshIcon style={{ height: 17, width: 17 }} />
-                          )}
-                        </IconButton>
-                      </div>
-                    </Typography>
-                    <div style={{ marginTop: 15, marginBottom: 15, marginLeft: 5 }}>
-                      <Typography style={{ color: theme.palette.textColors.para1, fontWeight: 600 }} variant="h5">
-                        ${totalBalances.dollarBal.toFixed(4)}
-                      </Typography>
-                      <Typography style={{ color: theme.palette.textColors.para1, marginTop: -2 }} variant="caption" component="p">
-                        Avaliable
+                <div style={{ display: "flex", height: "100%", flexDirection: "column", justifyContent: "space-around" }}>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <div>
+                      <Typography
+                        style={{ color: theme.palette.textColors.para1, fontWeight: 500, display: "flex", alignItems: "center" }}
+                        variant="subtitle1"
+                      >
+                        <span> Your ballance</span>
+                        <div>
+                          <IconButton
+                            disabled={refreshBalances}
+                            onClick={getRefreshBalances}
+                            size="small"
+                            color="primary"
+                            style={{ marginLeft: 10 }}
+                          >
+                            {refreshBalances ? (
+                              <CircularProgress size={16} thickness={4} />
+                            ) : (
+                              <RefreshIcon style={{ height: 17, width: 17 }} />
+                            )}
+                          </IconButton>
+                        </div>
                       </Typography>
                     </div>
                   </div>
+                  <div style={{ marginTop: 15, marginBottom: 15, marginLeft: 5 }}>
+                    <Typography style={{ color: theme.palette.textColors.para1, fontWeight: 600 }} variant="h4">
+                      ${totalBalances.dollarBal.toFixed(4)}
+                    </Typography>
+                    <Typography style={{ color: theme.palette.textColors.para1, marginTop: -2 }} variant="caption" component="p">
+                      Avaliable
+                    </Typography>
+                  </div>
+
+                  <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap" }}>
+                    <Button
+                      color={selectedActivityState === 0 ? "secondary" : "default"}
+                      variant="contained"
+                      size="small"
+                      className={classes.accountBox1Btn}
+                      onClick={() => {
+                        setselectedActivityState(0);
+                      }}
+                    >
+                      Deposit
+                    </Button>
+                    <Button
+                      color={selectedActivityState === 1 ? "secondary" : "default"}
+                      variant="contained"
+                      size="small"
+                      className={classes.accountBox1Btn}
+                      onClick={() => {
+                        setselectedActivityState(1);
+                      }}
+                    >
+                      Withdraw
+                    </Button>
+                    <Button
+                      color={selectedActivityState === 2 ? "secondary" : "default"}
+                      variant="contained"
+                      size="small"
+                      className={classes.accountBox1Btn}
+                      onClick={() => {
+                        setselectedActivityState(2);
+                      }}
+                    >
+                      Activity
+                    </Button>
+                  </div>
                 </div>
-                <div style={{ display: "flex", alignItems: "center", marginTop: 10 }}>
-                  <Button
-                    color={selectedActivityState === 0 ? "secondary" : "default"}
-                    variant="contained"
-                    className={classes.accountBox1Btn}
-                    onClick={() => {
-                      setselectedActivityState(0);
-                    }}
-                  >
-                    Deposit
-                  </Button>
-                  <Button
-                    color={selectedActivityState === 1 ? "secondary" : "default"}
-                    variant="contained"
-                    className={classes.accountBox1Btn}
-                    onClick={() => {
-                      setselectedActivityState(1);
-                    }}
-                  >
-                    Withdraw
-                  </Button>
-                  <Button
-                    color={selectedActivityState === 2 ? "secondary" : "default"}
-                    variant="contained"
-                    className={classes.accountBox1Btn}
-                    onClick={() => {
-                      setselectedActivityState(2);
-                    }}
-                  >
-                    Activity
-                  </Button>
-                </div>
+              </Paper>
+              <Paper className={classes.accountBox1} style={{ width: matchesMDUp ? "100%" : "48%", maxHeight: "100%" }}>
+                <TimeSeriesChart activities={activities} />
               </Paper>
             </div>
           </div>
