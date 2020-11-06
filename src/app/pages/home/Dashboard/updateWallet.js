@@ -94,7 +94,7 @@ function UpdateWallet(props) {
         <Button color="primary" onClick={() => setdeleteDialog(false)}>
           Cancel
         </Button>
-        <Button color="primary" onClick={deleteWallet}>
+        <Button color="primary" onClick={() => deleteWallet()}>
           Confirm
         </Button>
       </DialogActions>
@@ -128,11 +128,11 @@ function UpdateWallet(props) {
           <div style={{ marginTop: 20 }}>
             <Typography color="textSecondary">(Mnemonic Phrase) Please write down your backup phrase to secure your wallet.</Typography>
             <CopyToClipboard
-              text={props.walletDetails.mnemonic ? props.walletDetails.mnemonic : "unknown"}
+              text={props.walletDetails && props.walletDetails.mnemonic ? props.walletDetails.mnemonic : "unknown"}
               onCopy={() => enqueueSnackbar("Mnemonic Copied", { variant: "success" })}
             >
               <Typography style={{ fontWeight: 500, cursor: "pointer" }} variant="subtitle2">
-                {props.walletDetails.mnemonic ? props.walletDetails.mnemonic : "unknown"}
+                {props.walletDetails && props.walletDetails.mnemonic ? props.walletDetails.mnemonic : "unknown"}
               </Typography>
             </CopyToClipboard>
           </div>
@@ -148,26 +148,31 @@ function UpdateWallet(props) {
         <Button color="primary" onClick={() => setupdateWalletDiologue(false)}>
           Cancel
         </Button>
-        <Button color="primary" onClick={updateWallet}>
+        <Button color="primary" onClick={() => updateWallet()}>
           Update
         </Button>
       </DialogActions>
+
       {DeleteConfirmation}
     </Dialog>
   );
 
   return (
     <>
-      <IconButton
-        style={{ marginLeft: "auto", color: "#ffffff" }}
-        onClick={() => {
-          setwalletNameField(props.walletDetails.title);
-          setupdateWalletDiologue(true);
-        }}
-      >
-        <SettingsIcon />
-      </IconButton>
-      {UpdateWalletDialog}
+      <div style={{ marginLeft: "auto" }}>
+        <IconButton
+          style={{ color: "#ffffff" }}
+          onClick={(e) => {
+            e.stopPropagation();
+            setwalletNameField(props.walletDetails.title);
+            setupdateWalletDiologue(true);
+          }}
+          disabled={props.disabled}
+        >
+          <SettingsIcon />
+        </IconButton>
+      </div>
+      <div>{UpdateWalletDialog}</div>
     </>
   );
 }

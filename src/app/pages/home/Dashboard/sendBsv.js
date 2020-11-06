@@ -39,6 +39,10 @@ const useStyles = makeStyles((theme) => ({
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
+  accountBox1Btn: {
+    borderRadius: 50,
+    margin: "5px 5px",
+  },
 }));
 
 function SendBSV(props) {
@@ -76,17 +80,17 @@ function SendBSV(props) {
   const makeTransctionFunc = async () => {
     let sendBsvAPI = firebase.functions().httpsCallable("walletSendBsv");
     let sendBsvRes = await sendBsvAPI({
-      hdPrivateKey: props.walletObj.hdPrivateKey,
+      hdPrivateKey: props.walletObj ? props.walletObj.hdPrivateKey : "",
       opData: ["wallet", "withdrawl"],
       bsvPrice: props.bsvRate,
       withdrawlValues: {
         amount: amountField,
         address: addressField,
       },
-      address: props.walletObj.address,
-      id: props.walletObj.id,
-      password: props.walletObj.password ? props.walletObj.password : "",
-      dollarBal: props.walletObj.dollarBal,
+      address: props.walletObj ? props.walletObj.address : "",
+      id: props.walletObj ? props.walletObj.id : "",
+      password: props.walletObj && props.walletObj.password ? props.walletObj.password : "",
+      dollarBal: props.walletObj ? props.walletObj.dollarBal : "",
     });
     if (sendBsvRes && sendBsvRes.data) {
       if (sendBsvRes.data.status && sendBsvRes.data.status === "error") {
@@ -110,7 +114,7 @@ function SendBSV(props) {
       <DialogTitle style={{ paddingBottom: 1 }}>Send BSVs</DialogTitle>
       <DialogContent>
         <DialogContentText style={{ marginBottom: 0 }}>
-          {props.walletObj.btcBal} BSV (1 BSV = {props.bsvRate} USD)
+          {props.walletObj ? props.walletObj.bsvBal : 0} BSV (1 BSV = {props.bsvRate} USD)
         </DialogContentText>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 30, marginTop: 20, width: "80%" }}>
           <FormControl className={`custom-padding`} fullWidth variant="outlined">
@@ -153,11 +157,22 @@ function SendBSV(props) {
         </ClickNHold>
       </DialogActions>
     </Dialog>
-  ); 
+  );
 
   return (
     <>
       <Button
+        disabled={props.disabled}
+        variant="contained"
+        size="small"
+        className={classes.accountBox1Btn}
+        onClick={() => {
+          setsendBsvDiologueState(true);
+        }}
+      >
+        Deposit
+      </Button>
+      {/* <Button
         onClick={() => {
           setsendBsvDiologueState(true);
         }}
@@ -165,7 +180,7 @@ function SendBSV(props) {
         startIcon={<ArrowUpwardRoundedIcon />}
       >
         Send BSV
-      </Button>
+      </Button> */}
       {SendBsvDialog}
     </>
   );

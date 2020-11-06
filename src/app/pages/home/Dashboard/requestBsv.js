@@ -29,6 +29,10 @@ const useStyles = makeStyles((theme) => ({
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
+  accountBox1Btn: {
+    borderRadius: 50,
+    margin: "5px 5px",
+  },
 }));
 
 function RequestBSV(props) {
@@ -102,7 +106,7 @@ function RequestBSV(props) {
 
   return (
     <>
-      <Button
+      {/* <Button
         onClick={() => {
           getDynamicAddress();
           setrequestBsvDiologueState(true);
@@ -111,6 +115,18 @@ function RequestBSV(props) {
         startIcon={<ArrowDownwardRoundedIcon />}
       >
         Deposit
+      </Button> */}
+      <Button
+        variant="contained"
+        size="small"
+        className={classes.accountBox1Btn}
+        disabled={props.disabled}
+        onClick={() => {
+          getDynamicAddress();
+          setrequestBsvDiologueState(true);
+        }}
+      >
+        Withdraw
       </Button>
       {RequestBsvDialog}
     </>

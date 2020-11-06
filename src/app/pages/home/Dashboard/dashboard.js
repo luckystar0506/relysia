@@ -32,6 +32,7 @@ import RefreshIcon from "@material-ui/icons/Refresh";
 import { updateUserWalletsData, updateUserTokensData } from "../../../store/ducks/auth.duck";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import TimeSeriesChart from "./transctionsGraph";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -40,7 +41,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const useStyles = makeStyles((theme) => ({
   walletEleCon: {
     borderRadius: 15,
-    height: 180,
+    height: 140,
     width: "80%",
     maxWidth: 400,
     display: "flex",
@@ -86,7 +87,7 @@ function Dashboard(props) {
   const [diologueState, setdiologueState] = useState(false);
   const [generatingWalletKeys, setgeneratingWalletKeys] = useState(false);
   const [totalBalances, settotalBalances] = useState({
-    btcBal: 0,
+    bsvBal: 0,
     dollarBal: 0,
   });
   const [activities, setactivities] = useState([]);
@@ -94,6 +95,7 @@ function Dashboard(props) {
   const [refreshBalances, setrefreshBalances] = useState(false);
   const [walletName, setwalletName] = useState("");
   const [walletPassword, setwalletPassword] = useState("");
+  const [selectedWallet, setselectedWallet] = useState(0);
 
   useEffect(() => {
     if (props.user && props.user.uid) {
@@ -124,6 +126,14 @@ function Dashboard(props) {
         }
       });
   }, []);
+
+  useEffect(() => {
+    if (walletsList && walletsList.length === 0) {
+      setTimeout(() => {
+        getUserWallets();
+      }, 3000);
+    }
+  }, [walletsList]);
 
   const getUserWallets = async () => {
     let walletListAPI = firebase.functions().httpsCallable("getWalletBalances");
@@ -268,6 +278,51 @@ function Dashboard(props) {
               Wallets
             </Typography>
             <div style={{ marginTop: 12, marginBottom: 20 }}>
+              {walletsList.length === 0 && (
+                <Paper
+                  className={classes.walletEleCon}
+                  style={{
+                    backgroundImage: `url(${toAbsoluteUrl("/media/bg/btcBg.png")})`,
+                    backgroundRepeat: "no-repeat",
+                    backgroundSize: "cover",
+                    border: "4px solid #613aea",
+                    boxSizing: "content-box",
+                    marginLeft: "-4px",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", cursor: "pointer" }}>
+                    <Typography
+                      component="h3"
+                      variant="subtitle1"
+                      style={{ display: "block", whiteSpace: "nowrap", overflow: "hidden ", textOverflow: "ellipsis" }}
+                    >
+                      Vionex Walllet
+                    </Typography>
+                    <Typography variant="h3" style={{ fontSize: "2.5rem", marginLeft: "auto", fontWeight: 600 }}>
+                      ₿
+                    </Typography>
+                  </div>
+
+                  <div style={{ marginBottom: 12, cursor: "pointer" }}>
+                    <Typography component="h4" variant="h4">
+                      <Skeleton variant="text" style={{ borderRadius: 10, width: "60%", height: 30 }} />
+                    </Typography>
+                    <Typography component="h4" variant="subtitle2">
+                      <Skeleton variant="text" style={{ borderRadius: 10, width: "40%", height: 22 }} />
+                    </Typography>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <UpdateWallet
+                      userID={props.user ? props.user.uid : ""}
+                      walletDetails={null}
+                      walletIndex={0}
+                      walletsList={null}
+                      setwalletsList={null}
+                      disabled={true}
+                    />
+                  </div>
+                </Paper>
+              )}
               {walletsList.map((item, index) => {
                 return (
                   <Paper
@@ -276,10 +331,18 @@ function Dashboard(props) {
                       backgroundImage: `url(${toAbsoluteUrl("/media/bg/btcBg.png")})`,
                       backgroundRepeat: "no-repeat",
                       backgroundSize: "cover",
+                      border: selectedWallet === index ? "4px solid #613aea" : "none",
+                      boxSizing: "content-box",
+                      marginLeft: selectedWallet === index ? "-4px" : 0,
                     }}
                     key={item.id}
                   >
-                    <div style={{ display: "flex", alignItems: "center" }}>
+                    <div
+                      onClick={() => {
+                        setselectedWallet(index);
+                      }}
+                      style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+                    >
                       <Typography
                         component="h3"
                         variant="subtitle1"
@@ -292,34 +355,32 @@ function Dashboard(props) {
                       </Typography>
                     </div>
 
-                    <div style={{ marginBottom: 12 }}>
+                    <div
+                      onClick={() => {
+                        setselectedWallet(index);
+                      }}
+                      style={{ marginBottom: 12, cursor: "pointer" }}
+                    >
                       <Typography component="h4" variant="h4">
-                        {item.btcBal} BSV
+                        {item.bsvBal} BSV
                       </Typography>
-                      <Typography component="h4" variant="subtitle2">
+                      <Typography component="h4" variant="subtitle2" style={{ marginTop: 5 }}>
                         ${item.dollarBal.toFixed(4)}
                       </Typography>
                     </div>
-
                     <div style={{ display: "flex", alignItems: "center" }}>
-                      <SendBSV walletObj={item} bsvRate={bsvRate} />
-                      <RequestBSV walletObj={item} />
                       <UpdateWallet
                         userID={props.user ? props.user.uid : ""}
                         walletDetails={item}
                         walletIndex={index}
                         walletsList={walletsList}
                         setwalletsList={setwalletsList}
+                        disabled={false}
                       />
                     </div>
                   </Paper>
                 );
               })}
-              {walletsList.length === 0 && (
-                <Typography variant="caption" color="textSecondary">
-                  You didnt have any wallet yet
-                </Typography>
-              )}
             </div>
             <Button
               startIcon={<AddRoundedIcon />}
@@ -382,28 +443,16 @@ function Dashboard(props) {
                   </div>
 
                   <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap" }}>
-                    <Button
-                      color={selectedActivityState === 0 ? "secondary" : "default"}
-                      variant="contained"
-                      size="small"
-                      className={classes.accountBox1Btn}
-                      onClick={() => {
-                        setselectedActivityState(0);
-                      }}
-                    >
-                      Deposit
-                    </Button>
-                    <Button
-                      color={selectedActivityState === 1 ? "secondary" : "default"}
-                      variant="contained"
-                      size="small"
-                      className={classes.accountBox1Btn}
-                      onClick={() => {
-                        setselectedActivityState(1);
-                      }}
-                    >
-                      Withdraw
-                    </Button>
+                    <SendBSV
+                      disabled={walletsList.length <= 0 ? true : false}
+                      walletObj={walletsList && walletsList[selectedWallet] ? walletsList[selectedWallet] : null}
+                      bsvRate={bsvRate}
+                    />
+                    <RequestBSV
+                      disabled={walletsList.length <= 0 ? true : false}
+                      walletObj={walletsList && walletsList[selectedWallet] ? walletsList[selectedWallet] : null}
+                    />
+
                     <Button
                       color={selectedActivityState === 2 ? "secondary" : "default"}
                       variant="contained"
