@@ -68,7 +68,7 @@ function WalletTokens(props) {
   return (
     <>
       {Object.values(groupByRoot(tokensList)).map((tokens, index) => {
-        console.log("tokens", props.computer);
+        // console.log("tokens", props.computer);
         return (
           <Paper
             className={classes.walletEleCon}

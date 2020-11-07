@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Computer from "bitcoin-computer";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { useTheme } from "@material-ui/core/styles";
 import Popover from "@material-ui/core/Popover";
@@ -12,9 +13,10 @@ import firebase from "firebase/app";
 import "firebase/functions";
 import "firebase/database";
 import { updateUserWalletsData, updateUserTokensData } from "../../../store/ducks/auth.duck";
-import MintTokenBtn from "./mintDialog";
 import WalletTokens from "./walletTokensComponent";
 import { useSnackbar } from "notistack";
+import AddRoundedIcon from "@material-ui/icons/AddRounded";
+import PublicTokens from "../PublicTokens/publicTokens";
 
 const useStyles = makeStyles((theme) => ({
   accountBox1: {
@@ -81,8 +83,8 @@ function Tokens(props) {
           computerArray.push(
             new Computer({
               chain: "BSV",
-              // network: "testnet",
-              network: "livenet",
+              network: "testnet",
+              // network: "livenet",
               seed: walletItem.mnemonic,
               path: "m/44'/0'/0'/0/0",
             })
@@ -104,13 +106,19 @@ function Tokens(props) {
   const getUserVerfiedTokens = () => {
     firebase
       .database()
-      .ref("tokens/" + props.user.uid)
-      .orderByChild("verfied")
-      .equalTo(true)
+      .ref("tokens")
+      .orderByChild("userEmail")
+      .equalTo(props.user.email)
       .once("value")
       .then((snap) => {
         if (snap.val()) {
-          setverfiedTokens(Object.keys(snap.val()));
+          let modiArr = [];
+          Object.values(snap.val()).map((a, b) => {
+            if (a.verfied) {
+              modiArr.push(a._id);
+            }
+          });
+          setverfiedTokens(modiArr);
         }
       });
   };
@@ -167,19 +175,22 @@ function Tokens(props) {
       }}
     >
       <Grid container style={{ padding: "0px 5%" }} justify="space-between">
-        <Grid item xs={12} md={12}>
+        <Grid item xs={12}>
           <div>
             <div style={{ display: "flex", alignItems: "center" }}>
               <Typography variant="h6" component="h2" style={{ color: theme.palette.textColors.head1 }}>
-                Tokens
+                My Tokens
               </Typography>
 
-              <MintTokenBtn
-                walletsList={walletsList}
-                computer={computer}
-                userID={props.user ? props.user.uid : null}
-                userEmail={props.user.email ? props.user.email : "-"}
-              />
+              <Button
+                startIcon={<AddRoundedIcon />}
+                color="primary"
+                variant="contained"
+                style={{ marginLeft: "auto", borderRadius: 50, paddingLeft: 25, paddingRight: 25 }}
+                onClick={() => props.history.push("/create-token")}
+              >
+                Mint Token
+              </Button>
             </div>
             <div style={{ marginTop: 10 }}>
               {walletsList.map((wallet, index1) => {
@@ -210,6 +221,16 @@ function Tokens(props) {
                 );
               })}
             </div>
+          </div>
+        </Grid>
+        <Grid item xs={12} md={12} style={{ marginTop: 20 }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Typography variant="h6" component="h2" style={{ color: theme.palette.textColors.head1 }}>
+              Public Tokens
+            </Typography>
+          </div>
+          <div style={{ marginTop: 10 }}>
+            <PublicTokens />
           </div>
         </Grid>
       </Grid>

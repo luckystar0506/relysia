@@ -2,55 +2,120 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import { Line } from "react-chartjs-2";
+import { Typography, IconButton, TextField } from "@material-ui/core";
+import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import { DateRangePicker, DateRange, DateRangeDelimiter } from "@material-ui/pickers";
 
 const TimeSeriesChart = (props) => {
-  const [chartData, setchartData] = useState([
-    {
-      x: moment(2018),
-      y: 10,
-    },
-    {
-      x: moment(2019),
-      y: 11,
-    },
-    {
-      x: moment(2020),
-      y: 1,
-    },
-  ]);
-
   const [withdrawLine, setwithdrawLine] = useState([]);
   const [depositLine, setdepositLine] = useState([]);
+  const [value, setValue] = useState([null, null]);
 
   useEffect(() => {
-    if (props.activities && props.activities.length > 0) {
+    let withdrawArr = [];
+    let depositArr = [];
+    props.activities.map((x) => {
+      if (x.balance_change > 0) {
+        depositArr.push({
+          x: moment(x.time),
+          y: x.balance_change,
+        });
+      } else {
+        withdrawArr.push({
+          x: moment(x.time),
+          y: x.balance_change * -1,
+        });
+      }
+    });
+
+    setwithdrawLine(withdrawArr);
+    setdepositLine(depositArr);
+    let dateVals = [null, null];
+    if (props.activities[0]) {
+      dateVals[1] = moment(props.activities[0].time);
+    }
+    if (props.activities[props.activities.length - 1]) {
+      dateVals[0] = moment(props.activities[props.activities.length - 1].time);
+    }
+    setValue(dateVals);
+  }, [props.activities]);
+
+  console.log("value", value);
+  useEffect(() => {
+    //intial intilization
+
+    if (props.activities && props.activities.length > 0 && value[0] && value[1]) {
       let withdrawArr = [];
       let depositArr = [];
       props.activities.map((x) => {
-        if (x.balance_change > 0) {
+        if (x.balance_change > 0 && moment(x.time).isBetween(value[0], value[1], "day", "[]")) {
           depositArr.push({
             x: moment(x.time),
             y: x.balance_change,
           });
         } else {
-          withdrawArr.push({
+          if (moment(x.time).isBetween(value[0], value[1], "day", "[]")) {
+            withdrawArr.push({
+              x: moment(x.time),
+              y: x.balance_change * -1,
+            });
+          }
+        }
+      });
+
+      setwithdrawLine(withdrawArr);
+      setdepositLine(depositArr);
+    } else if (props.activities && props.activities.length > 0 && value[0] && !value[1]) {
+      let withdrawArr = [];
+      let depositArr = [];
+      props.activities.map((x) => {
+        if (x.balance_change > 0 && moment(x.time).isAfter(value[0])) {
+          depositArr.push({
             x: moment(x.time),
-            y: x.balance_change * -1,
+            y: x.balance_change,
           });
+        } else {
+          if (moment(x.time).isAfter(value[0])) {
+            withdrawArr.push({
+              x: moment(x.time),
+              y: x.balance_change * -1,
+            });
+          }
+        }
+      });
+
+      setwithdrawLine(withdrawArr);
+      setdepositLine(depositArr);
+    } else if (props.activities && props.activities.length > 0 && !value[0] && value[1]) {
+      let withdrawArr = [];
+      let depositArr = [];
+      props.activities.map((x) => {
+        if (x.balance_change > 0 && moment(x.time).isBefore(value[0])) {
+          depositArr.push({
+            x: moment(x.time),
+            y: x.balance_change,
+          });
+        } else {
+          if (moment(x.time).isBefore(value[0])) {
+            withdrawArr.push({
+              x: moment(x.time),
+              y: x.balance_change * -1,
+            });
+          }
         }
       });
 
       setwithdrawLine(withdrawArr);
       setdepositLine(depositArr);
     }
-  }, [props.activities]);
+  }, [value, props.activities]);
 
   let graphData = {
     datasets: [
       {
         data: depositLine,
         backgroundColor: "#6570b4",
-        borderColor: "#3f50b5",
+        borderColor: "#6570b4",
         fill: false,
         borderWidth: 2,
         label: "Deposit",
@@ -79,15 +144,15 @@ const TimeSeriesChart = (props) => {
             tooltipFormat: "h:mm:ss a, MM/DD/YYYY",
 
             displayFormats: {
-              millisecond: "MM/DD",
-              second: "MM/DD",
-              minute: "MM/DD",
-              hour: "MM/DD",
-              day: "MM/DD",
-              week: "MM/DD",
-              month: "MM/DD",
-              quarter: "MM/DD",
-              year: "MM/DD",
+              millisecond: "ddd",
+              second: "ddd",
+              minute: "ddd",
+              hour: "ddd",
+              day: "ddd",
+              week: "ddd",
+              month: "ddd",
+              quarter: "ddd",
+              year: "ddd",
             },
           },
           // categoryPercentage: 0.35,
@@ -156,7 +221,6 @@ const TimeSeriesChart = (props) => {
       cornerRadius: 4,
       footerSpacing: 0,
       titleSpacing: 0,
-      
     },
 
     // layout: {
@@ -169,7 +233,48 @@ const TimeSeriesChart = (props) => {
     // },
   };
 
-  return <Line data={graphData} options={graphOptions} />;
+  return (
+    <div>
+      <div style={{ display: "flex", marginBottom: 15, justifyContent: "space-between", alignItems: "center" }}>
+        <DateRangePicker
+          disableFuture={true}
+          autoOk={false}
+          value={value}
+          onChange={(newValue) => setValue(newValue)}
+          renderInput={(startProps, endProps) => (
+            <React.Fragment>
+              <IconButton
+                onClick={() => startProps.inputProps.onFocus()}
+                style={{ backgroundColor: "rgba(0, 0, 0, 0.04)", borderRadius: "40%" }}
+                size="medium"
+                disabled={props.activities === 0 ? true : false}
+              >
+                <CalendarTodayIcon fontSize="small" style={{ color: "#000000" }} />
+              </IconButton>
+            </React.Fragment>
+          )}
+        />
+
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", marginRight: 15 }}>
+            <div style={{ borderRadius: "50%", height: 10, width: 10, backgroundColor: "#6570b4", marginRight: 4 }} />
+            <Typography style={{ fontWeight: 550 }} variant="body2">
+              Deposits
+            </Typography>
+          </div>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <div style={{ borderRadius: "50%", height: 10, width: 10, backgroundColor: "#ff2868", marginRight: 4 }} />
+            <Typography style={{ fontWeight: 550 }} variant="body2">
+              Withdrawals
+            </Typography>
+          </div>
+        </div>
+      </div>
+      <div style={{ maxHeight: 200 }}>
+        <Line data={graphData} options={graphOptions} />
+      </div>
+    </div>
+  );
 };
 
 export default TimeSeriesChart;
