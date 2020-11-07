@@ -362,7 +362,7 @@ function Dashboard(props) {
                       style={{ marginBottom: 12, cursor: "pointer" }}
                     >
                       <Typography component="h4" variant="h4">
-                        {item.bsvBal} BSV
+                        {item.bsvBal ? item.bsvBal : 0} BSV
                       </Typography>
                       <Typography component="h4" variant="subtitle2" style={{ marginTop: 5 }}>
                         ${item.dollarBal.toFixed(4)}

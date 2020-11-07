@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Computer from "bitcoin-computer";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -87,7 +86,17 @@ function TokensVerfication(props) {
       .database()
       .ref("tokens")
       .on("value", (snap) => {
-        settokensObj(snap.val());
+        let dataObj = snap.val();
+        let sortedObj = {};
+        Object.keys(dataObj).map((key, indx) => {
+          let cObj = dataObj[key];
+          if (!sortedObj[cObj.userEmail]) {
+            sortedObj[cObj.userEmail] = {};
+          }
+          sortedObj[cObj.userEmail][key] = cObj;
+        });
+
+        settokensObj(sortedObj);
       });
   };
 
@@ -196,7 +205,7 @@ function TokensVerfication(props) {
                                 onChange={() => {
                                   if (props.user) {
                                     let updates = {};
-                                    updates["tokens/" + key + "/" + item._id + "/verfied"] = item.verfied ? !item.verfied : true;
+                                    updates["tokens/" + item._id + "/verfied"] = item.verfied ? !item.verfied : true;
                                     firebase
                                       .database()
                                       .ref()
