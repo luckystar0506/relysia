@@ -120,13 +120,14 @@ function RequestBSV(props) {
         variant="contained"
         size="small"
         className={classes.accountBox1Btn}
+        style={{width: '45%', padding: 12, paddingLeft: 15, paddingRight: 15, backgroundColor: 'rgba(0,0,0,0.04)'}}
         disabled={props.disabled}
         onClick={() => {
           getDynamicAddress();
           setrequestBsvDiologueState(true);
         }}
       >
-        Withdraw
+        Deposit
       </Button>
       {RequestBsvDialog}
     </>

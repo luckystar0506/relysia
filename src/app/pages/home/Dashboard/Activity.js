@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
   activityBox2: {
     borderRadius: 15,
     width: "100%",
+    minHeight: 330,
     padding: "5px 15px",
     marginBottom: 12,
   },
@@ -52,12 +53,11 @@ function Activity(props) {
 
   return (
     <>
-      <Typography variant="h6" component="h2" style={{ color: theme.palette.textColors.head1 }}>
+      <div style={{  marginBottom: 20 }}>
+        <Paper className={classes.activityBox2} >
+        <Typography variant="h6" component="h2" style={{ color: theme.palette.textColors.head1, padding: 17 }}>
         Latest Activity
       </Typography>
-      <div style={{ marginTop: 12, marginBottom: 20 }}>
-        {" "}
-        <Paper className={classes.activityBox2}>
           {activityList &&
             activityList.map((item, index) => {
               return (

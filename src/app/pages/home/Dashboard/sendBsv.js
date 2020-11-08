@@ -165,12 +165,13 @@ function SendBSV(props) {
         disabled={props.disabled}
         variant="contained"
         size="small"
+        style={{width: '45%', padding: 12, paddingLeft: 15, paddingRight: 15, backgroundColor: 'rgba(0,0,0,0.04)'}}
         className={classes.accountBox1Btn}
         onClick={() => {
           setsendBsvDiologueState(true);
         }}
       >
-        Deposit
+        Withdraw
       </Button>
       {/* <Button
         onClick={() => {
