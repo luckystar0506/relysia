@@ -88,9 +88,9 @@ function CreateToken(props) {
     <Grid item lg={3} md={4} xs={12}>
       <Paper style={{ padding: 15, backgroundColor: "#1F1E2E", color: "#fff", zIndex: 150 }}>
         <img className="fadeIn" style={{ height: 300, maxWidth: "100%" }} alt="open" src={"/media/images/public.jpg"} />
-        <h2> Open </h2>
-        <h4 style={{ color: "#d1cec2" }}> Unlimited Contributors</h4>
-        <p style={{ margin: 40, height: 50 }}> Public Tokens allow everyone to create nodes and comment to topics. </p>
+        <h2> Commodity </h2>
+        <h4 style={{ color: "#d1cec2" }}> Tokens </h4>
+        <p style={{ margin: 40, height: 50 }}> Commitity tokens are gift cards, licenses, access tickets and digital objects. </p>
 
         {!tokenType && (
           <Button variant="contained" style={{ padding: 10, margin: 10 }} color="primary" onClick={() => settokenType("Open")}>
@@ -110,10 +110,10 @@ function CreateToken(props) {
     <Grid item lg={3} md={4} xs={12}>
       <Paper style={{ padding: 15, backgroundColor: "#1F1E2E", color: "#fff", zIndex: 120 }}>
         <img className="fadeIn" style={{ height: 300, paddingTop: 30, maxWidth: "100%" }} alt="team" src={"/media/images/team.jpg"} />
-        <h2> Team </h2>
-        <h4 style={{ color: "#d1cec2" }}> Invited Users </h4>
+        <h2> Utility </h2>
+        <h4 style={{ color: "#d1cec2" }}> Tokens </h4>
         <p style={{ margin: 40, height: 50 }}>
-          Team Tokens have restricted access for your team members. You can open them at a later point.
+          Utility tokens are directly involved in the operation of a platform.
         </p>
         {!tokenType && (
           <Button variant="contained" style={{ padding: 10, margin: 10 }} color="primary" onClick={() => settokenType("Team")}>
@@ -138,9 +138,9 @@ function CreateToken(props) {
           alt="private"
           src={"/media/images/solo.jpg"}
         />
-        <h2> Private </h2>
-        <h4 style={{ color: "#d1cec2" }}> Only You</h4>
-        <p style={{ margin: 40, height: 50 }}>Private Tokens are ideal to build an overview of topics that only you have access to.</p>
+        <h2> Security </h2>
+        <h4 style={{ color: "#d1cec2" }}> Token</h4>
+        <p style={{ margin: 40, height: 50 }}>A security is a rise of money for the promise of future reward on a product not yet created.</p>
         {!tokenType && (
           <Button variant="contained" style={{ padding: 10, margin: 10 }} color="primary" onClick={() => settokenType("Private")}>
             Select
