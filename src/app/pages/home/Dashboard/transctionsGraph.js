@@ -40,7 +40,6 @@ const TimeSeriesChart = (props) => {
     setValue(dateVals);
   }, [props.activities]);
 
-  console.log("value", value);
   useEffect(() => {
     //intial intilization
 
@@ -139,7 +138,7 @@ const TimeSeriesChart = (props) => {
       xAxes: [
         {
           type: "time",
-          distribution: "linear",
+          distribution: "series",
           time: {
             tooltipFormat: "h:mm:ss a, MM/DD/YYYY",
 
