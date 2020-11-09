@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Computer from "bitcoin-computer";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -13,10 +12,9 @@ import firebase from "firebase/app";
 import "firebase/functions";
 import "firebase/database";
 import { updateUserWalletsData, updateUserTokensData } from "../../../store/ducks/auth.duck";
-import WalletTokens from "./walletTokensComponent";
 import { useSnackbar } from "notistack";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
-import PublicTokens from "../PublicTokens/publicTokens";
+import PublicTokens from "./publicTokens";
 
 const useStyles = makeStyles((theme) => ({
   accountBox1: {
@@ -48,118 +46,10 @@ function Tokens(props) {
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
 
-  const [walletsList, setwalletsList] = useState([]);
-  const [computer, setComputer] = useState(null);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
-  const [verfiedTokens, setverfiedTokens] = useState([]);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  useEffect(() => {
-    if (props.user && props.user.uid) {
-      if (props.walletsData) {
-        setwalletsList(Object.values(props.walletsData.data.data));
-      } else {
-        getUserWallets();
-      }
-      getUserVerfiedTokens();
-    } else {
-      props.history.push("/auth");
-    }
-  }, [props.user]);
-
-  useEffect(() => {
-    if (walletsList && walletsList.length > 0 && !computer && !props.tokensData) {
-      let computerArray = [];
-      walletsList.map((walletItem, index) => {
-        try {
-          computerArray.push(
-            new Computer({
-              chain: "BSV",
-              network: "testnet",
-              // network: "livenet",
-              seed: walletItem.mnemonic,
-              path: "m/44'/0'/0'/0/0",
-            })
-          );
-        } catch (err) {
-          computerArray.push(null);
-        }
-      });
-      console.log("computerArray", computerArray);
-      setComputer(computerArray);
-      props.updateUserTokensData(computerArray);
-    } else if (walletsList && walletsList.length > 0 && !computer) {
-      console.log("from redux");
-
-      setComputer(props.tokensData);
-    }
-  }, [walletsList, computer]);
-
-  const getUserVerfiedTokens = () => {
-    firebase
-      .database()
-      .ref("tokens")
-      .orderByChild("userEmail")
-      .equalTo(props.user.email)
-      .once("value")
-      .then((snap) => {
-        if (snap.val()) {
-          let modiArr = [];
-          Object.values(snap.val()).map((a, b) => {
-            if (a.verfied) {
-              modiArr.push(a._id);
-            }
-          });
-          setverfiedTokens(modiArr);
-        }
-      });
-  };
-
-  const getUserWallets = async () => {
-    let walletListAPI = firebase.functions().httpsCallable("getWalletBalances");
-    let walletListRes = await walletListAPI();
-    if (walletListRes && walletListRes.data && walletListRes.data.status === "success") {
-      props.updateUserWalletsData(walletListRes);
-      setwalletsList(Object.values(walletListRes.data.data));
-    }
-    if (walletListRes) {
-      return null;
-    }
-  };
-
-  const publicKeyPopover = (
-    <Popover
-      id={id}
-      open={open}
-      anchorEl={anchorEl}
-      onClose={handleClose}
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "center",
-      }}
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "center",
-      }}
-    >
-      <CopyToClipboard
-        text={computer ? computer[popoverIndex].db.wallet.getPublicKey().toString() : "-"}
-        onCopy={() => enqueueSnackbar("Public Key Copied", { variant: "success" })}
-      >
-        <Typography style={{ padding: "10px 15px", cursor: "pointer" }}>
-          <span style={{ fontWeight: 500 }}>Public Key:</span> {computer ? computer[popoverIndex].db.wallet.getPublicKey().toString() : "-"}
-        </Typography>
-      </CopyToClipboard>
-    </Popover>
-  );
+  //   useEffect(() => {
+  //     if (props.user && props.user.uid) {
+  //     }
+  //   }, [props.user]);
 
   return (
     <div
@@ -175,55 +65,7 @@ function Tokens(props) {
       }}
     >
       <Grid container style={{ padding: "0px 5%" }} justify="space-between">
-        <Grid item xs={12}>
-          <div>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <Typography variant="h6" component="h2" style={{ color: theme.palette.textColors.head1 }}>
-                My Tokens
-              </Typography>
-
-              <Button
-                startIcon={<AddRoundedIcon />}
-                color="primary"
-                variant="contained"
-                style={{ marginLeft: "auto", borderRadius: 50, paddingLeft: 25, paddingRight: 25 }}
-                onClick={() => props.history.push("/create-token")}
-              >
-                Mint Token
-              </Button>
-            </div>
-            <div style={{ marginTop: 10 }}>
-              {walletsList.map((wallet, index1) => {
-                return (
-                  <div key={wallet.id + "wallet-" + index1} style={{ marginBottom: 20 }}>
-                    <Typography
-                      onClick={(e) => {
-                        popoverIndex = index1;
-                        handleClick(e);
-                      }}
-                      variant="h6"
-                      component="h3"
-                      style={{ cursor: "pointer", color: "#787d95c2", marginLeft: 10 }}
-                    >
-                      <DragIndicatorIcon fontSize="small" style={{ marginRight: 6 }} />
-                      {wallet.title}
-                    </Typography>
-                    <div style={{ marginTop: 12, marginBottom: 20, display: "flex", flexWrap: "wrap" }}>
-                      <WalletTokens verfiedTokens={verfiedTokens} computer={computer ? computer[index1] : null} walletDetails={wallet} />
-
-                      {walletsList.length === 0 && (
-                        <Typography variant="caption" color="textSecondary">
-                          You didnt have any wallets yet
-                        </Typography>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </Grid>
-        <Grid item xs={12} md={12} style={{ marginTop: 20 }}>
+        <Grid item xs={12} md={12}>
           <div style={{ display: "flex", alignItems: "center" }}>
             <Typography variant="h6" component="h2" style={{ color: theme.palette.textColors.head1 }}>
               Public Tokens
@@ -234,7 +76,6 @@ function Tokens(props) {
           </div>
         </Grid>
       </Grid>
-      {publicKeyPopover}
     </div>
   );
 }
