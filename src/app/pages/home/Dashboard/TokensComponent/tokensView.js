@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   paperCon: {
     borderRadius: 15,
     width: "100%",
-    minHeight: 300,
+    minHeight: 250,
     padding: "5px 15px",
     marginBottom: 12,
   },
@@ -32,7 +32,13 @@ function TokensView(props) {
   }, []);
 
   useEffect(() => {
+    setComputer(null);
+  }, [props.walletsList]);
+
+  useEffect(() => {
+
     if (props.walletsList && props.walletsList.length > 0 && !computer && !props.tokensData) {
+
       let computerArray = [];
       props.walletsList.map((walletItem, index) => {
         try {

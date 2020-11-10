@@ -23,8 +23,8 @@ import firebase from "firebase/app";
 import "firebase/functions";
 import "firebase/database";
 import "firebase/auth";
-import { updateUserData, updateUserWalletsData } from "../../app/store/ducks/auth.duck";
-import GavelIcon from '@material-ui/icons/Gavel';
+import { updateUserData, updateUserWalletsData, updateUserTokensData } from "../../app/store/ducks/auth.duck";
+import GavelIcon from "@material-ui/icons/Gavel";
 
 const drawerWidth = 240;
 
@@ -102,6 +102,7 @@ function LeftDrawer(props) {
       .then(() => {
         props.updateUserData(null);
         props.updateUserWalletsData(null);
+        props.updateUserTokensData(null);
       });
   };
 
@@ -194,4 +195,4 @@ const mapStateToProps = ({ auth: { user } }) => ({
   user,
 });
 
-export default connect(mapStateToProps, { updateUserData, updateUserWalletsData })(LeftDrawer);
+export default connect(mapStateToProps, { updateUserData, updateUserWalletsData, updateUserTokensData })(LeftDrawer);

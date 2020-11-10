@@ -13,12 +13,11 @@ import ScrollMenu from "react-horizontal-scrolling-menu";
 import ArrowBackIosRoundedIcon from "@material-ui/icons/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@material-ui/icons/ArrowForwardIosRounded";
 import IconButton from "@material-ui/core/IconButton";
-import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
   walletEleCon: {
     borderRadius: 15,
-    height: 210,
+    height: 160,
     width: 200,
     display: "flex",
     flexDirection: "column",
@@ -53,10 +52,10 @@ function WalletTokens(props) {
   useEffect(() => {
     setdisplayTokens(false);
 
-    refresh();
+    refresh(true);
   }, [props.computer]);
 
-  const refresh = async () => {
+  const refresh = async (intial = false) => {
     if (props.computer) {
       const revs = await props.computer.getRevs(props.computer.db.wallet.getPublicKey().toString());
       // console.log("revs", revs);
@@ -68,7 +67,9 @@ function WalletTokens(props) {
         )
       );
     }
-    setdisplayTokens(true);
+    if (intial) {
+      setdisplayTokens(true);
+    }
   };
 
   useInterval(() => {
