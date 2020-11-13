@@ -33,6 +33,14 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 50,
     margin: "5px 5px",
   },
+  clipCon: {
+    cursor: "pointer",
+    width: "70%",
+    overflow: "hidden",
+    [theme.breakpoints.down("sm")]: {
+      width: "90%",
+    },
+  },
 }));
 
 function RequestBSV(props) {
@@ -41,7 +49,6 @@ function RequestBSV(props) {
   const theme = useTheme();
   const [requestBsvDiologueState, setrequestBsvDiologueState] = useState(false);
   const [currentAddress, setcurrentAddress] = useState("");
-
   const RequestBsvDialog = (
     <Dialog
       open={requestBsvDiologueState}
@@ -69,15 +76,48 @@ function RequestBSV(props) {
             text={currentAddress ? currentAddress : "-"}
             onCopy={() => enqueueSnackbar("Address Copied", { variant: "success" })}
           >
-            <div style={{ cursor: "pointer" }}>
+            <div className={classes.clipCon}>
               <FileCopyIcon color="primary" style={{ float: "right", height: 15, width: 15 }} />
 
               <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
                 BITCOIN SV ADDRESS
               </Typography>
 
-              <Typography style={{ color: theme.palette.textColors.para2 }} variant="body1">
+              <Typography
+                style={{ color: theme.palette.textColors.para2, whiteSpace: "nowrap", textOverflow: "ellipsis", overflow: "hidden" }}
+                variant="body1"
+              >
                 {currentAddress ? currentAddress : "-"}
+              </Typography>
+            </div>
+          </CopyToClipboard>
+          <CopyToClipboard
+            text={props.computerObj ? props.computerObj.db.wallet.getPublicKey().toString() : "-"}
+            onCopy={() => enqueueSnackbar("Public Key Copied", { variant: "success" })}
+          >
+            <div
+              style={{
+                marginTop: 15,
+              }}
+              className={classes.clipCon}
+            >
+              <FileCopyIcon color="primary" style={{ float: "right", height: 15, width: 15 }} />
+
+              <Typography variant="subtitle1" style={{ fontWeight: 600 }}>
+                WALLET PUBLIC KEY
+              </Typography>
+
+              <Typography
+                style={{
+                  color: theme.palette.textColors.para2,
+
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                }}
+                variant="body1"
+              >
+                {props.computerObj ? props.computerObj.db.wallet.getPublicKey().toString() : "-"}
               </Typography>
             </div>
           </CopyToClipboard>
@@ -94,7 +134,6 @@ function RequestBSV(props) {
 
   const getDynamicAddress = () => {
     //use randomly
-    console.log("len");
     setcurrentAddress(props.walletObj.address[getRandomInt(0, props.walletObj.address.length - 1)]);
   };
 
@@ -120,7 +159,7 @@ function RequestBSV(props) {
         variant="contained"
         size="small"
         className={classes.accountBox1Btn}
-        style={{width: '45%', padding: 12, paddingLeft: 15, paddingRight: 15, backgroundColor: 'rgba(0,0,0,0.04)'}}
+        style={{ width: "45%", padding: 12, paddingLeft: 15, paddingRight: 15, backgroundColor: "rgba(0,0,0,0.04)" }}
         disabled={props.disabled}
         onClick={() => {
           getDynamicAddress();

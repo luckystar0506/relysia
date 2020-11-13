@@ -27,10 +27,10 @@ import UpdateWallet from "./updateWallet";
 import { DB1 } from "../../../../index";
 import Activity from "./Activity";
 import RequestBSV from "./requestBsv";
-import SendBSV from "./sendBsv";
+import SendBSV from "./Withdrawl/sendBsv";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import { updateUserWalletsData, updateUserTokensData } from "../../../store/ducks/auth.duck";
-import PerfectScrollbar from "react-perfect-scrollbar";
+import Computer from "bitcoin-computer";
 import TimeSeriesChart from "./transctionsGraph";
 import Skeleton from "@material-ui/lab/Skeleton";
 import TokensView from "./TokensComponent/tokensView";
@@ -288,7 +288,6 @@ function Dashboard(props) {
       </DialogActions>
     </Dialog>
   );
-
   return (
     <>
       <div
@@ -518,11 +517,13 @@ function Dashboard(props) {
                       <RequestBSV
                         disabled={walletsList.length <= 0 ? true : false}
                         walletObj={walletsList && walletsList[selectedWallet] ? walletsList[selectedWallet] : null}
+                        computerObj={props.tokensData && props.tokensData[selectedWallet] ? props.tokensData[selectedWallet] : null}
                       />
                       <SendBSV
                         disabled={walletsList.length <= 0 ? true : false}
                         walletObj={walletsList && walletsList[selectedWallet] ? walletsList[selectedWallet] : null}
                         bsvRate={bsvRate}
+                        computerObj={props.tokensData && props.tokensData[selectedWallet] ? props.tokensData[selectedWallet] : null}
                       />
                     </div>
                   </div>
@@ -541,6 +542,7 @@ function Dashboard(props) {
                 tokensData={props.tokensData}
                 history={props.history}
                 selectedWallet={selectedWallet}
+                refreshBalances={refreshBalances}
               />
             </div>
             <div style={{ marginBottom: 10 }}>

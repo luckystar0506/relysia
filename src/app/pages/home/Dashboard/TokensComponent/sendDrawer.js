@@ -35,143 +35,6 @@ export default function MintTokenDrawer(props) {
 
   const [first] = props.tokens;
   const balance = props.tokens.reduce((acc, token) => acc + parseInt(token.coins, 10), 0);
-  const [toField, settoField] = useState("");
-  const [amountField, setamountField] = useState("");
-  const [sendTokenLoading, setsendTokenLoading] = useState(false);
-
-  const sendTokens = (e, enough) => {
-    if (enough) {
-      setsendTokenLoading(true);
-
-      let pass = true;
-      if (toField === "") {
-        pass = false;
-        enqueueSnackbar("Please provide a public key!", { variant: "error" });
-      }
-      if (Number(amountField) <= 0) {
-        pass = false;
-        enqueueSnackbar("Please provide a valid token amount!", { variant: "error" });
-      }
-      if (pass) {
-        //send tokens
-        send();
-      } else {
-        setsendTokenLoading(false);
-      }
-    } else {
-      enqueueSnackbar("Press and hold the Button for 2 seconds", { variant: "info" });
-    }
-  };
-
-  const send = async () => {
-    const balance = props.tokens.reduce((acc, token) => acc + parseInt(token.coins, 10), 0);
-    if (amountField > balance) {
-      enqueueSnackbar("You didnt have enough tokens!", { variant: "error" });
-      setsendTokenLoading(false);
-
-      return null;
-    }
-    try {
-      props.tokens.sort((a, b) => a.coins - b.coins);
-      const newTokens = [];
-      let leftToSpend = amountField;
-      for (const token of props.tokens) {
-        const tokenCoins = parseInt(token.coins, 10);
-        if (0 < leftToSpend && 0 < tokenCoins) {
-          newTokens.push(await token.send(Math.min(leftToSpend, tokenCoins), toField));
-          leftToSpend -= tokenCoins;
-        }
-      }
-      setTimeout(() => {
-        enqueueSnackbar("Tokens sent successfully", { variant: "success" });
-        setsendTokenLoading(false);
-        settoField("");
-        setamountField("");
-      }, 1500);
-    } catch (err) {
-      enqueueSnackbar(`error: ${err.message}`, { variant: "error" });
-      console.log("err", err);
-      setsendTokenLoading(false);
-    }
-  };
-
-  const mintDrawer = (
-    <Drawer
-      anchor="right"
-      open={drawerState}
-      onClose={() => {
-        if (!sendTokenLoading) {
-          setdrawerState(false);
-        }
-      }}
-    >
-      <div className={classes.dialogCon}>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <Typography component="h1" variant="h5">
-            Send Tokens
-          </Typography>
-          <IconButton disabled={sendTokenLoading} onClick={() => setdrawerState(false)} style={{ marginLeft: "auto" }}>
-            <CloseIcon />
-          </IconButton>
-        </div>
-        <Divider />
-        <div style={{ display: "flex", alignItems: "center", marginTop: 20 }}>
-          <Paper style={{ border: "0px solid red", borderRadius: "50%", marginRight: 10 }} elevation={2}>
-            <Avatar
-              src={
-                first.tokenImage
-                  ? first.tokenImage
-                  : `https://image.shutterstock.com/image-vector/dots-letter-c-logo-design-260nw-551769190.jpg`
-              }
-              alt="logo"
-              style={{ width: 50, height: 50 }}
-            />
-          </Paper>{" "}
-          <div>
-            <Typography variant="subtitle1" component="h5" style={{ fontSize: 16, fontWeight: 550, color: theme.palette.textColors.head1 }}>
-              {first.name}
-            </Typography>
-            <Typography variant="caption" component="p" style={{ marginTop: -3, color: theme.palette.textColors.para1 }}>
-              Tokens Avaliable: {balance}
-            </Typography>
-          </div>
-        </div>
-
-        <div style={{ marginTop: 20 }}>
-          <TextField
-            fullWidth
-            value={amountField}
-            onChange={(e) => {
-              setamountField(e.target.value);
-            }}
-            label="Amount"
-            variant="outlined"
-            className={`custom-padding`}
-            style={{ marginTop: 10 }}
-            type="number"
-            placeholder={"max: " + balance}
-          />
-          <TextField
-            fullWidth
-            value={toField}
-            onChange={(e) => {
-              settoField(e.target.value);
-            }}
-            label="To"
-            variant="outlined"
-            className={`custom-padding`}
-            style={{ marginTop: 10 }}
-            placeholder="public key"
-          />
-          <ClickNHold time={1.5} onEnd={sendTokens}>
-            <Button style={{ marginTop: 20, width: "100%" }} variant="contained" color="secondary" disabled={sendTokenLoading}>
-              {sendTokenLoading ? <CircularProgress style={{ color: "#ffffff" }} size={20} /> : "Send"}
-            </Button>
-          </ClickNHold>
-        </div>
-      </div>
-    </Drawer>
-  );
 
   return (
     <>
@@ -187,7 +50,15 @@ export default function MintTokenDrawer(props) {
             style={{ width: 50, height: 50 }}
           />
         </Paper>
-        <div style={{ marginLeft: "auto" }}>
+
+        <div style={{ display: "flex", alignItems: "center", marginLeft: "auto" }}>
+          {props.verfied && (
+            <div style={{ marginRight: 10 }}>
+              <Tooltip title="verfied">
+                <DoneAllIcon style={{ color: "green" }} />
+              </Tooltip>
+            </div>
+          )}
           <Typography variant="subtitle1" component="span" style={{ fontWeight: 500, color: theme.palette.textColors.textGreen }}>
             {balance}
           </Typography>
@@ -226,20 +97,6 @@ export default function MintTokenDrawer(props) {
       >
         {first.description ? first.description : "-"}
       </Typography>
-
-      <div style={{ marginTop: 10, display: "flex", alignItems: "center" }}>
-        <Button onClick={() => setdrawerState(true)} style={{ color: "#ffffff" }} startIcon={<SendIcon />}>
-          Send Token
-        </Button>
-        {props.verfied && (
-          <div style={{ marginLeft: "auto" }}>
-            <Tooltip title="verfied">
-              <DoneAllIcon style={{ color: "green" }} />
-            </Tooltip>
-          </div>
-        )}
-      </div>
-      {mintDrawer}
     </>
   );
 }

@@ -11,11 +11,6 @@ import { Upload, message } from "antd";
 import ImgCrop from "antd-img-crop";
 import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
 import { PlusOutlined } from "@ant-design/icons";
-import { TitleComponent } from "../../../partials/content/helmetComponent";
-import { DB1 } from "../../../../index";
-import { makeStyles } from "@material-ui/core/styles";
-import { updateUserWalletsData, updateUserTokensData } from "../../../store/ducks/auth.duck";
-import { useTheme } from "@material-ui/core/styles";
 import { useSnackbar } from "notistack";
 import { v4 as uuidv4 } from "uuid";
 import firebase from "firebase/app";
