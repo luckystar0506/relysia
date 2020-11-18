@@ -36,9 +36,7 @@ function TokensView(props) {
   }, [props.walletsList]);
 
   useEffect(() => {
-
     if (props.walletsList && props.walletsList.length > 0 && !computer && !props.tokensData) {
-
       let computerArray = [];
       props.walletsList.map((walletItem, index) => {
         try {
@@ -101,7 +99,7 @@ function TokensView(props) {
         </Button>
       </div>
       <div style={{ marginTop: 5, width: "100%" }}>
-        <WalletTokens
+        <WalletTokens 
           verfiedTokens={verfiedTokens}
           computer={computer ? computer[props.selectedWallet] : null}
           walletDetails={props.walletsList[props.selectedWallet]}
