@@ -18,6 +18,7 @@ export default function HomePage(props) {
     <Suspense fallback={<LayoutSplashScreen />}>
       <Switch>
         <Redirect exact from="/" to="/dashboard" />
+
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/wallet" component={Wallet} />
         <Route path="/transactions" component={Transactions} />
@@ -26,6 +27,7 @@ export default function HomePage(props) {
         <Route path="/token-verification" component={TokensVerfication} />
         <Route path="/auth" component={AuthPage} />
         <Route path="/create-token" component={CreateToken} />
+        <Redirect exact from="/docs" to="/docs/overview" />
         <Route path="/docs" component={Documentation} />
         <Redirect to="/error/error-v1" />
       </Switch>
