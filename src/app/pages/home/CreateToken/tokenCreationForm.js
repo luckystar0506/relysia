@@ -107,7 +107,7 @@ function TokenCreationForm(props) {
       } catch (err) {
         console.log("err", err);
         if (err.message.startsWith("Insufficient balance in address")) {
-          enqueueSnackbar("Insufficient balance in address", { variant: "error" });
+          enqueueSnackbar(`Insufficient balance in address, token creation cost $0.008 (${4580 / 100000000} BSV)`, { variant: "error" });
         } else {
           enqueueSnackbar(err.message, { variant: "error" });
         }

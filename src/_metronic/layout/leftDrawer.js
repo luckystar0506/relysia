@@ -25,6 +25,7 @@ import "firebase/database";
 import "firebase/auth";
 import { updateUserData, updateUserWalletsData, updateUserTokensData } from "../../app/store/ducks/auth.duck";
 import GavelIcon from "@material-ui/icons/Gavel";
+import DescriptionIcon from "@material-ui/icons/Description";
 
 const drawerWidth = 240;
 
@@ -75,6 +76,7 @@ function LeftDrawer(props) {
     { route: "tokens", title: "Tokens" },
     { route: "transactions", title: "Transactions" },
     { route: "settings", title: "Settings" },
+    { route: "docs", title: "Documentation" },
     { route: "logout", title: "Logout" },
   ]);
 
@@ -161,8 +163,10 @@ function LeftDrawer(props) {
                   } else if (index === 3) {
                     return <SettingsIcon />;
                   } else if (index === 4) {
+                    return <DescriptionIcon />;
+                  } else if (index === 5) {
                     return <ExitToAppIcon />;
-                  } else if (index === 5 && isUserAdmin) {
+                  } else if (index === 6 && isUserAdmin) {
                     return <GavelIcon />;
                   }
                 })()}

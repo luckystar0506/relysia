@@ -1,19 +1,10 @@
-import React, { useState, useEffect } from "react";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import Button from "@material-ui/core/Button";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
 import { useSnackbar } from "notistack";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import { useTheme } from "@material-ui/core/styles";
-import SendIcon from "@material-ui/icons/Send";
-import CloseIcon from "@material-ui/icons/Close";
-import TextField from "@material-ui/core/TextField";
-import ClickNHold from "react-click-n-hold";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
 import Tooltip from "@material-ui/core/Tooltip";
 

@@ -44,7 +44,7 @@ function WithdrawTokens(props) {
       props.setsendLoader(true);
 
       let pass = true;
-      if (toField === "") {
+      if (toField === "") { 
         pass = false;
         enqueueSnackbar("Please provide a public key!", { variant: "error" });
       }
@@ -118,6 +118,7 @@ function WithdrawTokens(props) {
             fullWidth
           >
             {Object.values(groupByRoot(tokensList)).map((tokens, index) => {
+              console.log("tokens", tokens[0]);
               return (
                 <MenuItem key={tokens[0]._id + "menuitem"} value={index}>
                   {`${tokens[0].name} (id: ${tokens[0]._id})`}
@@ -177,3 +178,4 @@ function WithdrawTokens(props) {
 }
 
 export default WithdrawTokens;
+

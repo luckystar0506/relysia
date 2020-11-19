@@ -11,6 +11,7 @@ const Wallet = loadable(() => import("./Wallet/wallet"));
 const Tokens = loadable(() => import("./Tokens/tokensPage"));
 const TokensVerfication = loadable(() => import("./TokenVerfication/tokenVerfication"));
 const CreateToken = loadable(() => import("./CreateToken/createToken"));
+const Documentation = loadable(() => import("./Docs/docs"));
 
 export default function HomePage(props) {
   return (
@@ -25,6 +26,7 @@ export default function HomePage(props) {
         <Route path="/token-verification" component={TokensVerfication} />
         <Route path="/auth" component={AuthPage} />
         <Route path="/create-token" component={CreateToken} />
+        <Route path="/docs" component={Documentation} />
         <Redirect to="/error/error-v1" />
       </Switch>
     </Suspense>

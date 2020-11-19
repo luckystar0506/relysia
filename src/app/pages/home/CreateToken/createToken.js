@@ -54,8 +54,8 @@ function CreateToken(props) {
           computerArray.push(
             new Computer({
               chain: "BSV",
-              network: "testnet",
-              // network: "livenet",
+              // network: "testnet",
+              network: "livenet",
               seed: walletItem.mnemonic,
               path: "m/44'/0'/0'/0/0",
             })

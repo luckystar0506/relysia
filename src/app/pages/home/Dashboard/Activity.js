@@ -107,7 +107,7 @@ function Activity(props) {
                     }}
                   >
                     {item.balance_change > 0 ? "+" : ""}
-                    {item.balance_change} BSV
+                    {item.balance_change ? (item.balance_change / 100000000).toFixed(4) : 0} BSV
                   </Typography>
                   <Typography variant="body2" style={{ fontWeight: 500, color: theme.palette.textColors.para2 }}>
                     ${((item.balance_change * props.bsvRate) / 100000000).toFixed(4)}
