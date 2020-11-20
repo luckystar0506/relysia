@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { useTheme } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import { toAbsoluteUrl } from "../../../../_metronic";
-import Paper from "@material-ui/core/Paper";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Drawer from "@material-ui/core/Drawer";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -16,6 +12,7 @@ import clsx from "clsx";
 import { Route, Switch } from "react-router-dom";
 import OverviewPage from "./overviewPage";
 import HTMLPage from "./htmlPage";
+import ReactPage from "./reactPage";
 import "./docs.css";
 const drawerWidth = 240;
 
@@ -152,6 +149,7 @@ function Documentation(props) {
             <Switch>
               <Route path="/docs/HTML" component={HTMLPage} />
               <Route path="/docs/overview" component={OverviewPage} />
+              <Route path="/docs/react" component={ReactPage} />
             </Switch>
           </div>
         </div>

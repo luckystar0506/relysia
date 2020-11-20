@@ -36,40 +36,49 @@ const arumentsTable = [
   },
 ];
 
-function HTMLPage(props) {
+function ReactPage(props) {
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <div>
       <Typography variant="h5" component="h1" className={clsx("Head1")}>
-        HTML
+        React
       </Typography>
 
       <Typography paragraph variant="body1">
-        The easiest way to add a Pay Button to a website is with the HTML Pay Button. When the document finishes loading, our script looks
-        around the document for {"<div>"} elements with the <span className="highlightedWord">pay-button-root</span> ID and certain required
-        attributes. Every {"<div>"} that matches the search is transformed into a Pay Button component. First, add this script to your HTML
-        somewhere:
+        The React version of Pay Button is what we use throughout the main Pay Button app and every other app we build. It is very similar
+        to and is based on the pure javascript version of Pay Button. In fact, it is simply a wrapper for the pure javascript version.
+      </Typography>
+      <Typography paragraph variant="body1">
+        How to install the React component (
+        <a href="https://www.npmjs.com/package/vionex-pay-button" target="_blank">
+          <Typography component="span" color="primary">
+            npm package
+          </Typography>
+        </a>
+        ):
       </Typography>
       <div style={{ width: "100%", overflow: "auto" }}>
         <SyntaxHighlighter language="html" style={tomorrowNightBright}>
           {`
- <!DOCTYPE html>
- <html lang="en">
-   <head>
-     <meta charset="UTF-8" />
-     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-     <title>Document</title>
-   </head>
-   <body>
-     <div id="pay-button-root" istoken="false" amount="20" address="addressGoesHere" tokenid="null"></div>
-     <script src="https://firebasestorage.googleapis.com/v0/b/pay-button-vaionexdev/o/js%2Findex.js?alt=media"></script>
-   </body>
- </html>
+ npm install vionex-pay-button
         `}
         </SyntaxHighlighter>
       </div>
+
+      <Typography paragraph variant="body1">
+        How to use it in your react project:
+      </Typography>
+      <div style={{ width: "100%", overflow: "auto" }}>
+        <SyntaxHighlighter language="html" style={tomorrowNightBright}>
+          {`
+import PayButton from 'vionex-pay-button'
+import 'vionex-pay-button/dist/index.css'
+        `}
+        </SyntaxHighlighter>
+      </div>
+
       <Typography paragraph variant="body1">
         Pay Button can used in 2 different ways. Pay Button can be used either for transferring
         <span className="highlightedWord">BSVs</span> or <span className="highlightedWord">Tokens</span> at a time. To transfer BSVs user
@@ -83,7 +92,26 @@ function HTMLPage(props) {
       <div style={{ width: "100%", overflow: "auto" }}>
         <SyntaxHighlighter language="html" style={tomorrowNightBright}>
           {`
- <div id="pay-button-root" istoken="false" amount="20" address="addressGoesHere" tokenid="null"></div>  
+import React from 'react'
+import PayButton from 'vionex-pay-button'
+import 'vionex-pay-button/dist/index.css'
+
+const App = () => {
+  const getRes = (res) => {
+    console.log('res', res)
+  }
+
+   return (
+    <PayButton
+      isToken={false}
+      amount='20'
+      address='addressGoesHere'
+      responseCallback={getRes}
+    />
+ )
+}
+
+export default App
         `}
         </SyntaxHighlighter>
       </div>
@@ -100,8 +128,28 @@ function HTMLPage(props) {
       <div style={{ width: "100%", overflow: "auto" }}>
         <SyntaxHighlighter language="html" style={tomorrowNightBright}>
           {`
- <div id="pay-button-root" istoken="true" amount="20" address="publicKeyGoesHere" tokenid="tokenIdGoesHere"></div>  
-        `}
+ import React from 'react'
+ import PayButton from 'vionex-pay-button'
+ import 'vionex-pay-button/dist/index.css'
+
+ const App = () => {
+   const getRes = (res) => {
+     console.log('res', res)
+   }
+
+   return (
+     <PayButton
+       isToken={true}
+       tokenId='tokenIdGoesHere'
+       amount='20'
+       address='addressGoesHere'
+       responseCallback={getRes}
+     />
+   )
+ }
+
+ export default App        
+ `}
         </SyntaxHighlighter>
       </div>
 
@@ -133,4 +181,4 @@ function HTMLPage(props) {
   );
 }
 
-export default HTMLPage;
+export default ReactPage;

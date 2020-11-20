@@ -12,17 +12,18 @@ function OverviewPage(props) {
       </Typography>
       <Typography paragraph variant="body1">
         Pay Button is an API and a UI/UX layer for the Bitcoin SV blockchain. It is very easy to add a Pay Button to websites and apps to
-        accept payments. In a few lines of code, you can accept tips or display content behind a pay wall.
+        accept payments and tokens. In a few lines of code, you can accept tips or display content behind a pay wall.
       </Typography>
       <Typography paragraph variant="body1">
         There is built-in token payments, authentication, smart contracts, support for multiple outputs, and the ability to write invoices
         to the blockchain. We use bsv library, through which one can build sophisticated full-featured on-chain apps. Our technical mission
-        is to support every feature of Bitcoin SV in a manner that is as easy to use as possible, both for developers and end-users.
+        is to support every feature of Bitcoin SV in a manner that is as easy to use as possible, both for developers and end-users. Using
+        our unique token payment solution sites can recieve specific tokens from there users in few clicks.
       </Typography>
       <Typography paragraph variant="body1">
         The easiest way to use Pay Button is to click around on the config page and copy and paste the HTML into your website. For users who
         wish to do sophisticated things, we provide two primary ways to create a Pay Button in a webapp. The first is HTML and the second is
-        React.
+        React. In HTML version you can pass the required params and pay button will work.
       </Typography>
       <Typography paragraph variant="body1">
         The simplest Pay Button in HTML looks like this:
@@ -75,39 +76,12 @@ function OverviewPage(props) {
  }
 
  export default App
-
           `}
       </SyntaxHighlighter>
 
-      {/* <SyntaxHighlighter language="html" style={tomorrowNightBright}>
-        {`
- import React from 'react'
- import PayButton from 'vionex-pay-button'
- import 'vionex-pay-button/dist/index.css'
-
- const App = () => {
-   const getRes = (res) => {
-     console.log('res', res)
-   }
-
-   return (
-     <PayButton
-       isToken={true}
-       tokenId='a'
-       amount='20'
-       address='ss'
-       responseCallback={getRes}
-     />
-   )
- }
-
- export default App
-
-          `}
-      </SyntaxHighlighter> */}
-
       <Typography paragraph variant="body1">
-        Thank you for reading this overview. Please explore the rest of the documentation to learn about all the features of Pay Button.{" "}
+        Thank you for reading this overview. Please explore the rest of the documentation to learn more about all the features of Pay
+        Button.
       </Typography>
     </div>
   );

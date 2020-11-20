@@ -76,7 +76,7 @@ function LeftDrawer(props) {
     { route: "/tokens", title: "Tokens" },
     { route: "/transactions", title: "Transactions" },
     { route: "/settings", title: "Settings" },
-    { route: "/docs/overview", title: "Documentation" },
+    { route: "/docs", title: "Documentation" },
     { route: "/logout", title: "Logout" },
   ]);
 

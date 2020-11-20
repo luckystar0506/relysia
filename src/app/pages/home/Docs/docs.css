@@ -12,6 +12,8 @@
 
 .highlightedWord {
   background-color: #96a5b745;
-  padding: 0px 8px;
-  font-weight: 450;
+  padding: 0px 4px;
+  margin: 0px 2px;
+  font-weight: 300;
+  display: inline-block;
 }
