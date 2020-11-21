@@ -18,12 +18,11 @@ export default function HomePage(props) {
     <Suspense fallback={<LayoutSplashScreen />}>
       <Switch>
         <Redirect exact from="/" to="/dashboard" />
-
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/wallet" component={Wallet} />
         <Route path="/transactions" component={Transactions} />
         <Route path="/settings" component={Settings} />
-        <Route path="/tokens" component={Tokens} />
+        <Route path="/tokens" component={Tokens} /> 
         <Route path="/token-verification" component={TokensVerfication} />
         <Route path="/auth" component={AuthPage} />
         <Route path="/create-token" component={CreateToken} />
