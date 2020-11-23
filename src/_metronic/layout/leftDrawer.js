@@ -72,12 +72,12 @@ function LeftDrawer(props) {
   const classes = useStyles();
   const [isUserAdmin, setisUserAdmin] = useState(false);
   const [sideBarTabs, setsideBarTabs] = useState([
-    { route: "dashboard", title: "Dashboard" },
-    { route: "tokens", title: "Tokens" },
-    { route: "transactions", title: "Transactions" },
-    { route: "settings", title: "Settings" },
-    { route: "docs", title: "Documentation" },
-    { route: "logout", title: "Logout" },
+    { route: "/dashboard", title: "Dashboard" },
+    { route: "/tokens", title: "Tokens" },
+    { route: "/transactions", title: "Transactions" },
+    { route: "/settings", title: "Settings" },
+    { route: "/docs", title: "Documentation" },
+    { route: "/logout", title: "Logout" },
   ]);
 
   useEffect(() => {

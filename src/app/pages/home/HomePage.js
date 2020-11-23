@@ -22,10 +22,11 @@ export default function HomePage(props) {
         <Route path="/wallet" component={Wallet} />
         <Route path="/transactions" component={Transactions} />
         <Route path="/settings" component={Settings} />
-        <Route path="/tokens" component={Tokens} />
+        <Route path="/tokens" component={Tokens} /> 
         <Route path="/token-verification" component={TokensVerfication} />
         <Route path="/auth" component={AuthPage} />
         <Route path="/create-token" component={CreateToken} />
+        <Redirect exact from="/docs" to="/docs/overview" />
         <Route path="/docs" component={Documentation} />
         <Redirect to="/error/error-v1" />
       </Switch>

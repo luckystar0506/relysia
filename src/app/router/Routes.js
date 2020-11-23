@@ -14,6 +14,7 @@ import { updateUserData } from "../store/ducks/auth.duck";
 
 const ErrorsPage = loadable(() => import("../pages/errors/ErrorsPage"));
 const HomePage = loadable(() => import("../pages/home/HomePage"));
+const PayButton = loadable(() => import("../pages/home/PayButton/index"));
 
 const Routes = withRouter(({ history, updateUserData, userdata }) => {
   let user = null;
@@ -55,6 +56,8 @@ const Routes = withRouter(({ history, updateUserData, userdata }) => {
       <LayoutContextProvider history={history} menuConfig={menuConfig}>
         <Switch>
           <Route path="/error" component={ErrorsPage} />
+          <Route path="/pay-button-v1" component={PayButton} />
+
           <Layout>
             <HomePage history={history} userLastLocation={userLastLocation} />
           </Layout>
