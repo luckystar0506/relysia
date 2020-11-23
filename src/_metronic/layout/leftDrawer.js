@@ -74,7 +74,6 @@ function LeftDrawer(props) {
   const [sideBarTabs, setsideBarTabs] = useState([
     { route: "/dashboard", title: "Dashboard" },
     { route: "/tokens", title: "Tokens" },
-    { route: "/transactions", title: "Transactions" },
     { route: "/settings", title: "Settings" },
     { route: "/docs", title: "Documentation" },
     { route: "/logout", title: "Logout" },
@@ -159,14 +158,12 @@ function LeftDrawer(props) {
                   } else if (index === 1) {
                     return <AccountBalanceWalletIcon />;
                   } else if (index === 2) {
-                    return <AccountBalanceIcon />;
-                  } else if (index === 3) {
                     return <SettingsIcon />;
-                  } else if (index === 4) {
+                  } else if (index === 3) {
                     return <DescriptionIcon />;
-                  } else if (index === 5) {
+                  } else if (index === 4) {
                     return <ExitToAppIcon />;
-                  } else if (index === 6 && isUserAdmin) {
+                  } else if (index === 5 && isUserAdmin) {
                     return <GavelIcon />;
                   }
                 })()}

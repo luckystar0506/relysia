@@ -39,7 +39,7 @@ function OverviewPage(props) {
     <title>Document</title>
   </head>
   <body>
-    <div id="pay-button-root" istoken="false" amount="20" address="ss" tokenid="null"></div>
+    <div id="pay-button-root" amount="20" address="ss" token="token_id or 'BSV' incase of transferring Bsvs"></div>
     <script src="https://firebasestorage.googleapis.com/v0/b/pay-button-vaionexdev/o/js%2Findex.js?alt=media"></script>
   </body>
 </html>
@@ -67,7 +67,7 @@ function OverviewPage(props) {
 
     return (
      <PayButton
-       isToken={false}
+       token={token_id or 'BSV' incase of transferring Bsvs}
        amount='20'
        address='ss'
        responseCallback={getRes}

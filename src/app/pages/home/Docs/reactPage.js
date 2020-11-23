@@ -15,11 +15,6 @@ import { useTheme } from "@material-ui/core/styles";
 
 const arumentsTable = [
   {
-    prop: "istoken",
-    type: "STRING",
-    value: "'true' if transferring tokens , 'false' if transferring Bsvs",
-  },
-  {
     prop: "amount",
     type: "STRING",
     value: "'tokens quantity' if transferring tokens , 'amount in US $' if transferring Bsvs",
@@ -30,9 +25,39 @@ const arumentsTable = [
     value: "'public-key' if transferring tokens , 'wallet-address' if transferring Bsvs",
   },
   {
-    prop: "tokenid",
+    prop: "token",
     type: "STRING",
-    value: "'token-id' if transferring tokens , 'null' if transferring Bsvs",
+    value: "'token-id' if transferring tokens , 'BSV'(default) if transferring Bsvs",
+  },
+  {
+    prop: "currency",
+    type: "STRING",
+    value: "'USD'(default) or 'BSV'",
+  },
+  {
+    prop: "onLoad",
+    type: "FUNCTION",
+    value: "Callback after the pay-button gets loaded",
+  },
+  {
+    prop: "onTransactionStart",
+    type: "FUNCTION",
+    value: "Callback before starting the transaction",
+  },
+  {
+    prop: "onError",
+    type: "FUNCTION",
+    value: "Callback when the error occurs",
+  },
+  {
+    prop: "responseCallback",
+    type: "FUNCTION",
+    value: "Callback when API response is received",
+  },
+  {
+    prop: "onSuccess",
+    type: "FUNCTION",
+    value: "Callback when transaction get succeeded",
   },
 ];
 
@@ -82,10 +107,10 @@ import 'vionex-pay-button/dist/index.css'
       <Typography paragraph variant="body1">
         Pay Button can used in 2 different ways. Pay Button can be used either for transferring
         <span className="highlightedWord">BSVs</span> or <span className="highlightedWord">Tokens</span> at a time. To transfer BSVs user
-        needs to pass the <span className="highlightedWord">isToken</span> argument with a<span className="highlightedWord">false</span>{" "}
-        value, the <span className="highlightedWord">amount</span> argument will contain the <span className="highlightedWord">amount</span>{" "}
-        to be transferred in US $, <span className="highlightedWord">address</span> argument will contain the{" "}
-        <span className="highlightedWord">public address</span>
+        needs to pass the <span className="highlightedWord">token</span> argument with a<span className="highlightedWord">'BSV'</span> value
+        (which is the default value), the <span className="highlightedWord">amount</span> argument will contain the{" "}
+        <span className="highlightedWord">amount</span> to be transferred in US $, <span className="highlightedWord">address</span> argument
+        will contain the <span className="highlightedWord">public address</span>
         where the amount will be sent.
       </Typography>
 
@@ -103,7 +128,6 @@ const App = () => {
 
    return (
     <PayButton
-      isToken={false}
       amount='20'
       address='addressGoesHere'
       responseCallback={getRes}
@@ -117,38 +141,36 @@ export default App
       </div>
 
       <Typography paragraph variant="body1">
-        In the case of transferring tokens, the user needs to pass the <span className="highlightedWord">isToken</span> argument with a{" "}
-        <span className="highlightedWord">true</span> value, the <span className="highlightedWord">amount</span> argument will contain the
-        number of tokens to be transferred, the <span className="highlightedWord">address</span> argument will contain the{" "}
-        <span className="highlightedWord">public-key</span> where the tokens will be sent, <span className="highlightedWord">tokenId</span>{" "}
-        will contain the ID of specific token that will be transferred from user account. Tokens will be only transferred if the user owns
-        does specific tokens.
+        In the case of transferring tokens, the user needs to pass the <span className="highlightedWord">amount</span> argument that will
+        contain the number of tokens to be transferred, the <span className="highlightedWord">address</span> argument will contain the{" "}
+        <span className="highlightedWord">public-key</span> where the tokens will be sent, <span className="highlightedWord">token</span>{" "}
+        argument will contain the ID of specific token that will be transferred from user account. Tokens will be only transferred if the
+        user owns does specific tokens.
       </Typography>
 
       <div style={{ width: "100%", overflow: "auto" }}>
         <SyntaxHighlighter language="html" style={tomorrowNightBright}>
           {`
- import React from 'react'
- import PayButton from 'vionex-pay-button'
- import 'vionex-pay-button/dist/index.css'
+import React from 'react'
+import PayButton from 'vionex-pay-button'
+import 'vionex-pay-button/dist/index.css'
 
- const App = () => {
-   const getRes = (res) => {
-     console.log('res', res)
-   }
+const App = () => {
+  const getRes = (res) => {
+    console.log('res', res)
+  }
 
-   return (
-     <PayButton
-       isToken={true}
-       tokenId='tokenIdGoesHere'
-       amount='20'
-       address='addressGoesHere'
-       responseCallback={getRes}
-     />
-   )
- }
+  return (
+    <PayButton
+      token='token_id'
+      amount='20'
+      address='addressGoesHere'
+      responseCallback={getRes}
+    />
+  )
+}
 
- export default App        
+export default App        
  `}
         </SyntaxHighlighter>
       </div>

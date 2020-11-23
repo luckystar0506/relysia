@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import firebase from "firebase/app";
 import "firebase/functions";
 import "firebase/database";
-import { updateUserWalletsData, updateUserTokensData } from "../../../store/ducks/auth.duck";
+import {  updateUserTokensData } from "../../../store/ducks/auth.duck";
 import { useSnackbar } from "notistack";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import PublicTokens from "./publicTokens";
@@ -86,4 +86,4 @@ const mapStateToProps = ({ auth: { user, walletsData, tokensData } }) => ({
   tokensData,
 });
 
-export default connect(mapStateToProps, { updateUserWalletsData, updateUserTokensData })(Tokens);
+export default connect(mapStateToProps, {  updateUserTokensData })(Tokens);
