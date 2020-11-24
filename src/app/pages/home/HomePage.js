@@ -11,6 +11,7 @@ const Tokens = loadable(() => import("./Tokens/tokensPage"));
 const TokensVerfication = loadable(() => import("./TokenVerfication/tokenVerfication"));
 const CreateToken = loadable(() => import("./CreateToken/createToken"));
 const Documentation = loadable(() => import("./Docs/docs"));
+const FunctionsPage = loadable(() => import("./FunctionsPage/index"));
 
 export default function HomePage(props) {
   return (
@@ -20,10 +21,11 @@ export default function HomePage(props) {
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/wallet" component={Wallet} />
         <Route path="/settings" component={Settings} />
-        <Route path="/tokens" component={Tokens} /> 
+        <Route path="/tokens" component={Tokens} />
         <Route path="/token-verification" component={TokensVerfication} />
         <Route path="/auth" component={AuthPage} />
         <Route path="/create-token" component={CreateToken} />
+        <Route path="/functions" component={FunctionsPage} />
         <Redirect exact from="/docs" to="/docs/overview" />
         <Route path="/docs" component={Documentation} />
         <Redirect to="/error/error-v1" />
