@@ -33,6 +33,11 @@ import { updateUserWalletsData, updateUserTokensData, updateWalletsLoader } from
 import TimeSeriesChart from "./transctionsGraph";
 import Skeleton from "@material-ui/lab/Skeleton";
 import TokensView from "./TokensComponent/tokensView";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -92,6 +97,7 @@ function Dashboard(props) {
   const classes = useStyles();
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.down("sm"));
+  const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
   const matchesMDUp = useMediaQuery(theme.breakpoints.down("md"));
   const { enqueueSnackbar } = useSnackbar();
   const [walletsList, setwalletsList] = useState([]);
@@ -325,133 +331,152 @@ function Dashboard(props) {
                 paddingRight: 0,
               }}
             >
-              <div style={{ marginTop: 12, width: "100%" }}>
-                {walletsList.length === 0 && (
-                  <Paper
-                    className={classes.walletEleCon}
-                    style={{
-                      backgroundImage: `url(${toAbsoluteUrl("/media/bg/btcBg.png")})`,
-                      backgroundRepeat: "no-repeat",
-                      backgroundSize: "cover",
-                      border: "4px solid #613aea",
-                      boxSizing: "content-box",
-                    }}
-                  >
-                    <div style={{ display: "flex", alignItems: "center", cursor: "pointer" }}>
-                      <Typography
-                        component="h3"
-                        variant="subtitle1"
-                        style={{
-                          display: "block",
-                          whiteSpace: "nowrap",
-                          overflow: "hidden ",
-                          textOverflow: "ellipsis",
-                        }}
-                      >
-                        Vaionex Walllet
-                      </Typography>
-                      <Typography variant="h3" style={{ fontSize: "2.5rem", marginLeft: "auto", fontWeight: 600 }}>
-                        ₿
-                      </Typography>
-                    </div>
-
-                    <div style={{ marginBottom: 12, cursor: "pointer" }}>
-                      <Typography component="h4" variant="h4">
-                        <Skeleton variant="text" style={{ borderRadius: 10, width: "60%", height: 30 }} />
-                      </Typography>
-                      <Typography component="h4" variant="subtitle2">
-                        <Skeleton variant="text" style={{ borderRadius: 10, width: "40%", height: 22 }} />
-                      </Typography>
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <UpdateWallet
-                        userID={props.user ? props.user.uid : ""}
-                        walletDetails={null}
-                        walletIndex={0}
-                        walletsList={null}
-                        setwalletsList={null}
-                        disabled={true}
-                      />
-                    </div>
-                  </Paper>
-                )}
-
-                {walletsList.map((item, index) => {
-                  return (
-                    <div
-                      key={item.id}
-                      style={{
-                        boxShadow: selectedWallet === index ? "-18px 0px 1px -14px #613aea" : "",
-                        borderRadius: 25,
-                        paddingLeft: 10,
-                        paddingRight: 10,
+              {matchesXS ? (
+                <div style={{ width: "100%", display: "flex", justifyContent: "center", margin: "15px 0px" }}>
+                  <FormControl style={{ width: "50%" }}>
+                    <InputLabel id="demo-simple-select-label">Select Wallet</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={selectedWallet}
+                      onChange={(e) => {
+                        setselectedWallet(e.target.value);
                       }}
-                      // className={classes.borderEffectCon}
-                      id="walletPaperComp"
-
                     >
-                      <Paper
-                        className={classes.walletEleCon}
-                        style={{
-                          backgroundImage: `url(${toAbsoluteUrl("/media/bg/btcBg.png")})`,
-                          backgroundRepeat: "no-repeat",
-                          backgroundSize: "cover",
-                          boxSizing: "content-box",
-                          //   marginLeft: selectedWallet === index ? "-4px" : "auto",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => {
-                          setselectedWallet(index);
-                        }}
-                      >
-                        <div style={{ display: "flex", alignItems: "center" }}>
-                          <Typography
-                            component="h3"
-                            variant="subtitle1"
-                            style={{
-                              display: "block",
-                              whiteSpace: "nowrap",
-                              overflow: "hidden ",
-                              textOverflow: "ellipsis",
-                            }}
-                          >
-                            {item.title}
-                          </Typography>
-                          <Typography variant="h3" style={{ fontSize: "2.5rem", marginLeft: "auto", fontWeight: 600 }}>
-                            ₿
-                          </Typography>
-                        </div>
+                      {walletsList.map((item, index) => {
+                        return <MenuItem value={index}>{item.title}</MenuItem>;
+                      })}
+                    </Select>
+                  </FormControl>
+                </div>
+              ) : (
+                <div style={{ marginTop: 12, width: "100%" }}>
+                  {walletsList.length === 0 && (
+                    <Paper
+                      className={classes.walletEleCon}
+                      style={{
+                        backgroundImage: `url(${toAbsoluteUrl("/media/bg/btcBg.png")})`,
+                        backgroundRepeat: "no-repeat",
+                        backgroundSize: "cover",
+                        border: "4px solid #613aea",
+                        boxSizing: "content-box",
+                      }}
+                    >
+                      <div style={{ display: "flex", alignItems: "center", cursor: "pointer" }}>
+                        <Typography
+                          component="h3"
+                          variant="subtitle1"
+                          style={{
+                            display: "block",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden ",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          Vaionex Walllet
+                        </Typography>
+                        <Typography variant="h3" style={{ fontSize: "2.5rem", marginLeft: "auto", fontWeight: 600 }}>
+                          ₿
+                        </Typography>
+                      </div>
 
-                        <div
+                      <div style={{ marginBottom: 12, cursor: "pointer" }}>
+                        <Typography component="h4" variant="h4">
+                          <Skeleton variant="text" style={{ borderRadius: 10, width: "60%", height: 30 }} />
+                        </Typography>
+                        <Typography component="h4" variant="subtitle2">
+                          <Skeleton variant="text" style={{ borderRadius: 10, width: "40%", height: 22 }} />
+                        </Typography>
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <UpdateWallet
+                          userID={props.user ? props.user.uid : ""}
+                          walletDetails={null}
+                          walletIndex={0}
+                          walletsList={null}
+                          setwalletsList={null}
+                          disabled={true}
+                        />
+                      </div>
+                    </Paper>
+                  )}
+
+                  {walletsList.map((item, index) => {
+                    return (
+                      <div
+                        key={item.id}
+                        style={{
+                          boxShadow: selectedWallet === index ? "-18px 0px 1px -14px #613aea" : "",
+                          borderRadius: 25,
+                          paddingLeft: 10,
+                          paddingRight: 10,
+                        }}
+                        // className={classes.borderEffectCon}
+                        id="walletPaperComp"
+                      >
+                        <Paper
+                          className={classes.walletEleCon}
+                          style={{
+                            backgroundImage: `url(${toAbsoluteUrl("/media/bg/btcBg.png")})`,
+                            backgroundRepeat: "no-repeat",
+                            backgroundSize: "cover",
+                            boxSizing: "content-box",
+                            //   marginLeft: selectedWallet === index ? "-4px" : "auto",
+                            cursor: "pointer",
+                          }}
                           onClick={() => {
                             setselectedWallet(index);
                           }}
-                          style={{ marginBottom: 12, cursor: "pointer" }}
                         >
-                          <Typography component="h4" variant="h4">
-                            {item.bsvBal ? (item.bsvBal / 100000000).toFixed(4) : 0} BSV
-                          </Typography>
-                          <Typography component="h4" variant="subtitle2" style={{ marginTop: 5 }}>
-                            ${item.dollarBal.toFixed(4)}
-                          </Typography>
-                        </div>
-                        <div style={{ display: "flex", alignItems: "center" }}>
-                          <UpdateWallet
-                            userID={props.user ? props.user.uid : ""}
-                            walletDetails={item}
-                            walletIndex={index}
-                            walletsList={walletsList}
-                            setwalletsList={setwalletsList}
-                            disabled={false}
-                          />
-                        </div>
-                      </Paper>
-                    </div>
-                  );
-                })}
-              </div>
+                          <div style={{ display: "flex", alignItems: "center" }}>
+                            <Typography
+                              component="h3"
+                              variant="subtitle1"
+                              style={{
+                                display: "block",
+                                whiteSpace: "nowrap",
+                                overflow: "hidden ",
+                                textOverflow: "ellipsis",
+                              }}
+                            >
+                              {item.title}
+                            </Typography>
+                            <Typography variant="h3" style={{ fontSize: "2.5rem", marginLeft: "auto", fontWeight: 600 }}>
+                              ₿
+                            </Typography>
+                          </div>
 
-              <div style={{ margin: "auto", textAlign: "center" }}>
+                          <div
+                            onClick={() => {
+                              setselectedWallet(index);
+                            }}
+                            style={{ marginBottom: 12, cursor: "pointer" }}
+                          >
+                            <Typography component="h4" variant="h4">
+                              {item.bsvBal ? (item.bsvBal / 100000000).toFixed(4) : 0} BSV
+                            </Typography>
+                            <Typography component="h4" variant="subtitle2" style={{ marginTop: 5 }}>
+                              ${item.dollarBal.toFixed(4)}
+                            </Typography>
+                          </div>
+                          <div style={{ display: "flex", alignItems: "center" }}>
+                            <UpdateWallet
+                              userID={props.user ? props.user.uid : ""}
+                              walletDetails={item}
+                              walletIndex={index}
+                              walletsList={walletsList}
+                              setwalletsList={setwalletsList}
+                              disabled={false}
+                            />
+                          </div>
+                        </Paper>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              <div style={{ margin: "auto", display: "flex", justifyContent: "center" }}>
                 <Button
                   variant="contained"
                   style={{ borderRadius: 50, backgroundColor: "white" }}
@@ -463,6 +488,19 @@ function Dashboard(props) {
                 >
                   <AddRoundedIcon />
                 </Button>
+                {matchesXS && (
+                  <div style={{ marginLeft: 10 }}>
+                    <UpdateWallet
+                      userID={props.user ? props.user.uid : ""}
+                      walletDetails={walletsList[selectedWallet]}
+                      walletIndex={selectedWallet}
+                      walletsList={walletsList}
+                      setwalletsList={setwalletsList}
+                      disabled={false}
+                      iconColor="primary"
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </Grid>

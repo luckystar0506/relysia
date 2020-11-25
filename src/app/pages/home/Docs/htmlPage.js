@@ -20,7 +20,7 @@ const arumentsTable = [
     value: "'tokens quantity' if transferring tokens , 'amount in US $' if transferring Bsvs",
   },
   {
-    prop: "address",
+    prop: "to",
     type: "STRING",
     value: "'public-key' if transferring tokens , 'wallet-address' if transferring Bsvs",
   },
@@ -88,7 +88,7 @@ function HTMLPage(props) {
      <title>Document</title>
    </head>
    <body>
-     <div id="pay-button-root" amount="20" address="addressGoesHere" token="token_id"></div>
+     <div id="pay-button-root" amount="20" to="addressGoesHere" token="token_id"></div>
      <script src="https://firebasestorage.googleapis.com/v0/b/pay-button-vaionexdev/o/js%2Findex.js?alt=media"></script>
    </body>
  </html>
@@ -100,7 +100,7 @@ function HTMLPage(props) {
         <span className="highlightedWord">BSVs</span> or <span className="highlightedWord">Tokens</span> at a time. To transfer BSVs user
         needs to pass the <span className="highlightedWord">token</span> argument with a<span className="highlightedWord">'BSV'</span> value
         (which is the default value), the <span className="highlightedWord">amount</span> argument will contain the{" "}
-        <span className="highlightedWord">amount</span> to be transferred in US $, <span className="highlightedWord">address</span> argument
+        <span className="highlightedWord">amount</span> to be transferred in US $, <span className="highlightedWord">to</span> argument
         will contain the <span className="highlightedWord">public address</span>
         where the amount will be sent.
       </Typography>
@@ -108,14 +108,14 @@ function HTMLPage(props) {
       <div style={{ width: "100%", overflow: "auto" }}>
         <SyntaxHighlighter language="html" style={tomorrowNightBright}>
           {`
- <div id="pay-button-root" amount="20" address="addressGoesHere"></div>  
+ <div id="pay-button-root" amount="20" to="addressGoesHere"></div>  
         `}
         </SyntaxHighlighter>
       </div>
 
       <Typography paragraph variant="body1">
         In the case of transferring tokens, the user needs to pass the <span className="highlightedWord">amount</span> argument that will
-        contain the number of tokens to be transferred, the <span className="highlightedWord">address</span> argument will contain the{" "}
+        contain the number of tokens to be transferred, the <span className="highlightedWord">to</span> argument will contain the{" "}
         <span className="highlightedWord">public-key</span> where the tokens will be sent, <span className="highlightedWord">token</span>{" "}
         argument will contain the ID of specific token that will be transferred from user account. Tokens will be only transferred if the
         user owns does specific tokens.
@@ -124,7 +124,7 @@ function HTMLPage(props) {
       <div style={{ width: "100%", overflow: "auto" }}>
         <SyntaxHighlighter language="html" style={tomorrowNightBright}>
           {`
- <div id="pay-button-root" amount="20" address="publicKeyGoesHere" token="token_id"></div>  
+ <div id="pay-button-root" amount="20" to="publicKeyGoesHere" token="token_id"></div>  
         `}
         </SyntaxHighlighter>
       </div>

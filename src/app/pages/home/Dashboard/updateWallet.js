@@ -161,13 +161,14 @@ function UpdateWallet(props) {
     <>
       <div style={{ marginLeft: "auto" }}>
         <IconButton
-          style={{ color: "#ffffff" }}
+          style={{ color: !props.iconColor ? "#ffffff" : "" }}
           onClick={(e) => {
             e.stopPropagation();
             setwalletNameField(props.walletDetails.title);
             setupdateWalletDiologue(true);
           }}
           disabled={props.disabled}
+          color="primary"
         >
           <SettingsIcon />
         </IconButton>

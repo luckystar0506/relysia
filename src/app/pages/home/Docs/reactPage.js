@@ -20,7 +20,7 @@ const arumentsTable = [
     value: "'tokens quantity' if transferring tokens , 'amount in US $' if transferring Bsvs",
   },
   {
-    prop: "address",
+    prop: "to",
     type: "STRING",
     value: "'public-key' if transferring tokens , 'wallet-address' if transferring Bsvs",
   },
@@ -109,8 +109,8 @@ import 'vionex-pay-button/dist/index.css'
         <span className="highlightedWord">BSVs</span> or <span className="highlightedWord">Tokens</span> at a time. To transfer BSVs user
         needs to pass the <span className="highlightedWord">token</span> argument with a<span className="highlightedWord">'BSV'</span> value
         (which is the default value), the <span className="highlightedWord">amount</span> argument will contain the{" "}
-        <span className="highlightedWord">amount</span> to be transferred in US $, <span className="highlightedWord">address</span> argument
-        will contain the <span className="highlightedWord">public address</span>
+        <span className="highlightedWord">amount</span> to be transferred in US $, <span className="highlightedWord">to</span> argument will
+        contain the <span className="highlightedWord">public address</span>
         where the amount will be sent.
       </Typography>
 
@@ -129,7 +129,7 @@ const App = () => {
    return (
     <PayButton
       amount='20'
-      address='addressGoesHere'
+      to='addressGoesHere'
       responseCallback={getRes}
     />
  )
@@ -142,7 +142,7 @@ export default App
 
       <Typography paragraph variant="body1">
         In the case of transferring tokens, the user needs to pass the <span className="highlightedWord">amount</span> argument that will
-        contain the number of tokens to be transferred, the <span className="highlightedWord">address</span> argument will contain the{" "}
+        contain the number of tokens to be transferred, the <span className="highlightedWord">to</span> argument will contain the{" "}
         <span className="highlightedWord">public-key</span> where the tokens will be sent, <span className="highlightedWord">token</span>{" "}
         argument will contain the ID of specific token that will be transferred from user account. Tokens will be only transferred if the
         user owns does specific tokens.
@@ -164,7 +164,7 @@ const App = () => {
     <PayButton
       token='token_id'
       amount='20'
-      address='addressGoesHere'
+      to='addressGoesHere'
       responseCallback={getRes}
     />
   )
