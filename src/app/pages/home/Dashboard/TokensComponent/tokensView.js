@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   paperCon: {
     borderRadius: 15,
     width: "100%",
-    minHeight: 250,
+    minHeight: 260,
     padding: "5px 15px",
     marginBottom: 12,
   },
@@ -99,7 +99,7 @@ function TokensView(props) {
         </Button>
       </div>
       <div style={{ marginTop: 5, width: "100%" }}>
-        <WalletTokens 
+        <WalletTokens
           verfiedTokens={verfiedTokens}
           computer={computer ? computer[props.selectedWallet] : null}
           walletDetails={props.walletsList[props.selectedWallet]}

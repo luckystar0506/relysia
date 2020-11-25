@@ -12,8 +12,11 @@ export const actionTypes = {
   userStatus: "[] userStatus",
   userWalletsData: "[] update wallets data",
   userTokensData: "[] update tokens data",
-
+  walletsloader: "[] update wallets loader",
 };
+
+//setting data in local storage
+let walletDataCache = localStorage.getItem("walletsData");
 
 const initialAuthState = {
   user: null,
@@ -21,15 +24,24 @@ const initialAuthState = {
   updateProfilePic: false,
   profilePicUrl: "",
   updateTutorStatus: false,
-  walletsData: null,
+  walletsData: walletDataCache ? JSON.parse(walletDataCache) : null,
   tokensData: null,
-
+  loadingLatestWallets: true,
 };
 
 export const reducer = persistReducer(
   { storage, key: "demo2-auth", whitelist: ["user", "authToken"] },
   (state = initialAuthState, action) => {
     switch (action.type) {
+      case actionTypes.walletLoader: {
+        console.log("state1");
+
+        return {
+          ...state,
+          loadingLatestWallets: action.payload,
+        };
+      }
+
       case actionTypes.UserProilePicUpdated: {
         return {
           ...state,
@@ -37,11 +49,9 @@ export const reducer = persistReducer(
           profilePicUrl: action.payload.url,
         };
       }
-
       case actionTypes.updateTutorStatus: {
         return { ...state, updateTutorStatus: !state.updateTutorStatus };
       }
-
       case actionTypes.UserLoggedData: {
         return {
           ...state,
@@ -54,7 +64,12 @@ export const reducer = persistReducer(
           walletsData: action.payload,
         };
       }
-
+      case actionTypes.walletsloader: {
+        return {
+          ...state,
+          loadingLatestWallets: action.payload,
+        };
+      }
       case actionTypes.userTokensData: {
         return {
           ...state,
@@ -85,6 +100,8 @@ export function updateUserTokensData(value) {
   return { type: actionTypes.userTokensData, payload: value };
 }
 
-
+export function updateWalletsLoader(value) {
+  return { type: actionTypes.walletsloader, payload: value };
+}
 
 export function* saga() {}

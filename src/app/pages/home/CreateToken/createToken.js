@@ -14,7 +14,7 @@ import ChipInput from "material-ui-chip-input";
 import { TitleComponent } from "../../../partials/content/helmetComponent";
 import { DB1 } from "../../../../index";
 import { makeStyles } from "@material-ui/core/styles";
-import { updateUserWalletsData, updateUserTokensData } from "../../../store/ducks/auth.duck";
+import { updateUserWalletsData, updateUserTokensData, updateWalletsLoader } from "../../../store/ducks/auth.duck";
 import { useTheme } from "@material-ui/core/styles";
 import { useSnackbar } from "notistack";
 import Computer from "bitcoin-computer";
@@ -39,6 +39,10 @@ function CreateToken(props) {
       if (props.walletsData) {
         setwalletsList(Object.values(props.walletsData.data.data));
       } else {
+        getUserWallets();
+      }
+      if (props.loadingLatestWallets && props.walletsData) {
+        enqueueSnackbar("Getting latest wallet data...", { variant: "info" });
         getUserWallets();
       }
     } else {
@@ -79,6 +83,9 @@ function CreateToken(props) {
       props.updateUserWalletsData(walletListRes);
       setwalletsList(Object.values(walletListRes.data.data));
     }
+    if (props.loadingLatestWallets) {
+      props.updateWalletsLoader(false);
+    }
     if (walletListRes) {
       return null;
     }
@@ -112,9 +119,7 @@ function CreateToken(props) {
         <img className="fadeIn" style={{ height: 300, paddingTop: 30, maxWidth: "100%" }} alt="team" src={"/media/images/team.jpg"} />
         <h2> Utility </h2>
         <h4 style={{ color: "#d1cec2" }}> Tokens </h4>
-        <p style={{ margin: 40, height: 50 }}>
-          Utility tokens are directly involved in the operation of a platform.
-        </p>
+        <p style={{ margin: 40, height: 50 }}>Utility tokens are directly involved in the operation of a platform.</p>
         {!tokenType && (
           <Button variant="contained" style={{ padding: 10, margin: 10 }} color="primary" onClick={() => settokenType("Team")}>
             Select
@@ -140,7 +145,9 @@ function CreateToken(props) {
         />
         <h2> Security </h2>
         <h4 style={{ color: "#d1cec2" }}> Token</h4>
-        <p style={{ margin: 40, height: 50 }}>A security is a rise of money for the promise of future reward on a product not yet created.</p>
+        <p style={{ margin: 40, height: 50 }}>
+          A security is a rise of money for the promise of future reward on a product not yet created.
+        </p>
         {!tokenType && (
           <Button variant="contained" style={{ padding: 10, margin: 10 }} color="primary" onClick={() => settokenType("Private")}>
             Select
@@ -188,10 +195,11 @@ function CreateToken(props) {
   );
 }
 
-const mapStateToProps = ({ auth: { user, walletsData, tokensData } }) => ({
+const mapStateToProps = ({ auth: { user, walletsData, tokensData, loadingLatestWallets } }) => ({
   user,
   walletsData,
   tokensData,
+  loadingLatestWallets,
 });
 
-export default connect(mapStateToProps, { updateUserWalletsData, updateUserTokensData })(CreateToken);
+export default connect(mapStateToProps, { updateUserWalletsData, updateUserTokensData, updateWalletsLoader })(CreateToken);

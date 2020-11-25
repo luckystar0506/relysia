@@ -29,8 +29,7 @@ import Activity from "./Activity";
 import RequestBSV from "./requestBsv";
 import SendBSV from "./Withdrawl/sendBsv";
 import RefreshIcon from "@material-ui/icons/Refresh";
-import { updateUserWalletsData, updateUserTokensData } from "../../../store/ducks/auth.duck";
-import Computer from "bitcoin-computer";
+import { updateUserWalletsData, updateUserTokensData, updateWalletsLoader } from "../../../store/ducks/auth.duck";
 import TimeSeriesChart from "./transctionsGraph";
 import Skeleton from "@material-ui/lab/Skeleton";
 import TokensView from "./TokensComponent/tokensView";
@@ -82,6 +81,11 @@ const useStyles = makeStyles((theme) => ({
       padding: "0px 0px",
     },
   },
+  borderEffectCon: {
+    "&:hover": {
+      boxShadow: "-18px 0px 1px -14px #613aea",
+    },
+  },
 }));
 
 function Dashboard(props) {
@@ -119,6 +123,11 @@ function Dashboard(props) {
       } else {
         getUserWallets();
       }
+      if (props.loadingLatestWallets && props.walletsData) {
+        enqueueSnackbar("Getting latest wallet data...", { variant: "info" });
+        setrefreshBalances(true);
+        getUserWallets();
+      }
     } else {
       console.log("dash push");
 
@@ -136,14 +145,6 @@ function Dashboard(props) {
       });
   }, []);
 
-  //   useEffect(() => {
-  //     if (walletsList && walletsList.length === 0) {
-  //       setTimeout(() => {
-  //         getUserWallets();
-  //       }, 3000);
-  //     }
-  //   }, [walletsList]);
-
   useEffect(() => {
     //setting specificwallet activities
     let localTransctionsList = [...activities];
@@ -152,7 +153,7 @@ function Dashboard(props) {
 
     let sortedActivites = localTransctionsList.filter((x) => localWalletAddressList.includes(x.address));
     setfilteredActivites(sortedActivites);
-  }, [selectedWallet]);
+  }, [selectedWallet, walletsList, activities]);
 
   const getUserWallets = async (refresh = false) => {
     let walletListAPI = firebase.functions().httpsCallable("getWalletBalances");
@@ -161,6 +162,10 @@ function Dashboard(props) {
     if (walletListRes && walletListRes.data && walletListRes.data.status === "success") {
       props.updateUserWalletsData(walletListRes);
       props.updateUserTokensData(null);
+
+      //setting data in local storage
+      localStorage.setItem("walletsData", JSON.stringify(walletListRes));
+
       setwalletsList(Object.values(walletListRes.data.data));
       if (walletListRes.data.totalBalances) {
         settotalBalances(walletListRes.data.totalBalances);
@@ -180,6 +185,10 @@ function Dashboard(props) {
           setfilteredActivites(sortedActivites);
         }
       }
+    }
+    if (props.loadingLatestWallets) {
+      setrefreshBalances(false);
+      props.updateWalletsLoader(false);
     }
     if (walletListRes) {
       return null;
@@ -312,6 +321,8 @@ function Dashboard(props) {
                 borderRadius: 30,
                 marginLeft: 0,
                 paddingBottom: 20,
+                paddingLeft: 0,
+                paddingRight: 0,
               }}
             >
               <div style={{ marginTop: 12, width: "100%" }}>
@@ -367,68 +378,79 @@ function Dashboard(props) {
 
                 {walletsList.map((item, index) => {
                   return (
-                    <Paper
-                      className={classes.walletEleCon}
-                      style={{
-                        backgroundImage: `url(${toAbsoluteUrl("/media/bg/btcBg.png")})`,
-                        backgroundRepeat: "no-repeat",
-                        backgroundSize: "cover",
-                        border: selectedWallet === index ? "4px solid #613aea" : "none",
-                        boxSizing: "content-box",
-                        //   marginLeft: selectedWallet === index ? "-4px" : "auto",
-                        cursor: "pointer",
-                      }}
+                    <div
                       key={item.id}
-                      onClick={() => {
-                        setselectedWallet(index);
+                      style={{
+                        boxShadow: selectedWallet === index ? "-18px 0px 1px -14px #613aea" : "",
+                        borderRadius: 25,
+                        paddingLeft: 10,
+                        paddingRight: 10,
                       }}
+                      // className={classes.borderEffectCon}
                       id="walletPaperComp"
-                    >
-                      <div style={{ display: "flex", alignItems: "center" }}>
-                        <Typography
-                          component="h3"
-                          variant="subtitle1"
-                          style={{
-                            display: "block",
-                            whiteSpace: "nowrap",
-                            overflow: "hidden ",
-                            textOverflow: "ellipsis",
-                          }}
-                        >
-                          {item.title}
-                        </Typography>
-                        <Typography variant="h3" style={{ fontSize: "2.5rem", marginLeft: "auto", fontWeight: 600 }}>
-                          ₿
-                        </Typography>
-                      </div>
 
-                      <div
+                    >
+                      <Paper
+                        className={classes.walletEleCon}
+                        style={{
+                          backgroundImage: `url(${toAbsoluteUrl("/media/bg/btcBg.png")})`,
+                          backgroundRepeat: "no-repeat",
+                          backgroundSize: "cover",
+                          boxSizing: "content-box",
+                          //   marginLeft: selectedWallet === index ? "-4px" : "auto",
+                          cursor: "pointer",
+                        }}
                         onClick={() => {
                           setselectedWallet(index);
                         }}
-                        style={{ marginBottom: 12, cursor: "pointer" }}
                       >
-                        <Typography component="h4" variant="h4">
-                          {item.bsvBal ? (item.bsvBal / 100000000).toFixed(4) : 0} BSV
-                        </Typography>
-                        <Typography component="h4" variant="subtitle2" style={{ marginTop: 5 }}>
-                          ${item.dollarBal.toFixed(4)}
-                        </Typography>
-                      </div>
-                      <div style={{ display: "flex", alignItems: "center" }}>
-                        <UpdateWallet
-                          userID={props.user ? props.user.uid : ""}
-                          walletDetails={item}
-                          walletIndex={index}
-                          walletsList={walletsList}
-                          setwalletsList={setwalletsList}
-                          disabled={false}
-                        />
-                      </div>
-                    </Paper>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          <Typography
+                            component="h3"
+                            variant="subtitle1"
+                            style={{
+                              display: "block",
+                              whiteSpace: "nowrap",
+                              overflow: "hidden ",
+                              textOverflow: "ellipsis",
+                            }}
+                          >
+                            {item.title}
+                          </Typography>
+                          <Typography variant="h3" style={{ fontSize: "2.5rem", marginLeft: "auto", fontWeight: 600 }}>
+                            ₿
+                          </Typography>
+                        </div>
+
+                        <div
+                          onClick={() => {
+                            setselectedWallet(index);
+                          }}
+                          style={{ marginBottom: 12, cursor: "pointer" }}
+                        >
+                          <Typography component="h4" variant="h4">
+                            {item.bsvBal ? (item.bsvBal / 100000000).toFixed(4) : 0} BSV
+                          </Typography>
+                          <Typography component="h4" variant="subtitle2" style={{ marginTop: 5 }}>
+                            ${item.dollarBal.toFixed(4)}
+                          </Typography>
+                        </div>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          <UpdateWallet
+                            userID={props.user ? props.user.uid : ""}
+                            walletDetails={item}
+                            walletIndex={index}
+                            walletsList={walletsList}
+                            setwalletsList={setwalletsList}
+                            disabled={false}
+                          />
+                        </div>
+                      </Paper>
+                    </div>
                   );
                 })}
               </div>
+
               <div style={{ margin: "auto", textAlign: "center" }}>
                 <Button
                   variant="contained"
@@ -556,10 +578,11 @@ function Dashboard(props) {
   );
 }
 
-const mapStateToProps = ({ auth: { user, walletsData, tokensData } }) => ({
+const mapStateToProps = ({ auth: { user, walletsData, tokensData, loadingLatestWallets } }) => ({
   user,
   walletsData,
   tokensData,
+  loadingLatestWallets,
 });
 
-export default connect(mapStateToProps, { updateUserWalletsData, updateUserTokensData })(Dashboard);
+export default connect(mapStateToProps, { updateUserWalletsData, updateUserTokensData, updateWalletsLoader })(Dashboard);

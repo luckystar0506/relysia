@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { useTheme } from "@material-ui/core/styles";
-import Popover from "@material-ui/core/Popover";
-import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import { connect } from "react-redux";
-import firebase from "firebase/app";
 import "firebase/functions";
 import "firebase/database";
-import {  updateUserTokensData } from "../../../store/ducks/auth.duck";
 import { useSnackbar } from "notistack";
-import AddRoundedIcon from "@material-ui/icons/AddRounded";
-import PublicTokens from "./publicTokens";
+import { toAbsoluteUrl } from "../../../../_metronic";
 
 const useStyles = makeStyles((theme) => ({
   accountBox1: {
@@ -37,19 +29,41 @@ const useStyles = makeStyles((theme) => ({
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
+  walletEleCon: {
+    borderRadius: 15,
+    height: 210,
+    width: 200,
+    display: "flex",
+    flexDirection: "column",
+    color: "#ffffff",
+    justifyContent: "space-between",
+    padding: "15px 18px",
+    marginBottom: 12,
+    marginRight: 10,
+    marginLeft: 10,
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+      minWidth: 200,
+    },
+  },
 }));
 
-let popoverIndex = 0;
-
-function Tokens(props) {
+function FunctionsPage(props) {
   const classes = useStyles();
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
 
-  //   useEffect(() => {
-  //     if (props.user && props.user.uid) {
-  //     }
-  //   }, [props.user]);
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://zapier.com/apps/embed/widget.js?services=gmail&html_id=foo";
+    script.async = true;
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   return (
     <div
@@ -66,13 +80,13 @@ function Tokens(props) {
     >
       <Grid container style={{ padding: "0px 5%" }} justify="space-between">
         <Grid item xs={12} md={12}>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <Typography variant="h6" component="h2" style={{ color: theme.palette.textColors.head1 }}>
-              Public Tokens
-            </Typography>
-          </div>
-          <div style={{ marginTop: 10 }}>
-            <PublicTokens />
+          <div>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <Typography variant="h6" component="h2" style={{ color: theme.palette.textColors.head1 }}>
+                Zap Templates
+              </Typography>
+            </div>
+            <div id="foo"></div>
           </div>
         </Grid>
       </Grid>
@@ -80,10 +94,4 @@ function Tokens(props) {
   );
 }
 
-const mapStateToProps = ({ auth: { user, walletsData, tokensData } }) => ({
-  user,
-  walletsData,
-  tokensData,
-});
-
-export default connect(mapStateToProps, {  updateUserTokensData })(Tokens);
+export default FunctionsPage;

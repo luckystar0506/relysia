@@ -13,6 +13,7 @@ import { Route, Switch } from "react-router-dom";
 import OverviewPage from "./overviewPage";
 import HTMLPage from "./htmlPage";
 import ReactPage from "./reactPage";
+import SandboxPage from "./sandboxPage"
 import "./docs.css";
 const drawerWidth = 240;
 
@@ -84,6 +85,10 @@ const sideBarData = [
         title: "React",
         route: "react",
       },
+      {
+        title: "Sandbox",
+        route: "sandbox",
+      },
     ],
   },
   {
@@ -150,6 +155,8 @@ function Documentation(props) {
               <Route path="/docs/HTML" component={HTMLPage} />
               <Route path="/docs/overview" component={OverviewPage} />
               <Route path="/docs/react" component={ReactPage} />
+              <Route path="/docs/sandbox" component={SandboxPage} />
+
             </Switch>
           </div>
         </div>

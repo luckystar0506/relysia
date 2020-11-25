@@ -26,6 +26,7 @@ import "firebase/auth";
 import { updateUserData, updateUserWalletsData, updateUserTokensData } from "../../app/store/ducks/auth.duck";
 import GavelIcon from "@material-ui/icons/Gavel";
 import DescriptionIcon from "@material-ui/icons/Description";
+import TimelineIcon from "@material-ui/icons/Timeline";
 
 const drawerWidth = 240;
 
@@ -72,12 +73,12 @@ function LeftDrawer(props) {
   const classes = useStyles();
   const [isUserAdmin, setisUserAdmin] = useState(false);
   const [sideBarTabs, setsideBarTabs] = useState([
-    { route: "/dashboard", title: "Dashboard" },
-    { route: "/tokens", title: "Tokens" },
-    { route: "/transactions", title: "Transactions" },
-    { route: "/settings", title: "Settings" },
-    { route: "/docs", title: "Documentation" },
-    { route: "/logout", title: "Logout" },
+    { route: "/dashboard", title: "Dashboard", icon: <DashboardIcon /> },
+    { route: "/tokens", title: "Tokens", icon: <AccountBalanceWalletIcon /> },
+    { route: "/settings", title: "Settings", icon: <SettingsIcon /> },
+    { route: "/docs", title: "Documentation", icon: <DescriptionIcon /> },
+    { route: "/functions", title: "Functions", icon: <TimelineIcon /> },
+    { route: "/logout", title: "Logout", icon: <ExitToAppIcon /> },
   ]);
 
   useEffect(() => {
@@ -154,19 +155,9 @@ function LeftDrawer(props) {
                 }}
               >
                 {(() => {
-                  if (index === 0) {
-                    return <DashboardIcon />;
-                  } else if (index === 1) {
-                    return <AccountBalanceWalletIcon />;
-                  } else if (index === 2) {
-                    return <AccountBalanceIcon />;
-                  } else if (index === 3) {
-                    return <SettingsIcon />;
-                  } else if (index === 4) {
-                    return <DescriptionIcon />;
-                  } else if (index === 5) {
-                    return <ExitToAppIcon />;
-                  } else if (index === 6 && isUserAdmin) {
+                  if (item.icon) {
+                    return item.icon;
+                  } else if (isUserAdmin) {
                     return <GavelIcon />;
                   }
                 })()}
