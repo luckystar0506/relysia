@@ -24,6 +24,7 @@ function PayButton() {
     } else if (event.data.case && event.data.case === "token-transction-invoked") {
       if (event.data.data) {
         let transcData = JSON.parse(event.data.data);
+        console.log("data", transcData);
         makeTokenTransctionFunc(transcData.amountField, transcData.addressField, transcData.tokenId, transcData.type);
       }
     }
@@ -74,7 +75,35 @@ function PayButton() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         console.log("user avliable");
-        window.parent.postMessage({ case: "user-data", data: JSON.stringify(user) }, "*");
+        //getting user wallets
+        firebase
+          .database()
+          .ref("userWallets/" + user.uid)
+          .once("value")
+          .then((snap) => {
+            if (snap.val()) {
+              let wallList = [...Object.values(snap.val())];
+              wallList.map((item, indx) => {
+                if (item.hdPrivateKey) {
+                  delete wallList[indx].hdPrivateKey;
+                }
+                if (item.hdPublicKey) {
+                  delete wallList[indx].hdPublicKey;
+                }
+                if (item.password) {
+                  delete wallList[indx].password;
+                }
+                if (item.mnemonic) {
+                  delete wallList[indx].mnemonic;
+                }
+              });
+
+              window.parent.postMessage({ case: "user-data", data: JSON.stringify(user), walletList: JSON.stringify(wallList) }, "*");
+            }
+          })
+          .catch((err) => {
+            window.parent.postMessage({ case: "user-data", data: JSON.stringify(user) }, "*");
+          });
       } else {
         console.log("user not avliable");
         window.parent.postMessage({ case: "user-data", data: null }, "*");
