@@ -19,23 +19,39 @@ function PayButton() {
     if (event.data.case && event.data.case === "bsv-transction-invoked") {
       if (event.data.data) {
         let transcData = JSON.parse(event.data.data);
-        makeBsvTransctionFunc(transcData.amountField, transcData.addressField, transcData.type, transcData.currency);
+        makeBsvTransctionFunc(
+          transcData.amountField,
+          transcData.addressField,
+          transcData.type,
+          transcData.currency,
+          transcData.password,
+          transcData.walletDetails
+        );
       }
     } else if (event.data.case && event.data.case === "token-transction-invoked") {
       if (event.data.data) {
         let transcData = JSON.parse(event.data.data);
         console.log("data", transcData);
-        makeTokenTransctionFunc(transcData.amountField, transcData.addressField, transcData.tokenId, transcData.type);
+        makeTokenTransctionFunc(
+          transcData.amountField,
+          transcData.addressField,
+          transcData.tokenId,
+          transcData.type,
+          transcData.password,
+          transcData.walletDetails
+        );
       }
     }
   }, []);
 
-  const makeTokenTransctionFunc = async (amountField, addressField, tokenId, type = 0) => {
+  const makeTokenTransctionFunc = async (amountField, addressField, tokenId, type = 0, password, walletDetails) => {
     let sendBsvAPI = firebase.functions().httpsCallable("walletPayButtonToken");
     let sendBsvRes = await sendBsvAPI({
       amount: amountField,
       address: addressField,
       tokenId: tokenId,
+      password,
+      walletDetails,
     });
     //send transc response back to parent
     window.parent.postMessage(
@@ -50,12 +66,14 @@ function PayButton() {
     );
   };
 
-  const makeBsvTransctionFunc = async (amountField, addressField, type = 0, currency) => {
+  const makeBsvTransctionFunc = async (amountField, addressField, type = 0, currency, password, walletDetails) => {
     let sendBsvAPI = firebase.functions().httpsCallable("walletPayButtonBsvs");
     let sendBsvRes = await sendBsvAPI({
       amount: amountField,
       address: addressField,
       currency: currency,
+      password,
+      walletDetails,
     });
     //send transc response back to parent
     window.parent.postMessage(
