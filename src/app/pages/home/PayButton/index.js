@@ -19,24 +19,16 @@ function PayButton() {
     if (event.data.case && event.data.case === "bsv-transction-invoked") {
       if (event.data.data) {
         let transcData = JSON.parse(event.data.data);
-        makeBsvTransctionFunc(
-          transcData.amountField,
-          transcData.addressField,
-          transcData.type,
-          transcData.currency,
-          transcData.password,
-          transcData.walletDetails
-        );
+        makeBsvTransctionFunc(transcData.totalAmount, transcData.txSet, transcData.currency, transcData.password, transcData.walletDetails);
       }
     } else if (event.data.case && event.data.case === "token-transction-invoked") {
       if (event.data.data) {
         let transcData = JSON.parse(event.data.data);
         console.log("data", transcData);
         makeTokenTransctionFunc(
-          transcData.amountField,
-          transcData.addressField,
+          transcData.totalAmount,
+          transcData.txSet,
           transcData.tokenId,
-          transcData.type,
           transcData.password,
           transcData.walletDetails
         );
@@ -44,11 +36,11 @@ function PayButton() {
     }
   }, []);
 
-  const makeTokenTransctionFunc = async (amountField, addressField, tokenId, type = 0, password, walletDetails) => {
+  const makeTokenTransctionFunc = async (totalAmount, txSet, tokenId, password, walletDetails) => {
     let sendBsvAPI = firebase.functions().httpsCallable("walletPayButtonToken");
     let sendBsvRes = await sendBsvAPI({
-      amount: amountField,
-      address: addressField,
+      amount: totalAmount,
+      txSet: txSet,
       tokenId: tokenId,
       password,
       walletDetails,
@@ -59,18 +51,17 @@ function PayButton() {
         case: "token-transction-response",
         data: JSON.stringify({
           sendBsvRes,
-          type,
         }),
       },
       "*"
     );
   };
 
-  const makeBsvTransctionFunc = async (amountField, addressField, type = 0, currency, password, walletDetails) => {
+  const makeBsvTransctionFunc = async (totalAmount, txSet, currency, password, walletDetails) => {
     let sendBsvAPI = firebase.functions().httpsCallable("walletPayButtonBsvs");
     let sendBsvRes = await sendBsvAPI({
-      amount: amountField,
-      address: addressField,
+      amount: totalAmount,
+      txSet: txSet,
       currency: currency,
       password,
       walletDetails,
@@ -81,7 +72,6 @@ function PayButton() {
         case: "bsv-transction-response",
         data: JSON.stringify({
           sendBsvRes,
-          type,
         }),
       },
       "*"

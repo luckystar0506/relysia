@@ -16,12 +16,12 @@ import { useTheme } from "@material-ui/core/styles";
 const arumentsTable = [
   {
     prop: "amount",
-    type: "STRING",
+    type: "ARRAY",
     value: "'tokens quantity' if transferring tokens , 'amount in US $' if transferring Bsvs",
   },
   {
     prop: "to",
-    type: "STRING",
+    type: "ARRAY",
     value: "'public-key' if transferring tokens , 'wallet-address' if transferring Bsvs",
   },
   {
@@ -33,6 +33,11 @@ const arumentsTable = [
     prop: "currency",
     type: "STRING",
     value: "'USD'(default) or 'BSV'",
+  },
+  {
+    prop: "allowMultipleWallets",
+    type: "BOOLEAN",
+    value: "if 'true'(default), display select wallet option, if(false) vaionex-wallet will be used for transction",
   },
   {
     prop: "onLoad",
@@ -109,9 +114,10 @@ import 'vionex-pay-button/dist/index.css'
         <span className="highlightedWord">BSVs</span> or <span className="highlightedWord">Tokens</span> at a time. To transfer BSVs user
         needs to pass the <span className="highlightedWord">token</span> argument with a<span className="highlightedWord">'BSV'</span> value
         (which is the default value), the <span className="highlightedWord">amount</span> argument will contain the{" "}
-        <span className="highlightedWord">amount</span> to be transferred in US $, <span className="highlightedWord">to</span> argument will
-        contain the <span className="highlightedWord">public address</span>
-        where the amount will be sent.
+        <span className="highlightedWord">amount</span> to be transferred in US $, if you need to transfer bsvs to multiple addresses then
+        add multiple amounts in array, <span className="highlightedWord">to</span> argument will contain the{" "}
+        <span className="highlightedWord">public addresses</span>
+        where the amount will be sent (array length of amount and to props should be same).
       </Typography>
 
       <div style={{ width: "100%", overflow: "auto" }}>
@@ -128,8 +134,8 @@ const App = () => {
 
    return (
     <PayButton
-      amount='20'
-      to='addressGoesHere'
+      amount={[20,30]}
+      to={['address1GoesHere','address2GoesHere']}
       responseCallback={getRes}
     />
  )
@@ -143,9 +149,10 @@ export default App
       <Typography paragraph variant="body1">
         In the case of transferring tokens, the user needs to pass the <span className="highlightedWord">amount</span> argument that will
         contain the number of tokens to be transferred, the <span className="highlightedWord">to</span> argument will contain the{" "}
-        <span className="highlightedWord">public-key</span> where the tokens will be sent, <span className="highlightedWord">token</span>{" "}
-        argument will contain the ID of specific token that will be transferred from user account. Tokens will be only transferred if the
-        user owns does specific tokens.
+        <span className="highlightedWord">public-key</span> where the tokens will be sent,if you need to transfer tokens to multiple
+        addresses then add multiple tokens in array, <span className="highlightedWord">token</span> argument will contain the ID of specific
+        token that will be transferred from user account. Tokens will be only transferred if the user owns does specific tokens (array
+        length of amount and to props should be same).
       </Typography>
 
       <div style={{ width: "100%", overflow: "auto" }}>
@@ -163,8 +170,8 @@ const App = () => {
   return (
     <PayButton
       token='token_id'
-      amount='20'
-      to='addressGoesHere'
+      amount={['20']}
+      to={['addressGoesHere']}
       responseCallback={getRes}
     />
   )

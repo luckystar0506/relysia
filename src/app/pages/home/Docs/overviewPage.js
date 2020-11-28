@@ -39,7 +39,7 @@ function OverviewPage(props) {
     <title>Document</title>
   </head>
   <body>
-    <div id="pay-button-root" amount="20" to="'publicKey' incase of transferring tokens or 'wallet-address' incase of transferring Bsvs" token="token_id or 'BSV' incase of transferring Bsvs"></div>
+    <div id="pay-button-root" amount='["20"]' to='["publicKey for token transfer/walletaddress for BSV transfer"]' token="token_id or 'BSV' incase of transferring Bsvs"></div>
     <script src="https://firebasestorage.googleapis.com/v0/b/pay-button-vaionexdev/o/js%2Findex.js?alt=media"></script>
   </body>
 </html>
@@ -68,8 +68,8 @@ function OverviewPage(props) {
     return (
      <PayButton
        token="token_id or 'BSV' incase of transferring Bsvs"
-       amount='20'
-       to="'publicKey' incase of transferring tokens or 'wallet-address' incase of transferring Bsvs"
+       amount={['20']}
+       to={["'publicKey' incase of transferring tokens or 'wallet-address' incase of transferring Bsvs"]}
        responseCallback={getRes}
      />
   )
