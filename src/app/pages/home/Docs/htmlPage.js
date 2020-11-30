@@ -17,10 +17,10 @@ const arumentsTable = [
   {
     prop: "amount",
     type: "STRING",
-    value: "'tokens quantity' if transferring tokens , 'amount in US $' if transferring Bsvs",
+    value: "'tokens quantity' if transferring tokens , 'amount in US $' if transferring Bsvs.",
   },
   {
-    prop: "address",
+    prop: "to",
     type: "STRING",
     value: "'public-key' if transferring tokens , 'wallet-address' if transferring Bsvs",
   },
@@ -35,29 +35,9 @@ const arumentsTable = [
     value: "'USD'(default) or 'BSV'",
   },
   {
-    prop: "onLoad",
-    type: "FUNCTION",
-    value: "Callback after the pay-button gets loaded",
-  },
-  {
-    prop: "onTransactionStart",
-    type: "FUNCTION",
-    value: "Callback before starting the transaction",
-  },
-  {
-    prop: "onError",
-    type: "FUNCTION",
-    value: "Callback when the error occurs",
-  },
-  {
-    prop: "responseCallback",
-    type: "FUNCTION",
-    value: "Callback when API response is received",
-  },
-  {
-    prop: "onSuccess",
-    type: "FUNCTION",
-    value: "Callback when transaction get succeeded",
+    prop: "allowMultipleWallets",
+    type: "STRING",
+    value: "true(default), display aselect wallet option, if(false) vaionex-wallet will be used",
   },
 ];
 
@@ -88,7 +68,7 @@ function HTMLPage(props) {
      <title>Document</title>
    </head>
    <body>
-     <div id="pay-button-root" amount="20" address="addressGoesHere" token="token_id"></div>
+     <div id="pay-button-root" amount='[20,30]' to='["address1GoesHere","address2GoesHere"]' token="token_id"></div>
      <script src="https://firebasestorage.googleapis.com/v0/b/pay-button-vaionexdev/o/js%2Findex.js?alt=media"></script>
    </body>
  </html>
@@ -100,31 +80,33 @@ function HTMLPage(props) {
         <span className="highlightedWord">BSVs</span> or <span className="highlightedWord">Tokens</span> at a time. To transfer BSVs user
         needs to pass the <span className="highlightedWord">token</span> argument with a<span className="highlightedWord">'BSV'</span> value
         (which is the default value), the <span className="highlightedWord">amount</span> argument will contain the{" "}
-        <span className="highlightedWord">amount</span> to be transferred in US $, <span className="highlightedWord">address</span> argument
-        will contain the <span className="highlightedWord">public address</span>
+        <span className="highlightedWord">amount</span> to be transferred in US $, user can transfer amount to multiple users at the same
+        time by including the amount need to transfer with specific address, <span className="highlightedWord">to</span> argument will
+        contain the <span className="highlightedWord">public address(amount and to argument length should be same)</span>
         where the amount will be sent.
       </Typography>
 
       <div style={{ width: "100%", overflow: "auto" }}>
         <SyntaxHighlighter language="html" style={tomorrowNightBright}>
           {`
- <div id="pay-button-root" amount="20" address="addressGoesHere"></div>  
+ <div id="pay-button-root" amount='[20,30]' to='["address1GoesHere","address2GoesHere"]'></div>  
         `}
         </SyntaxHighlighter>
       </div>
 
       <Typography paragraph variant="body1">
         In the case of transferring tokens, the user needs to pass the <span className="highlightedWord">amount</span> argument that will
-        contain the number of tokens to be transferred, the <span className="highlightedWord">address</span> argument will contain the{" "}
+        contain the number of tokens to be transferred, user can transfer tokens to multiple users at the same time by including the tokens
+        quantity need to transfer to the specific publickey, the <span className="highlightedWord">to</span> argument will contain the{" "}
         <span className="highlightedWord">public-key</span> where the tokens will be sent, <span className="highlightedWord">token</span>{" "}
-        argument will contain the ID of specific token that will be transferred from user account. Tokens will be only transferred if the
-        user owns does specific tokens.
+        argument will contain the ID of specific token that will be transferred from user account (amount and to argument length should be
+        same). Tokens will be only transferred if the user owns does specific tokens.
       </Typography>
 
       <div style={{ width: "100%", overflow: "auto" }}>
         <SyntaxHighlighter language="html" style={tomorrowNightBright}>
           {`
- <div id="pay-button-root" amount="20" address="publicKeyGoesHere" token="token_id"></div>  
+ <div id="pay-button-root" amount='["20"]' to='["publicKeyGoesHere"]' token="token_id"></div>  
         `}
         </SyntaxHighlighter>
       </div>

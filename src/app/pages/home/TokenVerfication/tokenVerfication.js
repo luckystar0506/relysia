@@ -79,7 +79,7 @@ function TokensVerfication(props) {
     } else {
       props.history.push("/auth");
     }
-  }, [props.user]);
+  }, [props.user]); 
 
   const getTokens = () => {
     firebase

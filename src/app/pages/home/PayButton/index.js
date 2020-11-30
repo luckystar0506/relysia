@@ -19,22 +19,31 @@ function PayButton() {
     if (event.data.case && event.data.case === "bsv-transction-invoked") {
       if (event.data.data) {
         let transcData = JSON.parse(event.data.data);
-        makeBsvTransctionFunc(transcData.amountField, transcData.addressField, transcData.type, transcData.currency);
+        makeBsvTransctionFunc(transcData.totalAmount, transcData.txSet, transcData.currency, transcData.password, transcData.walletDetails);
       }
     } else if (event.data.case && event.data.case === "token-transction-invoked") {
       if (event.data.data) {
         let transcData = JSON.parse(event.data.data);
-        makeTokenTransctionFunc(transcData.amountField, transcData.addressField, transcData.tokenId, transcData.type);
+        console.log("data", transcData);
+        makeTokenTransctionFunc(
+          transcData.totalAmount,
+          transcData.txSet,
+          transcData.tokenId,
+          transcData.password,
+          transcData.walletDetails
+        );
       }
     }
   }, []);
 
-  const makeTokenTransctionFunc = async (amountField, addressField, tokenId, type = 0) => {
+  const makeTokenTransctionFunc = async (totalAmount, txSet, tokenId, password, walletDetails) => {
     let sendBsvAPI = firebase.functions().httpsCallable("walletPayButtonToken");
     let sendBsvRes = await sendBsvAPI({
-      amount: amountField,
-      address: addressField,
+      amount: totalAmount,
+      txSet: txSet,
       tokenId: tokenId,
+      password,
+      walletDetails,
     });
     //send transc response back to parent
     window.parent.postMessage(
@@ -42,19 +51,20 @@ function PayButton() {
         case: "token-transction-response",
         data: JSON.stringify({
           sendBsvRes,
-          type,
         }),
       },
       "*"
     );
   };
 
-  const makeBsvTransctionFunc = async (amountField, addressField, type = 0, currency) => {
+  const makeBsvTransctionFunc = async (totalAmount, txSet, currency, password, walletDetails) => {
     let sendBsvAPI = firebase.functions().httpsCallable("walletPayButtonBsvs");
     let sendBsvRes = await sendBsvAPI({
-      amount: amountField,
-      address: addressField,
+      amount: totalAmount,
+      txSet: txSet,
       currency: currency,
+      password,
+      walletDetails,
     });
     //send transc response back to parent
     window.parent.postMessage(
@@ -62,7 +72,6 @@ function PayButton() {
         case: "bsv-transction-response",
         data: JSON.stringify({
           sendBsvRes,
-          type,
         }),
       },
       "*"
@@ -74,7 +83,35 @@ function PayButton() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         console.log("user avliable");
-        window.parent.postMessage({ case: "user-data", data: JSON.stringify(user) }, "*");
+        //getting user wallets
+        firebase
+          .database()
+          .ref("userWallets/" + user.uid)
+          .once("value")
+          .then((snap) => {
+            if (snap.val()) {
+              let wallList = [...Object.values(snap.val())];
+              wallList.map((item, indx) => {
+                if (item.hdPrivateKey) {
+                  delete wallList[indx].hdPrivateKey;
+                }
+                if (item.hdPublicKey) {
+                  delete wallList[indx].hdPublicKey;
+                }
+                if (item.password) {
+                  delete wallList[indx].password;
+                }
+                if (item.mnemonic) {
+                  delete wallList[indx].mnemonic;
+                }
+              });
+
+              window.parent.postMessage({ case: "user-data", data: JSON.stringify(user), walletList: JSON.stringify(wallList) }, "*");
+            }
+          })
+          .catch((err) => {
+            window.parent.postMessage({ case: "user-data", data: JSON.stringify(user) }, "*");
+          });
       } else {
         console.log("user not avliable");
         window.parent.postMessage({ case: "user-data", data: null }, "*");
