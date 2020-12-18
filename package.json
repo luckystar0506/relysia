@@ -44,6 +44,7 @@
     "@moneybutton/react-money-button": "^0.38.4",
     "antd": "^4.4.0",
     "antd-img-crop": "^3.9.0",
+    "axios": "^0.21.0",
     "bitcoin-computer": "^0.4.1-beta",
     "bootstrap": "^4.4.1",
     "bootstrap-social": "^5.1.1",

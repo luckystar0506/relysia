@@ -27,8 +27,9 @@ function WithdrawTokens(props) {
 
   const refresh = async () => {
     if (props.computerObj) {
-      const revs = await props.computerObj.getRevs(props.computerObj.db.wallet.getPublicKey().toString());
-      // console.log("revs", revs);
+      const revs = await props.computerObj.getRevs(
+        props.computerObj.db.wallet.getPublicKey().toString()
+      );
       settokensList(
         await Promise.all(
           revs.map(async (rev) => {
@@ -44,13 +45,15 @@ function WithdrawTokens(props) {
       props.setsendLoader(true);
 
       let pass = true;
-      if (toField === "") { 
+      if (toField === "") {
         pass = false;
         enqueueSnackbar("Please provide a public key!", { variant: "error" });
       }
       if (Number(amountField) <= 0) {
         pass = false;
-        enqueueSnackbar("Please provide a valid token amount!", { variant: "error" });
+        enqueueSnackbar("Please provide a valid token amount!", {
+          variant: "error",
+        });
       }
       if (pass) {
         //send tokens
@@ -59,13 +62,18 @@ function WithdrawTokens(props) {
         props.setsendLoader(false);
       }
     } else {
-      enqueueSnackbar("Press and hold the Button for 2 seconds", { variant: "info" });
+      enqueueSnackbar("Press and hold the Button for 2 seconds", {
+        variant: "info",
+      });
     }
   };
 
   const sendTokensTransc = async () => {
     let currentToken = Object.values(groupByRoot(tokensList))[selectedToken];
-    const balance = currentToken.reduce((acc, token) => acc + parseInt(token.coins, 10), 0);
+    const balance = currentToken.reduce(
+      (acc, token) => acc + parseInt(token.coins, 10),
+      0
+    );
     if (amountField > balance) {
       enqueueSnackbar("You didnt have enough tokens!", { variant: "error" });
       props.setsendLoader(false);
@@ -78,7 +86,9 @@ function WithdrawTokens(props) {
       for (const token of currentToken) {
         const tokenCoins = parseInt(token.coins, 10);
         if (0 < leftToSpend && 0 < tokenCoins) {
-          newTokens.push(await token.send(Math.min(leftToSpend, tokenCoins), toField));
+          newTokens.push(
+            await token.send(Math.min(leftToSpend, tokenCoins), toField)
+          );
           leftToSpend -= tokenCoins;
         }
       }
@@ -108,7 +118,10 @@ function WithdrawTokens(props) {
   return (
     <>
       <div style={{ marginTop: 20, width: "80%" }}>
-        <FormControl style={{ width: "100%", marginBottom: 10 }} disabled={tokensList.length === 0 ? true : false}>
+        <FormControl
+          style={{ width: "100%", marginBottom: 10 }}
+          disabled={tokensList.length === 0 ? true : false}
+        >
           <InputLabel id="demo-simple-select-label">Select Token</InputLabel>
           <Select
             labelId="demo-simple-select-label"
@@ -120,12 +133,14 @@ function WithdrawTokens(props) {
             {Object.values(groupByRoot(tokensList)).map((tokens, index) => {
               console.log("tokens", tokens[0]);
               return (
-                <MenuItem key={tokens[0]._id + "menuitem"} value={index}>
-                  {`${tokens[0].name} (id: ${tokens[0]._id})`}
+                <MenuItem key={tokens[0]._rootId + "menuitem"} value={index}>
+                  {`${tokens[0].name} (_rootId: ${tokens[0]._rootId})`}
                 </MenuItem>
               );
             })}
-            {tokensList.length === 0 && <MenuItem value={0}>You didn't have any tokens</MenuItem>}
+            {tokensList.length === 0 && (
+              <MenuItem value={0}>You didn't have any tokens</MenuItem>
+            )}
           </Select>
         </FormControl>
 
@@ -157,7 +172,11 @@ function WithdrawTokens(props) {
       </div>
 
       <DialogActions style={{ position: "relative", left: 20, marginTop: 20 }}>
-        <Button disabled={props.sendLoader} color="primary" onClick={() => props.setsendBsvDiologueState(false)}>
+        <Button
+          disabled={props.sendLoader}
+          color="primary"
+          onClick={() => props.setsendBsvDiologueState(false)}
+        >
           Cancel
         </Button>
 
@@ -167,8 +186,16 @@ function WithdrawTokens(props) {
           </Button>
         ) : (
           <ClickNHold time={1.5} onEnd={sendTokens}>
-            <Button disabled={props.sendLoader ? true : false} color="primary" style={{ width: 100 }}>
-              {props.sendLoader ? <CircularProgress size={20} /> : "Send Tokens"}
+            <Button
+              disabled={props.sendLoader ? true : false}
+              color="primary"
+              style={{ width: 100 }}
+            >
+              {props.sendLoader ? (
+                <CircularProgress size={20} />
+              ) : (
+                "Send Tokens"
+              )}
             </Button>
           </ClickNHold>
         )}
@@ -178,4 +205,3 @@ function WithdrawTokens(props) {
 }
 
 export default WithdrawTokens;
-
