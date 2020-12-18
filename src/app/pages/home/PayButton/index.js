@@ -2,6 +2,10 @@ import React, { useEffect, useCallback } from "react";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
+import axios from "axios";
+
+const tokenTransferUrl =
+  "http://ec2-3-133-97-121.us-east-2.compute.amazonaws.com:3001";
 
 function PayButton() {
   useEffect(() => {
@@ -19,12 +23,20 @@ function PayButton() {
     if (event.data.case && event.data.case === "bsv-transction-invoked") {
       if (event.data.data) {
         let transcData = JSON.parse(event.data.data);
-        makeBsvTransctionFunc(transcData.totalAmount, transcData.txSet, transcData.currency, transcData.password, transcData.walletDetails);
+        makeBsvTransctionFunc(
+          transcData.totalAmount,
+          transcData.txSet,
+          transcData.currency,
+          transcData.password,
+          transcData.walletDetails
+        );
       }
-    } else if (event.data.case && event.data.case === "token-transction-invoked") {
+    } else if (
+      event.data.case &&
+      event.data.case === "token-transction-invoked"
+    ) {
       if (event.data.data) {
         let transcData = JSON.parse(event.data.data);
-        console.log("data", transcData);
         makeTokenTransctionFunc(
           transcData.totalAmount,
           transcData.txSet,
@@ -36,28 +48,67 @@ function PayButton() {
     }
   }, []);
 
-  const makeTokenTransctionFunc = async (totalAmount, txSet, tokenId, password, walletDetails) => {
-    let sendBsvAPI = firebase.functions().httpsCallable("walletPayButtonToken");
-    let sendBsvRes = await sendBsvAPI({
-      amount: totalAmount,
-      txSet: txSet,
-      tokenId: tokenId,
-      password,
-      walletDetails,
-    });
-    //send transc response back to parent
-    window.parent.postMessage(
-      {
-        case: "token-transction-response",
-        data: JSON.stringify({
-          sendBsvRes,
-        }),
-      },
-      "*"
-    );
+  const makeTokenTransctionFunc = async (
+    totalAmount,
+    txSet,
+    tokenId,
+    password,
+    walletDetails
+  ) => {
+    let sendBsvRes;
+    firebase
+      .auth()
+      .currentUser.getIdToken(true)
+      .then(async (idToken) => {
+        axios
+          .post(tokenTransferUrl + "/api/walletPayButtonTokenTransfer", {
+            amount: totalAmount,
+            txSet: txSet,
+            tokenId: tokenId,
+            password,
+            walletDetails,
+            idToken: idToken, //auth firebase
+          })
+          .then((response) => {
+            window.parent.postMessage(
+              {
+                case: "token-transction-response",
+                data: JSON.stringify({
+                  sendBsvRes: response,
+                }),
+              },
+              "*"
+            );
+          })
+          .catch((err) => {
+            console.log("err", err);
+          });
+      })
+      .catch((error) => {
+        // Handle error
+        sendBsvRes = {
+          status: "error",
+          msg: "An error occured while performing your Transaction",
+        };
+        window.parent.postMessage(
+          {
+            case: "token-transction-response",
+            data: JSON.stringify({
+              sendBsvRes,
+            }),
+          },
+          "*"
+        );
+      });
   };
 
-  const makeBsvTransctionFunc = async (totalAmount, txSet, currency, password, walletDetails) => {
+  const makeBsvTransctionFunc = async (
+    totalAmount,
+    txSet,
+    currency,
+    password,
+    walletDetails
+  ) => {
     let sendBsvAPI = firebase.functions().httpsCallable("walletPayButtonBsvs");
     let sendBsvRes = await sendBsvAPI({
       amount: totalAmount,
@@ -106,11 +157,21 @@ function PayButton() {
                 }
               });
 
-              window.parent.postMessage({ case: "user-data", data: JSON.stringify(user), walletList: JSON.stringify(wallList) }, "*");
+              window.parent.postMessage(
+                {
+                  case: "user-data",
+                  data: JSON.stringify(user),
+                  walletList: JSON.stringify(wallList),
+                },
+                "*"
+              );
             }
           })
           .catch((err) => {
-            window.parent.postMessage({ case: "user-data", data: JSON.stringify(user) }, "*");
+            window.parent.postMessage(
+              { case: "user-data", data: JSON.stringify(user) },
+              "*"
+            );
           });
       } else {
         console.log("user not avliable");

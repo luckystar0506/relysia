@@ -90,7 +90,7 @@ function SendBSV(props) {
               computerObj={props.computerObj}
             />
           )}
-        </div>
+        </div> 
       </div>
     </Dialog>
   );

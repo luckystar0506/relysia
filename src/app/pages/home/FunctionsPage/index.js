@@ -55,7 +55,7 @@ function FunctionsPage(props) {
 
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = "https://zapier.com/apps/embed/widget.js?services=gmail&html_id=foo";
+    script.src = "https://zapier.com/apps/embed/widget.js?services=vaionex&html_id=foo";
     script.async = true;
 
     document.body.appendChild(script);
