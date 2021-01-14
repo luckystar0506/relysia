@@ -1,0 +1,346 @@
+body {
+  min-width: 400px;
+}
+
+.btnDefaultColor {
+  color: #212529 !important;
+}
+
+.btnDefaultColor:hover {
+  color: #ffffff !important;
+}
+
+.editIcon {
+  color: #44ce6f;
+  display: inline-block;
+  transition: 0.5s;
+  text-decoration: none;
+  outline: 0 !important;
+  cursor: pointer;
+}
+.editIcon:hover {
+  color: #f48665;
+  transform: translateY(-5px);
+}
+.box {
+  cursor: pointer;
+}
+.btn-small {
+  padding: 10px 25px;
+  font-size: 12px;
+}
+.mobile-nav-only {
+  display: none;
+}
+.show-pointer {
+  cursor: pointer !important;
+}
+
+.anchor-more-class {
+  color: #000 !important;
+}
+.anchor-more-class:hover {
+  text-decoration: underline;
+}
+.nav-logo-con {
+  width: 20%;
+}
+.nav-logo-ele {
+  width: 50%;
+}
+
+.dbTag {
+  color: #9fa1a2;
+  font-style: italic;
+  font-size: 10px;
+  font-weight: 500;
+  margin-bottom: 0px;
+}
+.opvals-con {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  margin: 0px auto !important;
+  margin-top: 10px !important;
+}
+.opvals-con li div {
+  margin-bottom: 6px;
+  text-align: center;
+  width: 100%;
+}
+.lg-margin-top {
+  margin-top: 25px;
+}
+.dash-links li {
+  cursor: pointer;
+}
+.dash-links li:hover {
+  color: #f48665;
+}
+.custom-overwrite-iconbtn button {
+  cursor: pointer;
+  background-color: transparent !important;
+  text-shadow: none;
+  text-rendering: auto;
+  box-shadow: none !important;
+  padding: 4px !important;
+  color: rgba(0, 0, 0, 0.54) !important;
+  float: none !important;
+  width: auto !important;
+  height: auto !important;
+  border-radius: 50% !important;
+  border: 0px !important;
+  margin: 0px !important;
+  transition: none !important;
+}
+
+.querybtnDisabled:disabled,
+.querybtnDisabled[disabled] {
+  background-color: #cccccc !important;
+  color: #666666 !important;
+}
+.customBGTextfield {
+  background-color: #eeeeee !important;
+  outline: none !important;
+}
+.icon-btn-no-outline button {
+  outline: none !important;
+}
+svg:focus {
+  outline: none !important;
+}
+.settings-tab2 h6 {
+  font-size: 13px;
+  margin: 0px;
+  margin-top: 10px;
+}
+.settings-tab2 p {
+  margin-left: 10px;
+}
+
+.general-settings h6 {
+  font-size: 13px;
+  margin: 0px;
+  margin-top: 20px;
+}
+.general-settings p {
+  margin-left: 10px;
+  font-size: 15px;
+  margin-top: 0px !important;
+}
+.page-head1 h2 {
+  font-weight: 600;
+  font-size: 24px;
+}
+.settings-con1 {
+  margin-left: 25px;
+}
+.normal-button button {
+  transition: 0.5s;
+  outline: none !important;
+}
+.docs-head {
+  margin: 0px;
+  font-size: 23px;
+  font-weight: 500;
+}
+.docs-head2 {
+  margin: 0px;
+  font-size: 16px;
+  font-weight: 500;
+}
+.docs-list li {
+  display: list-item !important;
+  list-style: none;
+  color: #f48665;
+  cursor: pointer;
+}
+.docs-list li a {
+  color: #f48665;
+}
+.docs-list li a:hover {
+  text-decoration: underline;
+}
+
+.docs-list li::before {
+  content: "\2022"; /* Add content: \2022 is the CSS Code/unicode for a bullet */
+  color: #000000; /* Change the color */
+  font-weight: bolder; /* If you want it to be bold */
+  display: inline-block; /* Needed to add space between the bullet and the text */
+  width: 1em; /* Also needed for space (tweak if needed) */
+  margin-left: -1em; /* Also needed for space (tweak if needed) */
+}
+
+.docs-list {
+  padding-inline-start: 40px !important;
+  margin-block-start: 10px !important;
+}
+
+.docs-list2 {
+  padding-inline-start: 40px !important;
+  margin-block-start: 0px !important;
+}
+.docs-list2 li {
+  display: list-item !important;
+  list-style-type: circle;
+}
+
+.docs-bold {
+  color: #44ce6f !important;
+}
+.docs-footer h6 {
+  font-size: 12px;
+}
+.docs-footer-next {
+  margin-left: auto;
+}
+.link {
+  color: #f48665 !important;
+}
+.link:hover {
+  text-decoration: underline;
+}
+.submeun-anchor a {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.last-one-docs {
+  margin-right: auto !important;
+}
+.generalSet-con1 {
+  width: 32%;
+  box-shadow: 5px 0px 15px 0px rgba(122, 120, 212, 0.1);
+  padding-right: 15px;
+  border-right: 2px solid rgba(91, 89, 224, 0.1);
+}
+.generalSet-con2 {
+  width: 65%;
+  height: 100%;
+  margin-left: 10px;
+}
+.generalSet-con-main {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  align-items: stretch;
+}
+
+.sett-gen-nav-nam p {
+  margin: 0px !important;
+  padding: 0px !important;
+}
+#db-name-popper,
+#db-details-popper {
+  z-index: 10;
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+.popHeadMain {
+  font-size: 14px;
+}
+
+.poper-dbname {
+  padding: 20px 20px;
+  min-width: 550px;
+  border-radius: 10px;
+}
+
+.hubspot-form-con {
+  padding-left: 100px;
+}
+
+.hubspot-img-con {
+  padding-bottom: 70px;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#hsForm_bd3f8434-9472-4c1e-ba2b-c22ad171e03b {
+  text-align: center;
+}
+
+.fix-height-srvbox{
+  height: 260px;
+}
+
+
+.helper-test-settings{
+  color: #6084a4;
+}
+
+
+@media only screen and (max-width: 1100px) {
+  .nav-logo-ele {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .nav-logo-con {
+    width: 30%;
+  }
+  .nav-logo-ele {
+    width: 100%;
+  }
+  .more-top-padding {
+    padding-top: 80px !important;
+  }
+  .settings-con1 {
+    margin-left: 15px;
+  }
+  .docs-footer-next {
+    margin-top: 15px;
+    margin-left: 0px;
+  }
+  .docs-footer {
+    min-width: 51%;
+  }
+  .poper-dbname {
+    min-width: 300px;
+  }
+}
+@media only screen and (min-width: 767px) {
+  .fix-height {
+    min-height: 250px !important;
+    margin-bottom: 20px;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .nav-logo-con {
+    width: 40%;
+  }
+
+  .more-top-padding {
+    padding-top: 70px !important;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .md-margin-top {
+    margin-top: 25px;
+  }
+  .hubspot-form-con {
+    padding-left: 0px;
+    max-width: 500px !important;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .hubspot-img-con {
+    margin-bottom: 0px;
+    min-height: 0px;
+  }
+}
+
+/* //antd changes */
+.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: #f48665;
+}

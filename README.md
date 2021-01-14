@@ -1,2 +1,1 @@
-# wallet
-Vaionex Wallet
+# Relysia Wallet

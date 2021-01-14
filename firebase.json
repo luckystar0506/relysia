@@ -1,14 +1,8 @@
 {
-  "database": {
-    "rules": "database.rules.json"
-  },
   "hosting": {
+    "site": "vaionex-wallet-dex",
     "public": "build",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
         "source": "**",
