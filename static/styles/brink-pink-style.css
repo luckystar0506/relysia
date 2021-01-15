@@ -310,6 +310,43 @@ a:focus {
   box-shadow: 0 13px 27px 0 rgba(244, 134, 101, 0.25);
 }
 
+
+
+
+
+
+
+
+/* /// */
+.btn-primary-inverse-color {
+  background-color: #44ce6f;
+}
+
+.btn-primary-inverse-color::after,
+.btn-primary-inverse-color::before {
+  background: #f48665;
+}
+
+.btn-primary-inverse-color:hover,
+.btn-primary-inverse-color:focus {
+  -webkit-box-shadow: 0 13px 27px 0 rgba(244, 134, 101, 0.25);
+  box-shadow: 0 13px 27px 0 rgba(244, 134, 101, 0.25);
+}
+.single-btn-primary-inverse-color {
+  background-color: #44ce6f;
+}
+
+.single-btn-primary-inverse-color::after,
+.single-btn-primary-inverse-color::before {
+  background: #f48665;
+}
+
+.single-btn-primary-inverse-color:hover,
+.single-btn-primary-inverse-color:focus {
+  -webkit-box-shadow: 0 13px 27px 0 rgba(244, 134, 101, 0.25);
+  box-shadow: 0 13px 27px 0 rgba(244, 134, 101, 0.25);
+}
+
 .domain-search-content form button {
   background-color: #f48665;
 }

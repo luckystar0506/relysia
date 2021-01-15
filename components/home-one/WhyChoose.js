@@ -12,7 +12,7 @@ class WhyChoose extends Component {
                 <h2>Why Choose Us</h2>
                 <div className="bar"></div>
                 <p>
-                  For MetaShard services we make use of a sharded noSQL architecture that allows us to cater to the specific needs of our customers, while remaining 
+                  For Relysia services we make use of a sharded noSQL architecture that allows us to cater to the specific needs of our customers, while remaining 
                   a scalable and cheap provider.
                 </p>
               </div>
@@ -33,7 +33,7 @@ class WhyChoose extends Component {
                     </div>
                     <h3>Proficient & Friendly</h3>
                     <p>
-                      We are available 24/7 with an international team. You can put your mind to rest with MetaShard.
+                      We are available 24/7 with an international team. You can put your mind to rest with Relysia.
                     </p>
                   </div>
                 </div>

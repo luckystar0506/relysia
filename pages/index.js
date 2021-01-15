@@ -21,23 +21,23 @@ class Index extends React.Component {
               <div className="spinner"></div>
             </div>
           </Placeholder>
-          {/* MetaShard/components/Layouts/Header.js */}
+          {/* Relysia/components/Layouts/Header.js */}
           <Header />
-          {/* MetaShard/components/home-one/MainBanner.js */}
+          {/* Relysia/components/home-one/MainBanner.js */}
           <MainBanner />
-          {/* MetaShard/components/home-one/BoxArea.js */}
+          {/* Relysia/components/home-one/BoxArea.js */}
           <BoxArea />
           <WhyChoose />
           <Features />
           <Pricing />
 
-          {/* MetaShard/components/Layouts/Footer.js */}
+          {/* Relysia/components/Layouts/Footer.js */}
           <Footer />
-          {/* MetaShard/components/Layouts/GoTop.js */}
+          {/* Relysia/components/Layouts/GoTop.js */}
           <GoTop scrollStepInPx="50" delayInMs="16.66" />
         </Preloader>
         <Head>
-          <title>MetaShard - The Bitcoin database</title>
+          <title>Relysia - The Bitcoin database</title>
           <meta
             name="viewport"
             content="initial-scale=1.0, width=device-width"

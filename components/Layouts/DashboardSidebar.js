@@ -47,10 +47,12 @@ function DashboardSidebar(props) {
   }, []);
 
   useEffect(() => {
-    if (router.pathname.includes("/app/dashboard")) {
+    if (router.pathname === "/app/dashboard") {
       setselectedKey(["1"]);
-    } else if (router.pathname.includes("/app/settings")) {
+    } else if (router.pathname === "/app/settings") {
       setselectedKey(["6"]);
+    } else if (router.pathname.includes("/app/wallet/")) {
+      setselectedKey([router.query.walletId]);
     }
   }, []);
 
@@ -62,9 +64,8 @@ function DashboardSidebar(props) {
     }
   }, [matcheslg]);
 
-  const changeDBroute = (route, dbId, dbIndex) => {
-    setselectedDbIndex(dbIndex);
-    setselectedKey([dbId]);
+  const changeDBroute = (route, walletId) => {
+    setselectedKey([walletId]);
     router.push(route);
   };
 
@@ -112,14 +113,24 @@ function DashboardSidebar(props) {
             <SubMenu
               key="sub1"
               icon={
-                <WalletOutlined style={{ position: "relative", top: -2}} />
+                <WalletOutlined style={{ position: "relative", top: -2 }} />
               }
               title="Wallets"
               className="submeun-anchor"
             >
               {Object.values(walletsData).map((wallet_ele, wallet_index) => {
                 return (
-                  <Menu.Item key={wallet_ele.id}>{wallet_ele.title}</Menu.Item>
+                  <Menu.Item
+                    key={wallet_ele.id}
+                    onClick={() =>
+                      changeDBroute(
+                        `/app/wallet/${wallet_ele.id}`,
+                        wallet_ele.dbId
+                      )
+                    }
+                  >
+                    {wallet_ele.title}
+                  </Menu.Item>
                 );
               })}
             </SubMenu>
@@ -139,6 +150,12 @@ function DashboardSidebar(props) {
           {React.cloneElement(props.children, {
             walletsData: walletsData,
             setwalletsData: setwalletsData,
+            currentWalletsData:
+              walletsData &&
+              router.query.walletId &&
+              walletsData[router.query.walletId]
+                ? walletsData[router.query.walletId]
+                : null,
           })}
         </Layout>
       </Layout>

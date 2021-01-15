@@ -100,7 +100,7 @@ export default class Footer extends React.Component {
                     <Icon.Mail />
                     Email:{" "}
                     <Link href="#">
-                      <a>MetaShard@gmail.com</a>
+                      <a>Relysia@gmail.com</a>
                     </Link>
                   </li>
                   <li>
@@ -146,7 +146,7 @@ export default class Footer extends React.Component {
 
             <div className="col-lg-12 col-md-12">
               <div className="copyright-area">
-                <p>Copyright @2020 MetaShard. All rights reserved</p>
+                <p>Copyright @2020 Relysia. All rights reserved</p>
               </div>
             </div>
           </div>

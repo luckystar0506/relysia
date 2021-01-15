@@ -26,7 +26,7 @@ class Zaps extends React.Component {
           <GoTop scrollStepInPx="50" delayInMs="16.66" />
         </Preloader>
         <Head>
-          <title>Connect with Zapier | MetaShard</title>
+          <title>Connect with Zapier | Relysia</title>
           <meta
             name="viewport"
             content="initial-scale=1.0, width=device-width"

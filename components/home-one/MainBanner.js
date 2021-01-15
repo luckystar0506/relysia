@@ -12,7 +12,7 @@ const MainBanner = () => {
 							<div className="col-lg-5">
 								<div className="hero-content">
 									<h1>Secure Database Solutions on Bitcoin</h1>
-									<p>With MetaShard you can easily access data stored on the Blockchain. You can create databases, host websites and store files on-chain.</p>
+									<p>With Relysia you can easily access data stored on the Blockchain. You can create databases, host websites and store files on-chain.</p>
 									
 									<Link href="#">
 										<a className="btn btn-primary">Get Started</a>

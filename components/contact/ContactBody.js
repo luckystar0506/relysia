@@ -55,12 +55,12 @@ export default class ContactBody extends React.Component {
                   <h3>Mail Here</h3>
                   <p>
                     <Link href="#">
-                      <a>admin@MetaShard.com</a>
+                      <a>admin@Relysia.com</a>
                     </Link>
                   </p>
                   <p>
                     <Link href="#">
-                      <a>info@MetaShard.com</a>
+                      <a>info@Relysia.com</a>
                     </Link>
                   </p>
                 </div>

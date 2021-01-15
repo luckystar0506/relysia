@@ -6,13 +6,23 @@ import { route } from "next/dist/next-server/server/router";
 import { useRouter } from "next/router";
 import NewWalletDialog from "./newWalletDialog";
 import { useDispatch, useSelector } from "react-redux";
-import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
+import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
 
 function DashboardPage(props) {
   const router = useRouter();
   const [newWalletDialogState, setnewWalletDialogState] = useState(false);
 
   const userDataRedux = useSelector((state) => state.userData);
+
+  const showDollarBal = (val) => {
+    console.log("val", val);
+
+    if (Number(val) < 1) {
+      return (Number(val) * 100).toFixed(2) + "¢";
+    } else {
+      return "$" + Number(val).toFixed(2);
+    }
+  };
 
   return (
     <>
@@ -91,41 +101,29 @@ function DashboardPage(props) {
         </div>
       </section>
 
-      <section className="boxes-area" style={{ margin: 0 }}>
+      <section className="boxes-area" style={{ margin: "0px 20px" }}>
         <div className="container">
           {props.walletsData && Object.values(props.walletsData).length > 0 ? (
             <div className="row">
               {Object.values(props.walletsData).map((item, index) => {
                 return (
-                  <div className="col-lg-3 col-md-6" key={item.id+"_dashboard_wallet"}>
+                  <div
+                    className="col-xl-3 col-lg-4 col-md-6"
+                    key={item.id + "_dashboard_wallet"}
+                    style={{ cursor: "pointer" }}
+                    onClick={() => router.push(`/app/wallet/${item.id}`)}
+                  >
                     <div className="single-box bg-eb6b3d fix-height">
-                      <div
-                        className="icon"
-                        style={{ cursor: "pointer" }}
-                        onClick={() =>
-                          router.push(`/app/databases/${item.id}`)
-                        }
-                      >
+                      <div className="icon">
                         <AccountBalanceWalletIcon />
                       </div>
-                      <h3
-                        style={{ cursor: "pointer" }}
-                        onClick={() =>
-                          router.push(`/app/databases/${item.id}`)
-                        }
-                      >
-                        {item.title}
-                      </h3>
-                      <p>
-                        <ShowMoreText
-                          lines={3}
-                          more="more"
-                          less="less"
-                          anchorClass="anchor-more-class"
-                          expanded={false}
-                        >
-                          {item.dollarBal}
-                        </ShowMoreText>
+                      <h1>
+                        <p>{item.title}</p>
+                      </h1>
+
+                      <h3>{showDollarBal(item.dollarBal)}</h3>
+                      <p style={{ marginTop: 0 }}>
+                        {(item.bsvBal / 100000000).toFixed(8)} BSV
                       </p>
                     </div>
                   </div>

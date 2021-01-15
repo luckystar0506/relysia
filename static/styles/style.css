@@ -1316,11 +1316,12 @@ Boxes CSS
 }
 
 .single-box h3 {
-  font-size: 18px;
-  margin-top: 25px;
-  margin-bottom: 11px;
+  font-size: 25px;
+  margin-top: 10px;
+  margin-bottom: 2px;
   -webkit-transition: 0.5s;
   transition: 0.5s;
+  font-weight: 500;
 }
 
 .single-box::before {
@@ -1342,6 +1343,10 @@ Boxes CSS
 .single-box p {
   -webkit-transition: 0.5s;
   transition: 0.5s;
+}
+.single-box h1 {
+  font-size: 16px;
+  margin-top: 10px;
 }
 
 .single-box.bg-f78acb {
@@ -3002,6 +3007,19 @@ Pricing CSS
 
 .single-pricing-table.active-plan .btn-primary::after,
 .single-pricing-table.active-plan .btn-primary::before {
+  background: #44ce6f;
+  -webkit-box-shadow: 0 13px 27px 0 rgba(68, 206, 111, 0.25);
+  box-shadow: 0 13px 27px 0 rgba(68, 206, 111, 0.25);
+}
+
+.btn-primary-inverse-color {
+  background: #c679e3;
+  -webkit-box-shadow: 0 13px 27px 0 rgba(198, 121, 227, 0.25);
+  box-shadow: 0 13px 27px 0 rgba(198, 121, 227, 0.25);
+}
+
+.btn-primary-inverse-color::after,
+.btn-primary-inverse-color::before {
   background: #44ce6f;
   -webkit-box-shadow: 0 13px 27px 0 rgba(68, 206, 111, 0.25);
   box-shadow: 0 13px 27px 0 rgba(68, 206, 111, 0.25);

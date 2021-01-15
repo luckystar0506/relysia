@@ -42,8 +42,8 @@ export default withRedux(initStore)(
       return (
         <>
           <DefaultSeo
-            title="MetaShard - The Bitcoin database"
-            description="MetaShard is a Bitcoin database, helping developers build robust applications on the blockchain."
+            title="Relysia - The Bitcoin database"
+            description="Relysia is a Bitcoin database, helping developers build robust applications on the blockchain."
             openGraph={{
               type: "website",
               locale: "en_IE",

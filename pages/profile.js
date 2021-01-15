@@ -34,7 +34,7 @@ function Features() {
       <Footer />
       <GoTop scrollStepInPx="50" delayInMs="16.66" />
       <Head>
-        <title>Profile | MetaShard</title>
+        <title>Profile | Relysia</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
     </Preloader>

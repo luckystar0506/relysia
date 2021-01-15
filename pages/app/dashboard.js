@@ -26,7 +26,7 @@ class Dashboard extends React.Component {
           <GoTop scrollStepInPx="50" delayInMs="16.66" />
         </Preloader>
         <Head>
-          <title>Dashboard | MetaShard</title>
+          <title>Dashboard | Relysia</title>
           <meta
             name="viewport"
             content="initial-scale=1.0, width=device-width"

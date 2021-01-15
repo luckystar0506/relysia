@@ -176,9 +176,9 @@
   .single-box {
     margin-bottom: 30px;
   }
-  .single-box h3 {
+  /* .single-box h3 {
     font-size: 17px;
-  }
+  } */
   .services-content .box {
     margin-top: 20px;
     padding: 14px 10px;
@@ -1950,11 +1950,11 @@
   .single-box {
     padding: 20px 20px;
   }
-  .single-box h3 {
+  /* .single-box h3 {
     font-size: 16px;
     margin-top: 20px;
     margin-bottom: 10px;
-  }
+  } */
   /* Agency home demo CSS */
   .agency-banner-content {
     max-width: 465px;

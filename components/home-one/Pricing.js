@@ -96,7 +96,7 @@ class Pricing extends Component {
                   </Link>
                 </div>
               </div>
-            </div>
+            </div> 
 
             <div className="col-lg-4 col-md-6 offset-lg-0 offset-md-3">
               <div className="single-pricing-table">

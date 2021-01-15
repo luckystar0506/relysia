@@ -31,12 +31,9 @@ function Login() {
       <Footer />
       <GoTop scrollStepInPx="50" delayInMs="16.66" />
       <Head>
-          <title>Register | MetaShard</title>
-          <meta
-            name="viewport"
-            content="initial-scale=1.0, width=device-width"
-          />
-        </Head>
+        <title>Register | Relysia</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
     </Preloader>
   );
 }

@@ -29,7 +29,7 @@ class Custom404 extends React.Component {
           </div>
         </section>
         <Head>
-          <title>404 Error | MetaShard</title>
+          <title>404 Error | Relysia</title>
           <meta
             name="viewport"
             content="initial-scale=1.0, width=device-width"
