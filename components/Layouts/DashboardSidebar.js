@@ -33,18 +33,24 @@ function DashboardSidebar(props) {
         router.push("/");
       } else {
         //getting user wallets
-
         firebase
           .database()
           .ref("userWallets/" + user.uid)
           .on("value", (snapshot) => {
             let recWalletsData = snapshot.val();
             setwalletsData(recWalletsData);
-            console.log("walletsData", recWalletsData);
           });
+
+        //update wallet balances
+        updatebalances();
       }
     });
   }, []);
+
+  const updatebalances = async () => {
+    let walletListAPI = firebase.functions().httpsCallable("getWalletBalances");
+    await walletListAPI();
+  };
 
   useEffect(() => {
     if (router.pathname === "/app/dashboard") {
@@ -125,7 +131,7 @@ function DashboardSidebar(props) {
                     onClick={() =>
                       changeDBroute(
                         `/app/wallet/${wallet_ele.id}`,
-                        wallet_ele.dbId
+                        wallet_ele.id
                       )
                     }
                   >

@@ -280,11 +280,12 @@ svg:focus {
   padding-right: 10px;
 }
 .wallet-con1 {
-  width: 45%;
+  width: 40%;
   border-right: 1px solid #dcdbdb;
 }
 .wallet-con2 {
-  width: 48%;
+  width: 55%;
+  padding: 0px 20px;
 }
 .wallet-head h1 {
   font-size: 20px;
@@ -317,12 +318,34 @@ svg:focus {
   margin-top: 30px;
 }
 .wallet-btns a {
-  width: 160px;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
-@media only screen and (max-width: 1600px) {
-  .wallet-con1 {
-    width: 48%;
-  }
+.wallet-btns a:active {
+  background-color: red !important;
+}
+.deposite-dialog-con h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 0px;
+}
+.refresh-wallet-con {
+  position: absolute;
+  margin-left: 60px;
+  margin-top: -18px;
+}
+.refresh-wallet-con button {
+  outline: none;
+}
+.transaction-gr-summary {
+  margin: 15px 0px;
+  margin-bottom: 50px;
+}
+.pov-price {
+  color: #44ce6f;
+}
+.neg-price {
+  color: red;
 }
 @media only screen and (max-width: 1100px) {
   .nav-logo-ele {
@@ -355,9 +378,17 @@ svg:focus {
   }
   .wallet-con1 {
     width: 100%;
+    padding: 0px 10px;
+    border-right: 0px solid #dcdbdb;
   }
   .wallet-con2 {
     width: 100%;
+    padding: 0px 10px;
+    margin-top: 25px;
+  }
+  .customize-con {
+    padding-left: 0px;
+    padding-right: 0px;
   }
 }
 @media only screen and (min-width: 767px) {

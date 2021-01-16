@@ -183,6 +183,10 @@ h6 {
   -webkit-box-shadow: 0 13px 27px 0 rgba(198, 121, 227, 0.25);
   box-shadow: 0 13px 27px 0 rgba(198, 121, 227, 0.25);
 }
+.btn-primary:focus {
+  -webkit-transform: none;
+  transform: none;
+}
 
 .btn-primary.focus,
 .btn-primary:focus {
