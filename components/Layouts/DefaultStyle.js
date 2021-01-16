@@ -91,7 +91,7 @@ class DefaultStyle extends React.Component {
                   onClick={() => window.location.refresh()}
                 >
                   <img
-                    src={require("../../static/images/rLogo.png")}
+                    src={require("../../static/images/RelysiaLogoNew.png")}
                     alt="logo"
                     className="navbar-brand nav-logo-ele"
                   />
