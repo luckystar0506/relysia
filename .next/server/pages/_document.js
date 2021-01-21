@@ -202,7 +202,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("module.exports = \"/_next/static/images/favicon-b79f326ff255968df7288098cb724537.ico\";//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9zdGF0aWMvaW1hZ2VzL2Zhdmljb24uaWNvPzA1NDgiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEiLCJmaWxlIjoiLi9zdGF0aWMvaW1hZ2VzL2Zhdmljb24uaWNvLmpzIiwic291cmNlc0NvbnRlbnQiOlsibW9kdWxlLmV4cG9ydHMgPSBcIi9fbmV4dC9zdGF0aWMvaW1hZ2VzL2Zhdmljb24tYjc5ZjMyNmZmMjU1OTY4ZGY3Mjg4MDk4Y2I3MjQ1MzcuaWNvXCI7Il0sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./static/images/favicon.ico\n");
+eval("module.exports = \"/_next/static/images/favicon-3c1295d15b6564601cbbb01855820251.ico\";//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9zdGF0aWMvaW1hZ2VzL2Zhdmljb24uaWNvPzA1NDgiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEiLCJmaWxlIjoiLi9zdGF0aWMvaW1hZ2VzL2Zhdmljb24uaWNvLmpzIiwic291cmNlc0NvbnRlbnQiOlsibW9kdWxlLmV4cG9ydHMgPSBcIi9fbmV4dC9zdGF0aWMvaW1hZ2VzL2Zhdmljb24tM2MxMjk1ZDE1YjY1NjQ2MDFjYmJiMDE4NTU4MjAyNTEuaWNvXCI7Il0sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./static/images/favicon.ico\n");
 
 /***/ }),
 

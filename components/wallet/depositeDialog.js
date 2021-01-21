@@ -98,7 +98,7 @@ export default function DepositeDialog(props) {
           <CopyToClipboard
             text={currentAddress ? currentAddress : "-"}
             onCopy={() => {
-              toast.info("Address Copied", {
+              toast.info("Wallet Address Copied", {
                 position: "bottom-left",
                 autoClose: 10000,
                 hideProgressBar: false,
@@ -125,6 +125,45 @@ export default function DepositeDialog(props) {
                 variant="body1"
               >
                 {currentAddress ? currentAddress : "-"}
+              </p>
+            </div>
+          </CopyToClipboard>
+          <CopyToClipboard
+            text={
+              props.walletComputerObj
+                ? props.walletComputerObj.db.wallet.getPublicKey().toString()
+                : "-"
+            }
+            onCopy={() => {
+              toast.info("Wallet Public-key Copied", {
+                position: "bottom-left",
+                autoClose: 10000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+              });
+            }}
+          >
+            <div className={classes.clipCon} style={{ marginTop: 20 }}>
+              <FileCopyIcon
+                color="primary"
+                style={{ float: "right", height: 15, width: 15 }}
+              />
+
+              <h3 variant="subtitle1">WALLET PUBLIC KEY</h3>
+
+              <p
+                style={{
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                }}
+                variant="body1"
+              >
+                {props.walletComputerObj
+                  ? props.walletComputerObj.db.wallet.getPublicKey().toString()
+                  : "-"}
               </p>
             </div>
           </CopyToClipboard>

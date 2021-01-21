@@ -63,12 +63,17 @@ class DefaultStyle extends React.Component {
       : "navbar-toggler navbar-toggler-right";
 
     let { pathname } = this.props.router;
+    console.log(
+      "this.props.router.pathname",
+      this.props.router.pathname.includes("/docs/")
+    );
     return (
       <header
         id="header"
         className={
-          pathname.includes("/app/") &&
-          (this.props.width !== "xs" || this.props.width !== "sm")
+          pathname.includes("/app/") ||
+          (pathname.includes("/docs") &&
+            (this.props.width !== "xs" || this.props.width !== "sm"))
             ? "navbar-style-three"
             : ""
         }
@@ -78,8 +83,9 @@ class DefaultStyle extends React.Component {
         <div id="navbar" className={`relysia-nav`}>
           <div
             className={
-              pathname.includes("/app/") &&
-              (this.props.width !== "xs" || this.props.width !== "sm")
+              pathname.includes("/app/") ||
+              (pathname.includes("/docs") &&
+                (this.props.width !== "xs" || this.props.width !== "sm"))
                 ? "container-fluid"
                 : "container"
             }
@@ -173,14 +179,32 @@ class DefaultStyle extends React.Component {
                   </li>
 
                   <li className="nav-item">
-                    <Link activeClassName="active" href="/contact">
-                      <a className="nav-link">Contact</a>
+                    <Link activeClassName="active" href="/docs/overview">
+                      <a
+                        className="nav-link"
+                        style={{
+                          color: this.props.router.pathname.includes("/docs/")
+                            ? "#f48665"
+                            : "",
+                        }}
+                      >
+                        Docs
+                      </a>
                     </Link>
                   </li>
                   {this.props.userData && (
                     <li className="nav-item">
                       <Link activeClassName="active" href="/app/dashboard">
-                        <a className="nav-link">Wallet</a>
+                        <a
+                          className="nav-link"
+                          style={{
+                            color: this.props.router.pathname.includes("/app/")
+                              ? "#f48665"
+                              : "",
+                          }}
+                        >
+                          Wallet
+                        </a>
                       </Link>
                     </li>
                   )}

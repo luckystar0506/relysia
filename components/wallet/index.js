@@ -14,6 +14,8 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import { Menu, Dropdown } from "antd";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { Checkbox } from "antd";
+import { Computer } from "bitcoin-computer";
+import TokensCon from "./tokensCon";
 
 function WalletPage(props) {
   const router = useRouter();
@@ -25,6 +27,7 @@ function WalletPage(props) {
   const [selectedActivityState, setselectedActivityState] = useState(2);
   const [bsvRate, setbsvRate] = useState(0);
   const [dropdownState, setdropdownState] = useState(false);
+  const [walletComputerObj, setwalletComputerObj] = useState(null);
 
   const userDataRedux = useSelector((state) => state.userData);
 
@@ -56,6 +59,23 @@ function WalletPage(props) {
         }
       });
   }, []);
+
+  useEffect(() => {
+    if (props.currentWalletsData) {
+      try {
+        let newComputerObj = new Computer({
+          chain: "BSV",
+          network: "testnet",
+          // network: "livenet",
+          seed: props.currentWalletsData.mnemonic,
+          path: "m/44'/0'/0'/0/0",
+        });
+        setwalletComputerObj(newComputerObj);
+      } catch (err) {
+        console.log("bitoin-computer err", err);
+      }
+    }
+  }, [props.currentWalletsData]);
 
   const showDollarBal = (val) => {
     if (Number(val) < 1) {
@@ -141,7 +161,7 @@ function WalletPage(props) {
               </h1>
             </div>
 
-            <div className=" balance-Head">
+            <div className="balance-Head">
               <h2
                 className="dbTag"
                 style={{ display: "block", marginBottom: 10 }}
@@ -216,6 +236,11 @@ function WalletPage(props) {
                 </a>
               </div>
             </div>
+
+            <TokensCon 
+              walletComputerObj={walletComputerObj}
+              userDataRedux={userDataRedux}
+            />
           </div>
           <div className="wallet-con2">
             <PerfectScrollbar
@@ -269,12 +294,14 @@ function WalletPage(props) {
         setdialogState={setdepositeDialogState}
         userDataRedux={userDataRedux}
         walletData={props.currentWalletsData ? props.currentWalletsData : null}
+        walletComputerObj={walletComputerObj}
       />
       <WithdrawDialog
         dialogState={withdrawDialogState}
         setdialogState={setwithdrawDialogState}
         userDataRedux={userDataRedux}
         walletData={props.currentWalletsData ? props.currentWalletsData : null}
+        walletComputerObj={walletComputerObj}
       />
     </section>
   );

@@ -15,7 +15,6 @@ function DashboardPage(props) {
   const userDataRedux = useSelector((state) => state.userData);
 
   const showDollarBal = (val) => {
-    console.log("val", val);
 
     if (Number(val) < 1) {
       return (Number(val) * 100).toFixed(2) + "¢";
