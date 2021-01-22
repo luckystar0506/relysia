@@ -2,5 +2,6 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
-  "/app/wallet/[walletId]": "pages/app/wallet/[walletId].js"
+  "/app/wallet/[walletId]": "pages/app/wallet/[walletId].js",
+  "/": "pages/index.js"
 }

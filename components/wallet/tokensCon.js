@@ -118,6 +118,7 @@ export default function TokensCon(props) {
       <MintTokenDialog
         dialogState={newTokenDialogState}
         setdialogState={setnewTokenDialogState}
+        walletComputerObj={props.walletComputerObj}
       />
     </div>
   );
