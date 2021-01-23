@@ -143,16 +143,16 @@ const WalletGraph = (props) => {
     datasets: [
       {
         data: depositLine,
-        backgroundColor: "#6570b4",
-        borderColor: "#6570b4",
+        backgroundColor: "#44ce6f",
+        borderColor: "#44ce6f",
         fill: false,
         borderWidth: 2,
         label: "Deposit",
       },
       {
         data: withdrawLine,
-        borderColor: "#ff2868",
-        backgroundColor: "#ff2868",
+        borderColor: "#f48665", 
+        backgroundColor: "#f48665",
         fill: false,
         label: "Withdraw",
         borderWidth: 2,
@@ -312,7 +312,7 @@ const WalletGraph = (props) => {
                     borderRadius: "50%",
                     height: 10,
                     width: 10,
-                    backgroundColor: "#6570b4",
+                    backgroundColor: "#44ce6f",
                     marginRight: 4,
                   }}
                 />
@@ -326,7 +326,7 @@ const WalletGraph = (props) => {
                     borderRadius: "50%",
                     height: 10,
                     width: 10,
-                    backgroundColor: "#ff2868",
+                    backgroundColor: "#f48665",
                     marginRight: 4,
                   }}
                 />

@@ -41,7 +41,7 @@ export default function DepositeDialog(props) {
   const handleClose = () => {
     props.setdialogState(false);
   };
-
+ 
   const getDynamicAddress = () => {
     //use randomly
     setcurrentAddress(

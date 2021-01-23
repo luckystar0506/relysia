@@ -1726,18 +1726,17 @@ Services CSS
 
 .services-content .box {
   position: relative;
-  margin-top: 20px;
+  margin-bottom: 14px;
   z-index: 1;
   display: block;
-  padding: 15px 12px;
   color: #6084a4;
   font-weight: 500;
   background-color: #ffffff;
   border-radius: 3px;
   -webkit-transition: 0.5s;
   transition: 0.5s;
-  -webkit-box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
-  box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08);
+  /* -webkit-box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08); */
+  /* box-shadow: 0 2px 48px 0 rgba(0, 0, 0, 0.08); */
 }
 
 .services-content .box::before {
@@ -1750,7 +1749,7 @@ Services CSS
   opacity: 0;
   visibility: hidden;
   position: absolute;
-  border-radius: 3px;
+  border-radius: 15px;
   z-index: -1;
   -webkit-transition: 0.5s;
   transition: 0.5s;
@@ -1770,7 +1769,16 @@ Services CSS
   -webkit-transform: translateY(-10px);
   transform: translateY(-10px);
 }
-
+.services-content .box:hover .activity-box-bsvbal {
+  color: #ffffff;
+}
+.services-content .box:hover .activity-box-dollarbal span {
+  color: #ffffff !important;
+}
+.services-content .box:hover .activity-box-tx {
+  color: #ffffff;
+  border-color: #ffffff;
+}
 .services-content .box:hover::before {
   opacity: 1;
   visibility: visible;
