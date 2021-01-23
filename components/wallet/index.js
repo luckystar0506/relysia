@@ -14,8 +14,9 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import { Menu, Dropdown } from "antd";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { Checkbox } from "antd";
-import { Computer } from "bitcoin-computer";
+import Computer from "bitcoin-computer";
 import TokensCon from "./tokensCon";
+import moment from "moment";
 
 function WalletPage(props) {
   const router = useRouter();
@@ -28,7 +29,8 @@ function WalletPage(props) {
   const [bsvRate, setbsvRate] = useState(0);
   const [dropdownState, setdropdownState] = useState(false);
   const [walletComputerObj, setwalletComputerObj] = useState(null);
-
+  const [tokensList, settokensList] = useState([]);
+  const [loadingTokens, setloadingTokens] = useState(true);
   const userDataRedux = useSelector((state) => state.userData);
 
   useEffect(() => {
@@ -62,6 +64,8 @@ function WalletPage(props) {
 
   useEffect(() => {
     if (props.currentWalletsData) {
+      setloadingTokens(true);
+
       try {
         let newComputerObj = new Computer({
           chain: "BSV",
@@ -71,6 +75,8 @@ function WalletPage(props) {
           path: "m/44'/0'/0'/0/0",
         });
         setwalletComputerObj(newComputerObj);
+
+        getTokens(newComputerObj);
       } catch (err) {
         console.log("bitoin-computer err", err);
       }
@@ -123,6 +129,25 @@ function WalletPage(props) {
       setselectedActivityState(-1);
     } else {
       setselectedActivityState(1);
+    }
+  };
+
+  const getTokens = async (obj) => {
+    setloadingTokens(true);
+
+    if (walletComputerObj || obj) {
+      let localComputerObj = obj ? obj : walletComputerObj;
+      const revs = await localComputerObj.getRevs(
+        localComputerObj.db.wallet.getPublicKey().toString()
+      );
+      let locallist = await Promise.all(
+        revs.map(async (rev) => {
+          return localComputerObj.sync(rev);
+        })
+      );
+
+      settokensList([...locallist]);
+      setloadingTokens(false);
     }
   };
 
@@ -218,7 +243,7 @@ function WalletPage(props) {
                     e.preventDefault();
                     setdepositeDialogState(true);
                   }}
-                  className="btn btn-primary"
+                  className="btn btn-primary btn-primary-inverse-color"
                 >
                   Deposit
                 </a>
@@ -230,21 +255,26 @@ function WalletPage(props) {
                     e.preventDefault();
                     setwithdrawDialogState(true);
                   }}
-                  className="btn btn-primary btn-primary-inverse-color"
+                  className="btn btn-primary "
                 >
                   Withdraw
                 </a>
               </div>
             </div>
 
-            <TokensCon 
+            <TokensCon
               walletComputerObj={walletComputerObj}
               userDataRedux={userDataRedux}
+              tokensList={tokensList}
+              settokensList={settokensList}
+              loadingTokens={loadingTokens}
+              setloadingTokens={setloadingTokens}
+              getTokens={getTokens}
             />
           </div>
           <div className="wallet-con2">
             <PerfectScrollbar
-              style={{ maxHeight: "80vh", height: "auto", padding: "0px 2px" }}
+              style={{ maxHeight: "100vh", height: "auto", padding: "0px 2px" }}
             >
               <div className="wallet-head">
                 <h2 className="dbTag" style={{ display: "block" }}>
@@ -302,6 +332,9 @@ function WalletPage(props) {
         userDataRedux={userDataRedux}
         walletData={props.currentWalletsData ? props.currentWalletsData : null}
         walletComputerObj={walletComputerObj}
+        getTokens={getTokens}
+        tokensList={tokensList}
+        settokensList={settokensList}
       />
     </section>
   );

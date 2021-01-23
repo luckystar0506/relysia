@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -37,12 +37,7 @@ export default function WithdrawDialog(props) {
   const [withdrawType, setwithdrawType] = useState("BSV");
   const [tokenAomunt, settokenAomunt] = useState("");
   const [tokenAddress, settokenAddress] = useState("");
-  const [tokensList, settokensList] = useState([]);
   const [selectedToken, setselectedToken] = useState(0);
-
-  useEffect(() => {
-    getTokens();
-  }, [props.walletComputerObj]);
 
   const handleClose = () => {
     props.setdialogState(false);
@@ -111,7 +106,9 @@ export default function WithdrawDialog(props) {
     setloading(true);
 
     try {
-      let currentToken = Object.values(groupByRoot(tokensList))[selectedToken];
+      let currentToken = Object.values(groupByRoot(props.tokensList))[
+        selectedToken
+      ];
 
       const balance = currentToken.reduce(
         (acc, token) => acc + parseInt(token.coins, 10),
@@ -161,6 +158,7 @@ export default function WithdrawDialog(props) {
         handleClose();
         settokenAomunt("");
         settokenAddress("");
+        props.getTokens();
       }, 1500);
     } catch (err) {
       console.log("catch err", err);
@@ -174,21 +172,6 @@ export default function WithdrawDialog(props) {
       });
 
       setloading(false);
-    }
-  };
-
-  const getTokens = async () => {
-    if (props.walletComputerObj) {
-      const revs = await props.walletComputerObj.getRevs(
-        props.walletComputerObj.db.wallet.getPublicKey().toString()
-      );
-      settokensList(
-        await Promise.all(
-          revs.map(async (rev) => {
-            return props.walletComputerObj.sync(rev);
-          })
-        )
-      );
     }
   };
 
@@ -303,7 +286,7 @@ export default function WithdrawDialog(props) {
                       },
                     }}
                   >
-                    {Object.values(groupByRoot(tokensList)).map(
+                    {Object.values(groupByRoot(props.tokensList)).map(
                       (tokens, index) => {
                         return (
                           <MenuItem
@@ -315,7 +298,7 @@ export default function WithdrawDialog(props) {
                         );
                       }
                     )}
-                    {tokensList.length === 0 && (
+                    {props.tokensList.length === 0 && (
                       <MenuItem value={0}>You didn't have any tokens</MenuItem>
                     )}
                   </Select>

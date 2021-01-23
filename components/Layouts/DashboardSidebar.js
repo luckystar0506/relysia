@@ -62,13 +62,13 @@ function DashboardSidebar(props) {
     }
   }, []);
 
-  useEffect(() => {
-    if (matcheslg) {
-      setcollapsed(false);
-    } else {
-      setcollapsed(true);
-    }
-  }, [matcheslg]);
+  // useEffect(() => {
+  //   if (matcheslg) {
+  //     setcollapsed(false);
+  //   } else {
+  //     setcollapsed(true);
+  //   }
+  // }, [matcheslg]);
 
   const changeDBroute = (route, walletId) => {
     setselectedKey([walletId]);

@@ -1,5 +1,7 @@
 // config/fire-config.js
 import firebase from "firebase";
+import "firebase/storage";
+
 const firebaseConfig = {
   apiKey: "AIzaSyDiAjG-iuYAORff9qoaQQHVAaBzU49HViM",
   authDomain: "vaionexdev.firebaseapp.com",
@@ -20,6 +22,11 @@ try {
 export const DB1 = firebase
   .app()
   .database("https://vaionexdev.firebaseio.com/");
+
+export const tokensFirebaseStorage = firebase
+  .app()
+  .storage("gs://wallettokens_vionex/")
+  .ref();
 
 const fire = firebase;
 export default fire;

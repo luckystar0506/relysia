@@ -1,11 +1,14 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import CustomLoader from "../Layouts/CustomLoader";
 import ShowMoreText from "react-show-more-text";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
-import useInterval from "./useInterval";
 import Avatar from "@material-ui/core/Avatar";
 import MintTokenDialog from "./mintTokenDialog";
+import Tooltip from "@material-ui/core/Tooltip";
+import IconButton from "@material-ui/core/IconButton";
+import RefreshIcon from "@material-ui/icons/Refresh";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   papercon: {
@@ -16,30 +19,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TokensCon(props) {
   const classes = useStyles();
-  const [tokensList, settokensList] = useState([]);
-  const [loadingTokens, setloadingTokens] = useState(true);
   const [newTokenDialogState, setnewTokenDialogState] = useState(false);
-
-  useEffect(() => {
-    setloadingTokens(true);
-    getTokens();
-  }, [props.walletComputerObj]);
-
-  const getTokens = async () => {
-    if (props.walletComputerObj) {
-      const revs = await props.walletComputerObj.getRevs(
-        props.walletComputerObj.db.wallet.getPublicKey().toString()
-      );
-      settokensList(
-        await Promise.all(
-          revs.map(async (rev) => {
-            return props.walletComputerObj.sync(rev);
-          })
-        )
-      );
-      setloadingTokens(false);
-    }
-  };
+  const [refreshTokens, setrefreshTokens] = useState(false);
 
   const groupByRoot = (list) =>
     list.reduce(
@@ -50,15 +31,43 @@ export default function TokensCon(props) {
       {}
     );
 
-  // useInterval(() => {
-  //   getTokens();
-  // }, 10000);
+  const refreshTokensHandler = () => {
+    setrefreshTokens(true);
+    props.getTokens();
+
+    setTimeout(() => {
+      setrefreshTokens(false);
+    }, 1500);
+  };
 
   return (
     <div className="token-view-con">
       <div style={{ display: "flex", alignItems: "center", marginBottom: 10 }}>
         <h2 className="dbTag" style={{ display: "block" }}>
-          Tokens
+          Tokens{" "}
+          <Tooltip title="Refresh">
+            <div className="refresh-token-con ">
+              <IconButton
+                disabled={refreshTokens}
+                onClick={refreshTokensHandler}
+                size="small"
+                color="primary"
+                style={{ marginLeft: 10 }}
+              >
+                {refreshTokens ? (
+                  <CircularProgress
+                    size={16}
+                    thickness={4}
+                    style={{ color: "#f48665" }}
+                  />
+                ) : (
+                  <RefreshIcon
+                    style={{ height: 17, width: 17, color: "#f48665" }}
+                  />
+                )}
+              </IconButton>
+            </div>
+          </Tooltip>{" "}
         </h2>
         <p
           className="mint-btn link"
@@ -68,12 +77,16 @@ export default function TokensCon(props) {
         </p>
       </div>
       <div>
-        {loadingTokens ? (
+        {Object.values(groupByRoot(props.tokensList)).length === 0 &&
+          !props.loadingTokens && (
+            <p style={{ marginLeft: 10 }}>You didn't have any tokens</p>
+          )}
+        {props.loadingTokens ? (
           <div style={{ marginTop: 25 }}>
             <CustomLoader />
           </div>
         ) : (
-          Object.values(groupByRoot(tokensList)).map((tokens, index) => {
+          Object.values(groupByRoot(props.tokensList)).map((tokens, index) => {
             const [first] = tokens;
             const balance = tokens.reduce(
               (acc, token) => acc + parseInt(token.coins, 10),
@@ -119,6 +132,7 @@ export default function TokensCon(props) {
         dialogState={newTokenDialogState}
         setdialogState={setnewTokenDialogState}
         walletComputerObj={props.walletComputerObj}
+        getTokens={props.getTokens}
       />
     </div>
   );

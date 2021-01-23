@@ -338,6 +338,16 @@ svg:focus {
 .refresh-wallet-con button {
   outline: none;
 }
+
+.refresh-token-con {
+  position: absolute;
+  margin-left: 30px;
+  margin-top: -18px;
+}
+.refresh-token-con button {
+  outline: none;
+}
+
 .transaction-gr-summary {
   margin: 15px 0px;
   margin-bottom: 50px;
@@ -346,7 +356,7 @@ svg:focus {
   color: #44ce6f;
 }
 .neg-price {
-  color: red;
+  color: #f48665;
 }
 
 .tabViewCon {
@@ -389,8 +399,69 @@ svg:focus {
   margin-left: auto;
   margin-right: 25px;
 }
-.custom-dialog{
+.custom-dialog {
   z-index: 1000 !important;
+}
+
+.activity-box {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid #c5c2c2;
+  margin: 0px 5px;
+  width: 48%;
+  border-radius: 15px !important;
+  min-width: 200px;
+}
+.activity-box-dollarbal {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 800;
+  margin: 0;
+  font-size: 20px;
+}
+.activity-box-bsvbal {
+  font-weight: 500;
+  margin: 0;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  top: -5px;
+}
+.activities-box-con {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.activity-box-tx {
+  float: right;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid #f48665;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  color: #f48665;
+  font-weight: 600;
+}
+.date-view-activity {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 8px;
+}
+@media only screen and (max-width: 1200px) {
+  .activity-box {
+    width: 95%;
+  }
+  .activities-box-con {
+    justify-content: center;
+  }
 }
 @media only screen and (max-width: 1100px) {
   .nav-logo-ele {

@@ -1,19 +1,17 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import Slide from "@material-ui/core/Slide";
-import firebase from "../../config/fire-conf";
+import { tokensFirebaseStorage } from "../../config/fire-conf";
 import CustomLoader from "../Layouts/CustomLoader";
 import { ToastContainer, toast } from "react-toastify";
-import Select from "@material-ui/core/Select";
 import { PlusOutlined } from "@ant-design/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import { Upload, message } from "antd";
 import ImgCrop from "antd-img-crop";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { v4 as uuidv4 } from "uuid";
-import Utils from "./utils";
 
 const useStyles = makeStyles((theme) => ({
   select: {
@@ -51,25 +49,38 @@ export default function MintTokenDialog(props) {
     setloading(true);
     if (props.walletComputerObj) {
       let imageId = uuidv4();
-      let uploadTask = storageRef.child("tokensLogos/" + imageId);
+      let uploadTask = tokensFirebaseStorage.child("tokensLogos/" + imageId);
       uploadTask.put(imageFile[0].originFileObj);
       let logo = `https://firebasestorage.googleapis.com/v0/b/wallettokens_vionex/o/tokensLogos%2F${imageId}?alt=media`;
       try {
         const publicKey = props.walletComputerObj.db.wallet
           .getPublicKey()
           .toString();
-        const TokenSc = await Utils.importFromPublic("/token-sc.js");
-        const token = await props.walletComputerObj.new(
-          TokenSc,
-          [
-            publicKey,
-            tokenSupply,
-            tokenName,
-            tokenDesc,
-            logo,
-            tokenWebUrl,
-          ]
-        );
+        const TokenSc = `class Token {
+          constructor(to, supply, name, description, tokenImage, websiteUrl) {
+            this.coins = supply;
+            this._owners = [to];
+            this.name = name;
+            this.description = description;
+            this.tokenImage = tokenImage;
+            this.websiteUrl = websiteUrl;
+          }
+        
+          send(amount, to) {
+            if (this.coins < amount) throw new Error();
+            this.coins -= amount;
+            return new Token(to, amount, this.name, this.description, this.tokenImage, this.websiteUrl);
+          }
+        }
+        `;
+        const token = await props.walletComputerObj.new(TokenSc, [
+          publicKey,
+          tokenSupply,
+          tokenName,
+          tokenDesc,
+          logo,
+          tokenWebUrl,
+        ]);
         let tokenData = JSON.parse(JSON.stringify(token));
         console.log(
           `Minted ${token.name} with supply ${tokenSupply} and id ${token._id}`
@@ -93,41 +104,8 @@ export default function MintTokenDialog(props) {
           });
           setloading(false);
           handleClose();
-
-          setTimeout(() => {
-            props.history.push("./tokens");
-          }, 1000);
+          props.getTokens();
         }, 1000);
-
-        //   if (sendBsvRes && sendBsvRes.data) {
-        //     if (sendBsvRes.data.status && sendBsvRes.data.status === "error") {
-        //       toast.error(sendBsvRes.data.msg, {
-        //         position: "bottom-left",
-        //         autoClose: 10000,
-        //         hideProgressBar: false,
-        //         closeOnClick: true,
-        //         pauseOnHover: true,
-        //         draggable: true,
-        //       });
-        //       setloading(false);
-        //     } else if (
-        //       sendBsvRes.data.status &&
-        //       sendBsvRes.data.status === "success"
-        //     ) {
-        // toast.success(sendBsvRes.data.msg, {
-        //   position: "bottom-left",
-        //   autoClose: 10000,
-        //   hideProgressBar: false,
-        //   closeOnClick: true,
-        //   pauseOnHover: true,
-        //   draggable: true,
-        // });
-        // setloading(false);
-        // handleClose();
-        // setwalletAddress("");
-        // setwalletAomunt("");
-        //     }
-        //   }
       } catch (err) {
         console.log("catch err", err);
         toast.error(err.message, {
@@ -293,7 +271,7 @@ export default function MintTokenDialog(props) {
               } else {
                 return (
                   <button type="submit" className="btn btn-primary btn-small">
-                    Send
+                    Mint
                   </button>
                 );
               }
