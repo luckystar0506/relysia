@@ -406,12 +406,13 @@ svg:focus {
 .activity-box {
   display: flex;
   align-items: center;
-  padding: 15px;
+  padding: 15px !important;
   border: 1px solid #c5c2c2;
-  margin: 0px 5px;
+  margin: 0px 5px !important;
   width: 48%;
   border-radius: 15px !important;
   min-width: 200px;
+  margin-bottom: 14px !important;
 }
 .activity-box-dollarbal {
   display: block;
@@ -454,6 +455,19 @@ svg:focus {
   display: block;
   margin-top: 10px;
   margin-bottom: 8px;
+}
+.sidebar-seperator {
+  height: 1px;
+  width: 100%;
+  border-top: 1px solid #f48665;
+  position: relative;
+  top: -7px;
+}
+.sidebar-logo {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  background-color: transparent;
 }
 @media only screen and (max-width: 1200px) {
   .activity-box {

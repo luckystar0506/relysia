@@ -4,8 +4,13 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import Slide from "@material-ui/core/Slide";
 import firebase from "../../config/fire-conf";
-import CustomLoader from "../Layouts/CustomLoader";
+import CustomLoader from "./CustomLoader";
 import { ToastContainer, toast } from "react-toastify";
+import { PlusOutlined } from "@ant-design/icons";
+import { Upload, message } from "antd";
+import ImgCrop from "antd-img-crop";
+import { v4 as uuidv4 } from "uuid";
+import { tokensFirebaseStorage } from "../../config/fire-conf";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -15,6 +20,7 @@ export default function NewWalletDialog(props) {
   const [loading, setloading] = useState(false);
   const [walletName, setwalletName] = useState("");
   const [walletPassword, setwalletPassword] = useState("");
+  const [imageFile, setimageFile] = useState([]);
 
   const handleClose = () => {
     props.setdialogState(false);
@@ -23,25 +29,14 @@ export default function NewWalletDialog(props) {
   const createNewDialog = async (e) => {
     e.preventDefault();
     setloading(true);
+    if (imageFile[0]) {
+      try {
+        let imageId = uuidv4();
+        let uploadTask = tokensFirebaseStorage.child("walletLogos/" + imageId);
+        uploadTask.put(imageFile[0].originFileObj);
+        let walletLogo = `https://firebasestorage.googleapis.com/v0/b/wallettokens_vionex/o/walletLogos%2F${imageId}?alt=media`;
 
-    try {
-      toast.info("Generating Wallet Keys..", {
-        position: "bottom-left",
-        autoClose: 10000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-
-      let createWalletAPI = firebase.functions().httpsCallable("createWallet");
-      let walletRes = await createWalletAPI({
-        title: walletName,
-        password: walletPassword,
-      });
-
-      if (walletRes && walletRes.data && walletRes.data.status === "success") {
-        toast.success("Wallet created Successfully!", {
+        toast.info("Generating Wallet Keys..", {
           position: "bottom-left",
           autoClose: 10000,
           hideProgressBar: false,
@@ -50,12 +45,48 @@ export default function NewWalletDialog(props) {
           draggable: true,
         });
 
-        setloading(false);
-        handleClose();
-        setwalletPassword("");
-        setwalletName("");
-      } else {
-        toast.error("An error occures, Try again!", {
+        let createWalletAPI = firebase
+          .functions()
+          .httpsCallable("createWallet");
+        let walletRes = await createWalletAPI({
+          title: walletName,
+          password: walletPassword,
+          walletLogo: walletLogo,
+        });
+
+        if (
+          walletRes &&
+          walletRes.data &&
+          walletRes.data.status === "success"
+        ) {
+          toast.success("Wallet created Successfully!", {
+            position: "bottom-left",
+            autoClose: 10000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+
+          setloading(false);
+          handleClose();
+          setwalletPassword("");
+          setwalletName("");
+          setimageFile([]);
+        } else {
+          toast.error("An error occures, Try again!", {
+            position: "bottom-left",
+            autoClose: 10000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+          setloading(false);
+        }
+      } catch (err) {
+        console.log("catch err", err);
+        toast.error(err.message, {
           position: "bottom-left",
           autoClose: 10000,
           hideProgressBar: false,
@@ -63,11 +94,11 @@ export default function NewWalletDialog(props) {
           pauseOnHover: true,
           draggable: true,
         });
+
         setloading(false);
       }
-    } catch (err) {
-      console.log("catch err", err);
-      toast.error(err.message, {
+    } else {
+      toast.error("Please upload wallet logo!", {
         position: "bottom-left",
         autoClose: 10000,
         hideProgressBar: false,
@@ -78,6 +109,35 @@ export default function NewWalletDialog(props) {
 
       setloading(false);
     }
+  };
+
+  const dummyRequest = ({ file, onSuccess }) => {
+    setTimeout(() => {
+      onSuccess("ok");
+    }, 0);
+  };
+
+  const onChangeImage = ({ fileList: newFileList }) => {
+    if (newFileList[0] && newFileList[0].size > 625000) {
+      message.error("Image must smaller than 5MB!");
+    } else {
+      setimageFile(newFileList);
+    }
+  };
+
+  const onPreview = async (file) => {
+    let src = file.url;
+    if (!src) {
+      src = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj);
+        reader.onload = () => resolve(reader.result);
+      });
+    }
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+    imgWindow.document.write(image.outerHTML);
   };
 
   return (
@@ -124,6 +184,22 @@ export default function NewWalletDialog(props) {
               maxLength={200}
             />
           </div>
+          <div className="form-group">
+            <label>Wallet Logo</label>
+            <div>
+              <ImgCrop rotate aspect={1 / 1}>
+                <Upload
+                  customRequest={dummyRequest}
+                  listType="picture-card"
+                  fileList={imageFile}
+                  onChange={onChangeImage}
+                  onPreview={onPreview}
+                >
+                  {imageFile.length < 1 && <PlusOutlined />}
+                </Upload>
+              </ImgCrop>
+            </div>
+          </div>
         </DialogContent>
         <DialogActions style={{ marginTop: 10, height: 50 }}>
           {(() => {
@@ -136,7 +212,7 @@ export default function NewWalletDialog(props) {
             } else {
               return (
                 <button type="submit" className="btn btn-primary btn-small">
-                  Update
+                  Create
                 </button>
               );
             }

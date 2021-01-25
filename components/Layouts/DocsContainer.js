@@ -65,26 +65,26 @@ function DocsContainer(props) {
   const [value, setValue] = React.useState(0);
 
   useEffect(() => {
-    if (router.pathname === "/docs/html") {
+    if (router.query.topic === "html") {
       setValue(1);
-    } else if (router.pathname === "/docs/react") {
+    } else if (router.query.topic === "react") {
       setValue(2);
-    } else if (router.pathname === "/docs/sandbox") {
+    } else if (router.query.topic === "sandbox") {
       setValue(3);
     } else {
       setValue(0);
     }
-  }, []);
+  }, [router.query.topic]);
 
   const handleChange = (event, newValue) => {
     if (newValue === 0) {
-      router.push("/docs/overview");
+      router.push("/docs/?topic=overview");
     } else if (newValue === 1) {
-      router.push("/docs/html");
+      router.push("/docs/?topic=html");
     } else if (newValue === 2) {
-      router.push("/docs/react");
+      router.push("/docs/?topic=react");
     } else if (newValue === 3) {
-      router.push("/docs/sandbox");
+      router.push("/docs/?topic=sandbox");
     }
     setValue(newValue);
   };

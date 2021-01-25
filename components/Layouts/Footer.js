@@ -3,23 +3,32 @@ import Link from "next/link";
 import * as Icon from "react-feather";
 
 export default class Footer extends React.Component {
-    render() {
-        return (
-            <footer className="footer-area bg-f7fafd">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-lg-3 col-md-6">
-                            <div className="single-footer-widget">
-                                <div className="logo">
-                                    <Link href="#">
-                                        <a>
-                                            <img src={require("../../static/images/rLogo.png")} alt="logo" style={{width: "50%"}}/>
-                                        </a>
-                                    </Link>
-                                </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.</p>
-                            </div>
-                        </div>
+  render() {
+    return (
+      <footer className="footer-area bg-f7fafd">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-3 col-md-6">
+              <div className="single-footer-widget">
+                <div className="logo">
+                  <Link href="#">
+                    <a>
+                      <img
+                        src={require("../../static/images/rLogo.png")}
+                        alt="logo"
+                        style={{ width: "50%" }}
+                      />
+                    </a>
+                  </Link>
+                </div>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi.
+                </p>
+              </div>
+            </div>
 
             <div className="col-lg-3 col-md-6">
               <div className="single-footer-widget pl-5">
@@ -98,47 +107,33 @@ export default class Footer extends React.Component {
                   </li>
                   <li>
                     <Icon.Mail />
-                    Email:{" "}
-                    <Link href="#">
-                      <a>Relysia@gmail.com</a>
-                    </Link>
+                    Email: <a href="#">Relysia@gmail.com</a>
                   </li>
                   <li>
                     <Icon.PhoneCall />
-                    Phone:{" "}
-                    <Link href="#">
-                      <a>+ (321) 984 754</a>
-                    </Link>
+                    Phone: <a href="#">+ (321) 984 754</a>
                   </li>
                 </ul>
                 <ul className="social-links">
                   <li>
-                    <Link href="#">
-                      <a className="facebook">
-                        <Icon.Facebook />
-                      </a>
-                    </Link>
+                    <a href="#" className="facebook">
+                      <Icon.Facebook />
+                    </a>
                   </li>
                   <li>
-                    <Link href="#">
-                      <a className="twitter">
-                        <Icon.Twitter />
-                      </a>
-                    </Link>
+                    <a href="#" className="twitter">
+                      <Icon.Twitter />
+                    </a>
                   </li>
                   <li>
-                    <Link href="#">
-                      <a className="instagram">
-                        <Icon.Instagram />
-                      </a>
-                    </Link>
+                    <a href="#" className="instagram">
+                      <Icon.Instagram />
+                    </a>
                   </li>
                   <li>
-                    <Link href="#">
-                      <a className="linkedin">
-                        <Icon.Linkedin />
-                      </a>
-                    </Link>
+                    <a href="#" className="linkedin">
+                      <Icon.Linkedin />
+                    </a>
                   </li>
                 </ul>
               </div>
@@ -152,7 +147,11 @@ export default class Footer extends React.Component {
           </div>
         </div>
 
-        <img src={require("../../static/images/map.png")} className="map" alt="map" />
+        <img
+          src={require("../../static/images/map.png")}
+          className="map"
+          alt="map"
+        />
         <div className="shape1">
           <img src={require("../../static/images/shape1.png")} alt="shape" />
         </div>

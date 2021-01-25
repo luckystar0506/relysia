@@ -30,6 +30,13 @@ export default function ProfileView() {
       });
     }
   }, [userDataRedux]);
+
+  const refetchImageUpdate = () => {
+    let localSwap = profileImg;
+    setprofileImg("");
+    setprofileImg(localSwap);
+  };
+
   return (
     <section className="team-area ptb-80 bg-f9f6f6">
       <ToastContainer />
@@ -46,7 +53,10 @@ export default function ProfileView() {
                 }}
               >
                 {profileImg && !ImageErr ? (
-                  <ProfileImage src={profileImg} onError={() => setImageErr(true)} />
+                  <ProfileImage
+                    src={profileImg}
+                    onError={() => setImageErr(true)}
+                  />
                 ) : (
                   <div className="singleChracterDisplay">
                     <div
@@ -61,11 +71,20 @@ export default function ProfileView() {
                         fontSize: 22,
                       }}
                     >
-                      {userDataRedux && userDataRedux.displayName ? userDataRedux.displayName.slice(0, 1) : "."}
+                      {userDataRedux && userDataRedux.displayName
+                        ? userDataRedux.displayName.slice(0, 1)
+                        : "."}
                     </div>
                   </div>
                 )}
-                <div className="editIcon" style={{ position: "absolute", bottom: 0, marginLeft: "-10px" }}>
+                <div
+                  className="editIcon"
+                  style={{
+                    position: "absolute",
+                    bottom: 0,
+                    marginLeft: "-10px",
+                  }}
+                >
                   <Icon.Edit />
                 </div>
               </div>
@@ -94,40 +113,12 @@ export default function ProfileView() {
                       margin: "0px auto",
                     }}
                   >
-                    {userDataRedux && userDataRedux.email ? userDataRedux.email : "..."}
+                    {userDataRedux && userDataRedux.email
+                      ? userDataRedux.email
+                      : "..."}
                   </span>
                 </div>
 
-                <ul>
-                  <li>
-                    <Link href="#">
-                      <a>
-                        <Icon.Facebook />
-                      </a>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#">
-                      <a>
-                        <Icon.Twitter />
-                      </a>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#">
-                      <a>
-                        <Icon.Linkedin />
-                      </a>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#">
-                      <a>
-                        <Icon.Gitlab />
-                      </a>
-                    </Link>
-                  </li>
-                </ul>
                 {/* // profile settings */}
                 <div className="services-content">
                   <div className="row">
@@ -186,15 +177,27 @@ export default function ProfileView() {
           <div className="col-lg-7 col-md-6">
             <div className="single-team">
               <div className="col-lg-12">
-                <div style={{ marginBottom: 20, display: "flex", alignItems: "center" }}>
+                <div
+                  style={{
+                    marginBottom: 20,
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
                   <div>
                     <h6 style={{ textAlign: "left" }}>
                       Bitcoin Wallet:{" "}
-                      <span style={{ fontWeight: 300, marginLeft: 10 }}> {walletData.balance ? walletData.balance : 0} sats</span>
+                      <span style={{ fontWeight: 300, marginLeft: 10 }}>
+                        {" "}
+                        {walletData.balance ? walletData.balance : 0} sats
+                      </span>
                     </h6>
                   </div>
 
-                  <div style={{ marginLeft: "auto" }} className="buttonColorInverse">
+                  <div
+                    style={{ marginLeft: "auto" }}
+                    className="buttonColorInverse"
+                  >
                     <button
                       type="button"
                       className="btn btn-primary btn-small"
@@ -221,7 +224,10 @@ export default function ProfileView() {
                   }}
                 >
                   <div style={{ cursor: "pointer" }}>
-                    <QRCode value={"bitcoin:" + walletData.address + "?sv"} renderAs="svg" />
+                    <QRCode
+                      value={"bitcoin:" + walletData.address + "?sv"}
+                      renderAs="svg"
+                    />
                     <p
                       style={{
                         marginTop: 5,
@@ -256,9 +262,14 @@ export default function ProfileView() {
         dialogState={dialogState}
         setdialogState={setdialogState}
         dialogType={dialogType}
-        photoUrl={userDataRedux && userDataRedux.photoURL && !ImageErr ? userDataRedux.photoURL : undefined}
+        photoUrl={
+          userDataRedux && userDataRedux.photoURL && !ImageErr
+            ? userDataRedux.photoURL
+            : undefined
+        }
         uid={userDataRedux && userDataRedux.uid ? userDataRedux.uid : ""}
         setprofileImg={setprofileImg}
+        refetchImageUpdate={refetchImageUpdate}
       />
     </section>
   );

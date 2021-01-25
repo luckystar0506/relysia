@@ -8,9 +8,10 @@ import WalletPage from "../../../components/wallet/index";
 import DashboardSidebar from "../../../components/Layouts/DashboardSidebar";
 import Head from "next/head";
 
-class Dashboard extends React.Component {
-    
+class CustomWalletPage extends React.Component {
   render() {
+    console.log("not default");
+
     return (
       <NoSSR>
         <Preloader>
@@ -38,4 +39,4 @@ class Dashboard extends React.Component {
   }
 }
 
-export default Dashboard;
+export default CustomWalletPage;

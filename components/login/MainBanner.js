@@ -142,7 +142,7 @@ function MainBanner() {
                     aliqua. Quis ipsum suspendisse ultrices gravida.
                   </p>
                   <Link href="/auth/register">
-                    <a className="btn btn-primary">Register With Email</a>
+                    <a className="btn btn-primary">Register</a>
                   </Link>
                 </div>
               </div>

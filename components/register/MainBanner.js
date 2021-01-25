@@ -28,9 +28,6 @@ function MainBanner() {
         var user = firebase.auth().currentUser;
 
         let userLocal = { ...res.user, displayName: UsernameField };
-        if (userLocal) {
-          dispatch(updateUserDataAction(userLocal));
-        }
 
         user.updateProfile({
           displayName: UsernameField,
@@ -44,9 +41,10 @@ function MainBanner() {
           pauseOnHover: true,
           draggable: true,
         });
-        setTimeout(() => {
-          router.push("/");
-        }, 200);
+        if (userLocal) {
+          dispatch(updateUserDataAction(userLocal));
+        }
+        router.push("/app/wallet/vionex-wallet");
       })
       .catch((error) => {
         let errorMessage = error.message;
@@ -72,7 +70,8 @@ function MainBanner() {
                 <div className="hero-content">
                   <h1>Register Today!</h1>
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
                     aliqua. Quis ipsum suspendisse ultrices gravida.
                   </p>
                   <Link href="/auth/login">
