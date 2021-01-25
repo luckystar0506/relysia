@@ -14,7 +14,7 @@ function Login() {
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        router.push("/");
+        router.push("/app/wallet/vionex-wallet");
       }
     });
   }, []);

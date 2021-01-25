@@ -67,7 +67,7 @@ export default function DynamicDialog(props) {
           handleClose();
           setuserNameField("");
         })
-        .catch(function(error) {
+        .catch(function (error) {
           toast.error(error.message, {
             position: "bottom-left",
             autoClose: 10000,
@@ -286,16 +286,20 @@ export default function DynamicDialog(props) {
       await storage
         .ref()
         .child(`profile_images/${props.uid}`)
-        .put(imageFile[0].originFileObj);
-
-      props.setprofileImg(modefiedURL);
+        .put(imageFile[0].originFileObj)
+        .then(() => {
+          props.setprofileImg(modefiedURL);
+          setTimeout(() => {
+            props.refetchImageUpdate();
+          }, 3000);
+        });
 
       let currentuser = firebase.auth().currentUser;
       currentuser
         .updateProfile({
           photoURL: modefiedURL,
         })
-        .then(function() {
+        .then(function () {
           setloading(false);
           handleClose();
 
@@ -368,8 +372,13 @@ export default function DynamicDialog(props) {
           if (props.dialogType === "export") {
             return (
               <>
-                <p style={{ marginBottom: "0.2rem" }}>Please write down your backup phrase to secure your wallet.</p>
-                <p style={{ marginTop: 0, color: "#0e314c" }}>rent all smooth flame increase ketchup catalog moon room wasp twice media</p>
+                <p style={{ marginBottom: "0.2rem" }}>
+                  Please write down your backup phrase to secure your wallet.
+                </p>
+                <p style={{ marginTop: 0, color: "#0e314c" }}>
+                  rent all smooth flame increase ketchup catalog moon room wasp
+                  twice media
+                </p>
               </>
             );
           } else if (props.dialogType === "update-username") {
@@ -466,7 +475,13 @@ export default function DynamicDialog(props) {
               </>
             );
           } else if (props.dialogType === "update-image") {
-            return <UpdateImagePortrait photoUrl={props.photoUrl} imageFile={imageFile} setimageFile={setimageFile} />;
+            return (
+              <UpdateImagePortrait
+                photoUrl={props.photoUrl}
+                imageFile={imageFile}
+                setimageFile={setimageFile}
+              />
+            );
           } else if (props.dialogType === "withdraw") {
             return <WithdrawComponent handleClose={handleClose} />;
           }
@@ -484,7 +499,11 @@ export default function DynamicDialog(props) {
             } else {
               if (props.dialogType === "export") {
                 return (
-                  <button type="button" className="btn btn-primary btn-small" onClick={handleClose}>
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-small"
+                    onClick={handleClose}
+                  >
                     Close
                   </button>
                 );

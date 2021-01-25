@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Link from "../common/ActiveLink";
 import { Button } from "@material-ui/core";
 import Iframe from "react-iframe";
+import Head from "next/head";
 
 function SandboxPage(props) {
   const [selection, setselection] = useState(1);
@@ -73,7 +74,7 @@ function SandboxPage(props) {
                 >
                   <div className="normal-button docs-footer">
                     <h6> Previous Topic</h6>
-                    <Link href={`/docs/react`}>
+                    <Link href={`/docs/?topic=react`}>
                       <a>
                         <button>Integrating With React</button>
                       </a>
@@ -85,6 +86,10 @@ function SandboxPage(props) {
           </div>
         </div>
       </div>
+      <Head>
+        <title>Overview | REST APIs | Relysia</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
     </section>
   );
 }

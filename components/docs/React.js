@@ -10,6 +10,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
+import Head from "next/head";
 
 const useStyles = makeStyles((theme) => ({
   tableHead: {
@@ -210,7 +211,7 @@ export default App
                 >
                   <div className="normal-button docs-footer">
                     <h6> Previous Topic</h6>
-                    <Link href={`/docs/html`}>
+                    <Link href={`/docs/?topic=html`}>
                       <a>
                         <button>Integrating With HTML</button>
                       </a>
@@ -218,7 +219,7 @@ export default App
                   </div>
                   <div className="normal-button docs-footer docs-footer-next">
                     <h6> Next Topic</h6>
-                    <Link href={`/docs/sandbox`}>
+                    <Link href={`/docs/?topic=sandbox`}>
                       <a>
                         <button>Sandbox Example</button>
                       </a>
@@ -230,6 +231,10 @@ export default App
           </div>
         </div>
       </div>
+      <Head>
+        <title>Overview | REST APIs | Relysia</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
     </section>
   );
 }

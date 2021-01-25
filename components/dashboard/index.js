@@ -4,13 +4,11 @@ import Link from "../common/ActiveLink";
 import ShowMoreText from "react-show-more-text";
 import { route } from "next/dist/next-server/server/router";
 import { useRouter } from "next/router";
-import NewWalletDialog from "./newWalletDialog";
 import { useDispatch, useSelector } from "react-redux";
 import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
 
 function DashboardPage(props) {
   const router = useRouter();
-  const [newWalletDialogState, setnewWalletDialogState] = useState(false);
 
   const userDataRedux = useSelector((state) => state.userData);
 
@@ -88,7 +86,6 @@ function DashboardPage(props) {
                   href="/"
                   onClick={(e) => {
                     e.preventDefault();
-                    setnewWalletDialogState(true);
                   }}
                   className="btn btn-light"
                 >
@@ -137,11 +134,7 @@ function DashboardPage(props) {
         </div>
       </section>
 
-      <NewWalletDialog
-        dialogState={newWalletDialogState}
-        setdialogState={setnewWalletDialogState}
-        userDataRedux={userDataRedux}
-      />
+    
     </>
   );
 }

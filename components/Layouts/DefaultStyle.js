@@ -63,7 +63,7 @@ class DefaultStyle extends React.Component {
       : "navbar-toggler navbar-toggler-right";
 
     let { pathname } = this.props.router;
-
+    console.log("this.props.router.pathname", this.props.router.pathname);
     return (
       <header
         id="header"
@@ -88,7 +88,7 @@ class DefaultStyle extends React.Component {
             }
           >
             <nav className="navbar navbar-expand-md navbar-light">
-              <Link href="/">
+              <Link href="/?loggedin=true">
                 <a
                   className="navbar-brand nav-logo-con"
                   onClick={() => window.location.refresh()}
@@ -164,8 +164,16 @@ class DefaultStyle extends React.Component {
                     </li>
                   )}
                   <li className="nav-item">
-                    <Link activeClassName="active" href="/">
-                      <a className="nav-link">Home</a>
+                    <Link activeClassName="active" href="/?loggedin=true">
+                      <a
+                        className="nav-link"
+                        style={{
+                          color:
+                            this.props.router.pathname === "/" ? "#f48665" : "",
+                        }}
+                      >
+                        Home
+                      </a>
                     </Link>
                   </li>
 
@@ -176,11 +184,11 @@ class DefaultStyle extends React.Component {
                   </li>
 
                   <li className="nav-item">
-                    <Link activeClassName="active" href="/docs/overview">
+                    <Link activeClassName="active" href="/docs">
                       <a
                         className="nav-link"
                         style={{
-                          color: this.props.router.pathname.includes("/docs/")
+                          color: this.props.router.pathname.includes("/docs")
                             ? "#f48665"
                             : "",
                         }}
@@ -191,11 +199,11 @@ class DefaultStyle extends React.Component {
                   </li>
                   {this.props.userData && (
                     <li className="nav-item">
-                      <Link activeClassName="active" href="/app/dashboard">
+                      <Link activeClassName="active" href="/app/wallet/vionex-wallet">
                         <a
                           className="nav-link"
                           style={{
-                            color: this.props.router.pathname.includes("/app/")
+                            color: this.props.router.pathname.includes("/app/wallet")
                               ? "#f48665"
                               : "",
                           }}

@@ -4,15 +4,15 @@ import {
   SettingOutlined,
   WalletOutlined,
   SwapOutlined,
-  LeftOutlined,
-  RightOutlined,
 } from "@ant-design/icons";
-import DashboardIcon from "@material-ui/icons/Dashboard";
+import AddBoxIcon from "@material-ui/icons/AddBox";
 import firebase from "../../config/fire-conf";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core/styles";
+import NewWalletDialog from "./newWalletDialog";
+import { useSelector } from "react-redux";
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -26,6 +26,8 @@ function DashboardSidebar(props) {
   const [collapsed, setcollapsed] = useState(true);
   const [selectedKey, setselectedKey] = useState(["-1"]);
   const [walletsData, setwalletsData] = useState({});
+  const [newWalletDialogState, setnewWalletDialogState] = useState(false);
+  const userDataRedux = useSelector((state) => state.userData);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
@@ -53,22 +55,12 @@ function DashboardSidebar(props) {
   };
 
   useEffect(() => {
-    if (router.pathname === "/app/dashboard") {
-      setselectedKey(["1"]);
-    } else if (router.pathname === "/app/settings") {
+    if (router.pathname === "/app/settings") {
       setselectedKey(["6"]);
     } else if (router.pathname.includes("/app/wallet/")) {
       setselectedKey([router.query.walletId]);
     }
   }, []);
-
-  // useEffect(() => {
-  //   if (matcheslg) {
-  //     setcollapsed(false);
-  //   } else {
-  //     setcollapsed(true);
-  //   }
-  // }, [matcheslg]);
 
   const changeDBroute = (route, walletId) => {
     setselectedKey([walletId]);
@@ -89,42 +81,11 @@ function DashboardSidebar(props) {
       >
         <Sider
           collapsed={collapsed}
-          onCollapse={(e) => setcollapsed(e)}
-          onMouseEnter={() => matchesmd && setcollapsed(false)}
-          onMouseLeave={() => matchesmd && setcollapsed(true)}
+          // onCollapse={(e) => setcollapsed(e)}
         >
           <Menu theme="dark" selectedKeys={selectedKey} mode="inline">
-            {!matchesmd && (
-              <Menu.Item
-                icon={!collapsed ? <LeftOutlined /> : <RightOutlined />}
-                onClick={() => setcollapsed(!collapsed)}
-              >
-                <span
-                  style={{
-                    color: "#6e6e6e",
-                    fontSize: 12,
-                    position: "relative",
-                    top: 2,
-                  }}
-                >
-                  Navigation
-                </span>
-              </Menu.Item>
-            )}{" "}
-            <Menu.Item key="1" icon={<DashboardIcon />}>
-              <Link href={`/app/dashboard`}>
-                <a> Dashboard</a>
-              </Link>
-            </Menu.Item>
-            <SubMenu
-              key="sub1"
-              icon={
-                <WalletOutlined style={{ position: "relative", top: -2 }} />
-              }
-              title="Wallets"
-              className="submeun-anchor"
-            >
-              {Object.values(walletsData).map((wallet_ele, wallet_index) => {
+            {walletsData &&
+              Object.values(walletsData).map((wallet_ele, wallet_index) => {
                 return (
                   <Menu.Item
                     key={wallet_ele.id}
@@ -134,18 +95,51 @@ function DashboardSidebar(props) {
                         wallet_ele.id
                       )
                     }
+                    icon={
+                      wallet_ele.walletLogo ? (
+                        <div>
+                          <img
+                            className="sidebar-logo"
+                            alt={wallet_ele.title}
+                            src={wallet_ele.walletLogo}
+                          />
+                        </div>
+                      ) : (
+                        <WalletOutlined />
+                      )
+                    }
                   >
                     {wallet_ele.title}
                   </Menu.Item>
                 );
               })}
-            </SubMenu>
-            <Menu.Item key="2" icon={<SwapOutlined />}>
+            <div className="sidebar-seperator"></div>
+            <Menu.Item
+              key="11111"
+              icon={<AddBoxIcon style={{ color: "#f48665" }} />}
+            >
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setnewWalletDialogState(true);
+                }}
+              >
+                Create New Wallet
+              </a>
+            </Menu.Item>
+            <Menu.Item
+              key="2"
+              icon={<SwapOutlined style={{ color: "#f48665" }} />}
+            >
               <Link href={`/app/zaps`}>
                 <a>Zaps</a>
               </Link>
             </Menu.Item>
-            <Menu.Item key="6" icon={<SettingOutlined />}>
+            <Menu.Item
+              key="6"
+              icon={<SettingOutlined style={{ color: "#f48665" }} />}
+            >
               <Link href={`/app/settings`}>
                 <a>Settings</a>
               </Link>
@@ -165,6 +159,11 @@ function DashboardSidebar(props) {
           })}
         </Layout>
       </Layout>
+      <NewWalletDialog
+        dialogState={newWalletDialogState}
+        setdialogState={setnewWalletDialogState}
+        userDataRedux={userDataRedux}
+      />
     </section>
   );
 }
