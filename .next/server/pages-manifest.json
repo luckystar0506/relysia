@@ -2,7 +2,6 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
-  "/app/wallet/[walletId]": "pages/app/wallet/[walletId].js",
-  "/": "pages/index.js",
-  "/auth/register": "pages/auth/register.js"
+  "/pay-button-v1": "pages/pay-button-v1.js",
+  "/app/wallet/[walletId]": "pages/app/wallet/[walletId].js"
 }
