@@ -1,5 +1,4 @@
 import React from "react";
-import { Preloader, Placeholder } from "react-preloading-screen";
 import Header from "../components/Layouts/Header";
 import Footer from "../components/Layouts/Footer";
 import GoTop from "../components/Layouts/GoTop";
@@ -8,12 +7,7 @@ import ContactBody from "../components/contact/ContactBody";
 import Head from "next/head";
 
 export default () => (
-  <Preloader>
-    <Placeholder>
-      <div className="preloader">
-        <div className="spinner"></div>
-      </div>
-    </Placeholder>
+  <div>
     <Header />
     <PageTitle />
     <ContactBody />
@@ -23,5 +17,5 @@ export default () => (
       <title>Contact | Relysia</title>
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     </Head>
-  </Preloader>
+  </div>
 );

@@ -83,7 +83,7 @@ function DashboardSidebar(props) {
           collapsed={collapsed}
           // onCollapse={(e) => setcollapsed(e)}
         >
-          <Menu theme="dark" selectedKeys={selectedKey} mode="inline">
+          <Menu theme="light" selectedKeys={selectedKey} mode="inline">
             {walletsData &&
               Object.values(walletsData).map((wallet_ele, wallet_index) => {
                 return (
@@ -105,7 +105,9 @@ function DashboardSidebar(props) {
                           />
                         </div>
                       ) : (
-                        <WalletOutlined />
+                        <WalletOutlined
+                          style={{ color: "#ffffff !important" }}
+                        />
                       )
                     }
                   >

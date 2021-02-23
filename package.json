@@ -65,6 +65,7 @@
     "redux": "^4.0.4",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
+    "sharp": "^0.27.2",
     "uuid": "^8.3.2",
     "vionex-pay-button": "0.0.20"
   },

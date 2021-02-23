@@ -1754,6 +1754,20 @@ Services CSS
   box-shadow: none;
 }
 
+.iconBox {
+  position: relative;
+  margin-bottom: 14px;
+  z-index: 1;
+  display: block;
+  color: #6084a4;
+  font-weight: 500;
+  background-color: #ffffff;
+  border-radius: 3px;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  box-shadow: none;
+}
+
 .services-content .box::before {
   content: "";
   left: 0;
@@ -1767,13 +1781,14 @@ Services CSS
   z-index: -1;
   -webkit-transition: 0.5s;
   transition: 0.5s;
-  border-radius: 2px
-
+  border-radius: 2px;
 }
 
 .services-content .activity-box::before {
- 
-  border-radius: 15px
+  border-radius: 15px;
+}
+.iconBox::before {
+  border-radius: 15px;
 }
 
 .services-content .box svg {

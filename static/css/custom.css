@@ -464,11 +464,25 @@ svg:focus {
   top: -7px;
 }
 .sidebar-logo {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   object-fit: contain;
   background-color: transparent;
 }
+.wallet-sele-icon {
+  width: 60px;
+  height: auto;
+  padding: 15px !important;
+  margin: 10px !important;
+  border: 1px solid #c5c2c2;
+  box-shadow: none !important;
+}
+.withdraw-icons-con {
+  width: 80%;
+  margin-top: 10px;
+}
+
+
 @media only screen and (max-width: 1200px) {
   .activity-box {
     width: 95%;
@@ -487,6 +501,9 @@ svg:focus {
 }
 
 @media only screen and (max-width: 767px) {
+  .withdraw-icons-con {
+    width: 100%;
+  }
   .nav-logo-con {
     width: 30%;
   }
@@ -565,6 +582,27 @@ svg:focus {
 }
 
 /* //antd changes */
-.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
+.ant-menu-item:hover,
+.ant-menu-item-active,
+.ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open,
+.ant-menu-submenu-active,
+.ant-menu-submenu-title:hover {
+  color: #f48665;
+}
+.ant-menu-item-selected {
+  color: #ffffff !important;
+}
+/* .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
   background-color: #f48665;
+} */
+.ant-layout-sider {
+  background-color: #ffffff !important;
+}
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: #f48665 !important;
+}
+
+.ant-menu-item:active, .ant-menu-submenu-title:active {
+  background: #f4866563;
 }

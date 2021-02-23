@@ -16,25 +16,49 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+const walletDefaultTokens = [
+  "https://firebasestorage.googleapis.com/v0/b/wallettokens_vionex/o/walletIcons%2Fwallet.svg?alt=media",
+  "https://firebasestorage.googleapis.com/v0/b/wallettokens_vionex/o/walletIcons%2Fwallet%20(1).svg?alt=media",
+  ,
+  "https://firebasestorage.googleapis.com/v0/b/wallettokens_vionex/o/walletIcons%2Fwallet-filled-money-tool.svg?alt=media",
+  "https://firebasestorage.googleapis.com/v0/b/wallettokens_vionex/o/walletIcons%2Fwallet%20(2).svg?alt=media",
+  "https://firebasestorage.googleapis.com/v0/b/wallettokens_vionex/o/walletIcons%2Faccount.svg?alt=media",
+  "https://firebasestorage.googleapis.com/v0/b/wallettokens_vionex/o/walletIcons%2Fdashboard-interface.svg?alt=media",
+  "https://firebasestorage.googleapis.com/v0/b/wallettokens_vionex/o/walletIcons%2Fpiggy-bank.svg?alt=media",
+  "https://firebasestorage.googleapis.com/v0/b/wallettokens_vionex/o/walletIcons%2Fpurse.svg?alt=media",
+  "https://firebasestorage.googleapis.com/v0/b/wallettokens_vionex/o/walletIcons%2Fimage.svg?alt=media",
+  "https://firebasestorage.googleapis.com/v0/b/wallettokens_vionex/o/walletIcons%2Fpurse%20(1).svg?alt=media",
+];
+
 export default function NewWalletDialog(props) {
   const [loading, setloading] = useState(false);
   const [walletName, setwalletName] = useState("");
   const [walletPassword, setwalletPassword] = useState("");
   const [imageFile, setimageFile] = useState([]);
+  const [walletIconIndex, setwalletIconIndex] = useState(-1);
 
   const handleClose = () => {
     props.setdialogState(false);
   };
 
-  const createNewDialog = async (e) => {
+  const createNewWallet = async (e) => {
     e.preventDefault();
     setloading(true);
-    if (imageFile[0]) {
+    // if (imageFile[0] || walletIconIndex !== -1) {
+    if (walletIconIndex !== -1) {
       try {
-        let imageId = uuidv4();
-        let uploadTask = tokensFirebaseStorage.child("walletLogos/" + imageId);
-        uploadTask.put(imageFile[0].originFileObj);
-        let walletLogo = `https://firebasestorage.googleapis.com/v0/b/wallettokens_vionex/o/walletLogos%2F${imageId}?alt=media`;
+        let walletLogo = "";
+        if (walletIconIndex !== -1) {
+          walletLogo = walletDefaultTokens[walletIconIndex];
+        }
+        //  else {
+        //   let imageId = uuidv4();
+        //   let uploadTask = tokensFirebaseStorage.child(
+        //     "walletLogos/" + imageId
+        //   );
+        //   uploadTask.put(imageFile[0].originFileObj);
+        //   walletLogo = `https://firebasestorage.googleapis.com/v0/b/wallettokens_vionex/o/walletLogos%2F${imageId}?alt=media`;
+        // }
 
         toast.info("Generating Wallet Keys..", {
           position: "bottom-left",
@@ -73,6 +97,7 @@ export default function NewWalletDialog(props) {
           setwalletPassword("");
           setwalletName("");
           setimageFile([]);
+          setwalletIconIndex(-1);
         } else {
           toast.error("An error occures, Try again!", {
             position: "bottom-left",
@@ -98,7 +123,7 @@ export default function NewWalletDialog(props) {
         setloading(false);
       }
     } else {
-      toast.error("Please upload wallet logo!", {
+      toast.error("Please select wallet icon!", {
         position: "bottom-left",
         autoClose: 10000,
         hideProgressBar: false,
@@ -122,6 +147,7 @@ export default function NewWalletDialog(props) {
       message.error("Image must smaller than 5MB!");
     } else {
       setimageFile(newFileList);
+      setwalletIconIndex(-1);
     }
   };
 
@@ -149,11 +175,11 @@ export default function NewWalletDialog(props) {
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
       fullWidth
-      style={{ zIndex: 100 }}
+      style={{ zIndex: 1000 }}
       maxWidth="sm"
     >
       <h5 style={{ padding: "18px 24px 5px 24px" }}>Create New Wallet</h5>
-      <form onSubmit={createNewDialog}>
+      <form onSubmit={createNewWallet}>
         <DialogContent>
           <div className="form-group">
             <label>Wallet Name</label>
@@ -185,23 +211,66 @@ export default function NewWalletDialog(props) {
             />
           </div>
           <div className="form-group">
-            <label>Wallet Logo</label>
-            <div>
-              <ImgCrop rotate aspect={1 / 1}>
-                <Upload
-                  customRequest={dummyRequest}
-                  listType="picture-card"
-                  fileList={imageFile}
-                  onChange={onChangeImage}
-                  onPreview={onPreview}
-                >
-                  {imageFile.length < 1 && <PlusOutlined />}
-                </Upload>
-              </ImgCrop>
+            <label>Wallet Icon</label>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  marginTop: 0,
+                }}
+                className="services-content withdraw-icons-con"
+              >
+                {walletDefaultTokens.map((icon, index1) => {
+                  return (
+                    <div
+                      className="box iconBox wallet-sele-icon "
+                      style={{
+                        background:
+                          walletIconIndex === index1
+                            ? "linear-gradient(135deg, #f48665 0%, #fda23f 100%)"
+                            : "",
+                      }}
+                      onClick={() => {
+                        setwalletIconIndex(index1);
+                        setimageFile([]);
+                      }}
+                    >
+                      <img
+                        style={{ width: "100%", height: "100%" }}
+                        src={icon}
+                        alt={`icon${index1}`}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+              {/* <div>
+                <ImgCrop rotate aspect={1 / 1}>
+                  <Upload
+                    customRequest={dummyRequest}
+                    listType="picture-card"
+                    fileList={imageFile}
+                    onChange={onChangeImage}
+                    onPreview={onPreview}
+                  >
+                    {imageFile.length < 1 && <PlusOutlined />}
+                  </Upload>
+                </ImgCrop>
+              </div>
+          */}
             </div>
           </div>
         </DialogContent>
-        <DialogActions style={{ marginTop: 10, height: 50 }}>
+        <DialogActions style={{ marginTop: 0, height: 50 }}>
           {(() => {
             if (loading) {
               return (

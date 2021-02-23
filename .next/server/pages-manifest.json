@@ -1,7 +1,20 @@
 {
+  "/404": "pages/404.js",
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
+  "/about": "pages/about.js",
+  "/app/dashboard": "pages/app/dashboard.js",
+  "/app/settings": "pages/app/settings.js",
+  "/app/wallet/[walletId]": "pages/app/wallet/[walletId].js",
+  "/app/zaps": "pages/app/zaps.js",
+  "/auth/login": "pages/auth/login.js",
+  "/auth/register": "pages/auth/register.js",
+  "/contact": "pages/contact.js",
+  "/docs": "pages/docs.js",
+  "/": "pages/index.js",
   "/pay-button-v1": "pages/pay-button-v1.js",
-  "/app/wallet/[walletId]": "pages/app/wallet/[walletId].js"
+  "/profile": "pages/profile.js",
+  "/services": "pages/services.js",
+  "/terms": "pages/terms.js"
 }
