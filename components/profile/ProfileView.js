@@ -3,6 +3,8 @@ import * as Icon from "react-feather";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import DynamicDialog from "./DynamicDialog";
+import PhoneAuthDialog from "./PhoneAuthDialog";
+
 import ProfileImage from "./ProfileImage";
 import { DB1 } from "../../config/fire-conf";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -14,11 +16,15 @@ export default function ProfileView() {
   const userDataRedux = useSelector((state) => state.userData);
   const [ImageErr, setImageErr] = useState(false);
   const [dialogState, setdialogState] = useState(false);
+  const [phoneAuthDialogState, setphoneAuthDialogState] = useState(false);
+  const [phoneAuthDialogView, setphoneAuthDialogView] = useState(1);
+
   const [dialogType, setdialogType] = useState("");
   const [profileImg, setprofileImg] = useState(undefined);
   const [walletData, setwalletData] = useState({ address: "" });
 
   useEffect(() => {
+    console.log("userDataRedux", userDataRedux);
     if (userDataRedux && userDataRedux.photoURL) {
       setprofileImg(userDataRedux.photoURL);
     }
@@ -116,6 +122,9 @@ export default function ProfileView() {
                     {userDataRedux && userDataRedux.email
                       ? userDataRedux.email
                       : "..."}
+                    {userDataRedux && userDataRedux.phoneNumber
+                      ? `, ${userDataRedux.phoneNumber}`
+                      : ""}
                   </span>
                 </div>
 
@@ -167,6 +176,21 @@ export default function ProfileView() {
                         }}
                       >
                         Delete Account
+                      </div>
+                    </div>
+
+                    <div className="col-xl-6 col-lg-12">
+                      <div
+                        className="box"
+                        onClick={() => {
+                          setphoneAuthDialogState(true);
+                          setphoneAuthDialogView(1);
+                        }}
+                      >
+                        {userDataRedux && userDataRedux.phoneNumber
+                          ? "Update "
+                          : "Add "}
+                        Phone Number
                       </div>
                     </div>
                   </div>
@@ -270,6 +294,15 @@ export default function ProfileView() {
         uid={userDataRedux && userDataRedux.uid ? userDataRedux.uid : ""}
         setprofileImg={setprofileImg}
         refetchImageUpdate={refetchImageUpdate}
+      />
+      <PhoneAuthDialog
+        dialogState={phoneAuthDialogState}
+        setdialogState={setphoneAuthDialogState}
+        uid={userDataRedux && userDataRedux.uid ? userDataRedux.uid : ""}
+        phoneAuthDialogView={phoneAuthDialogView}
+        setphoneAuthDialogView={setphoneAuthDialogView}
+        updateNumber={userDataRedux && userDataRedux.phoneNumber ? true : false}
+        userDataRedux={userDataRedux}
       />
     </section>
   );

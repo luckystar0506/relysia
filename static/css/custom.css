@@ -481,7 +481,91 @@ svg:focus {
   width: 80%;
   margin-top: 10px;
 }
+.withdraw-amount-con {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.withdraw-amount-con .input-group {
+  width: 44%;
+}
+.withdraw-amount-con .with-hori-icon {
+  margin: 0px 15px;
+}
+.withdrawl-tab-con button {
+  outline: none;
+}
+.ph-auth-input {
+  width: 98%;
+  margin: 10px auto;
+}
+.ph-auth-input input {
+  height: 50px;
+  padding: 10px 20px;
+  font-size: 14px;
+  color: #0e314c;
+  border: 1px solid #eeeeee;
+  border-radius: 0;
+  background: #eeeeee;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  outline: none !important;
+}
 
+.ph-auth-input input:focus {
+  border-color: #f48665 !important;
+  background-color: #ffffff;
+}
+.ph-auth-input select {
+  font-family: inherit;
+  background-color: transparent;
+  padding: 10px 10px 10px 0;
+  font-size: 18px;
+  border-radius: 0;
+  border: none !important;
+  outline: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+/* Remove focus */
+.ph-auth-input select:focus {
+  outline: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0);
+}
+.PhoneInputCountry {
+  border-bottom: 1px solid #eeeeee;
+}
+
+:root {
+  --PhoneInputCountryFlag-height: 1.5em;
+  --PhoneInput-color--focus: #f48665;
+  --PhoneInputCountrySelectArrow-width: 0.5em;
+  --PhoneInputCountrySelect-marginRight: 0.8em;
+}
+.recaptcha-div div {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 8px;
+  margin-bottom: 10px;
+}
+
+.disabled-btn {
+  background-color: #949494 !important;
+  box-shadow: none !important;
+}
+.disabled-btn:hover,
+.disabled-btn:focus,
+.disabled-btn:active {
+  color: #ffffff;
+  background: #949494;
+  -webkit-transform: translateY(0px);
+  transform: translateY(0px);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.disabled-btn::after,
+.disabled-btn::before {
+  background: #949494;
+}
 
 @media only screen and (max-width: 1200px) {
   .activity-box {
@@ -501,6 +585,10 @@ svg:focus {
 }
 
 @media only screen and (max-width: 767px) {
+  .ph-auth-input {
+    width: 100%;
+    margin: 10px auto;
+  }
   .withdraw-icons-con {
     width: 100%;
   }
@@ -559,6 +647,16 @@ svg:focus {
   .more-top-padding {
     padding-top: 70px !important;
   }
+  .withdraw-amount-con {
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+  .withdraw-amount-con .input-group {
+    width: 80%;
+  }
+  .withdraw-amount-con .with-hori-icon {
+    margin: 10px 15px;
+  }
 }
 
 @media only screen and (max-width: 992px) {
@@ -603,6 +701,7 @@ svg:focus {
   background-color: #f48665 !important;
 }
 
-.ant-menu-item:active, .ant-menu-submenu-title:active {
+.ant-menu-item:active,
+.ant-menu-submenu-title:active {
   background: #f4866563;
 }

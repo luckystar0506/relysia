@@ -35,6 +35,7 @@ function WalletPage(props) {
 
   useEffect(() => {
     if (userDataRedux) {
+      console.log("userDataRedux", userDataRedux);
       firebase
         .database()
         .ref(
@@ -46,7 +47,9 @@ function WalletPage(props) {
         )
         .on("value", (snapshot) => {
           if (snapshot.val()) {
-            setwalletTransactions(Object.values(snapshot.val()));
+            setwalletTransactions([...Object.values(snapshot.val())]);
+          } else {
+            setwalletTransactions([]);
           }
         });
     }
