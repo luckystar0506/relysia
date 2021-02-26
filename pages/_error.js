@@ -1,5 +1,4 @@
 import React from 'react'
-import { Preloader, Placeholder } from 'react-preloading-screen'
 import Link from 'next/link'
 
 class Error extends React.Component {
@@ -10,12 +9,8 @@ class Error extends React.Component {
   
     render() {
         return (
-            <Preloader>
-                <Placeholder>
-                    <div className="preloader">
-                        <div className="spinner"></div>
-                    </div>
-                </Placeholder>
+            <div>
+                
                 <section className="error-area">
                     <div className="d-table">
                         <div className="d-table-cell">
@@ -39,7 +34,7 @@ class Error extends React.Component {
                         </div>
                     </div>
                 </section>
-            </Preloader>
+            </div>
         );
     }
 }

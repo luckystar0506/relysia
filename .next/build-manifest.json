@@ -29,10 +29,15 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/app/wallet/[walletId].js"
     ],
-    "/pay-button-v1": [
+    "/auth/login": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/pay-button-v1.js"
+      "static/chunks/pages/auth/login.js"
+    ],
+    "/profile": [
+      "static/chunks/main.js",
+      "static/chunks/webpack.js",
+      "static/chunks/pages/profile.js"
     ]
   },
   "ampFirstPages": []

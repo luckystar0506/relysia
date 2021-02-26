@@ -1,5 +1,4 @@
 import React from "react";
-import { Preloader, Placeholder } from "react-preloading-screen";
 import NoSSR from "react-no-ssr";
 import Header from "../../../components/Layouts/Header";
 import Footer from "../../../components/Layouts/Footer";
@@ -14,19 +13,15 @@ class CustomWalletPage extends React.Component {
 
     return (
       <NoSSR>
-        <Preloader>
-          <Placeholder>
-            <div className="preloader">
-              <div className="spinner"></div>
-            </div>
-          </Placeholder>
+        <div>
+         
           <Header />
           <DashboardSidebar>
             <WalletPage />
           </DashboardSidebar>
           <Footer />
           <GoTop scrollStepInPx="50" delayInMs="16.66" />
-        </Preloader>
+        </div>
         <Head>
           <title>Wallet | Relysia</title>
           <meta

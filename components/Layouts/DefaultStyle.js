@@ -140,7 +140,9 @@ class DefaultStyle extends React.Component {
                             ? this.props.userData.displayName.length < 20
                               ? this.props.userData.displayName
                               : this.props.userData.displayName.slice(0, 19)
-                            : this.props.userData.email.slice(0, 10)}
+                            : this.props.userData && this.props.userData.email
+                            ? this.props.userData.email.slice(0, 10)
+                            : "-"}
                           <Icon.ChevronDown />
                         </a>
                       </Link>
@@ -199,11 +201,16 @@ class DefaultStyle extends React.Component {
                   </li>
                   {this.props.userData && (
                     <li className="nav-item">
-                      <Link activeClassName="active" href="/app/wallet/vionex-wallet">
+                      <Link
+                        activeClassName="active"
+                        href="/app/wallet/vionex-wallet"
+                      >
                         <a
                           className="nav-link"
                           style={{
-                            color: this.props.router.pathname.includes("/app/wallet")
+                            color: this.props.router.pathname.includes(
+                              "/app/wallet"
+                            )
                               ? "#f48665"
                               : "",
                           }}
@@ -246,7 +253,9 @@ class DefaultStyle extends React.Component {
                           ? this.props.userData.displayName.length < 20
                             ? this.props.userData.displayName
                             : this.props.userData.displayName.slice(0, 19)
-                          : this.props.userData.email.slice(0, 10)}
+                          : this.props.userData && this.props.userData.email
+                          ? this.props.userData.email.slice(0, 10)
+                          : "-"}
                         <Icon.ChevronDown />
                       </a>
                       <ul className="dropdown_menu" style={{ maxWidth: 160 }}>

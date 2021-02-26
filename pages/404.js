@@ -1,16 +1,11 @@
 import React from "react";
-import { Preloader, Placeholder } from "react-preloading-screen";
 import Head from "next/head";
 
 class Custom404 extends React.Component {
   render() {
     return (
-      <Preloader>
-        <Placeholder>
-          <div className="preloader">
-            <div className="spinner"></div>
-          </div>
-        </Placeholder>
+      <div>
+     
         <section className="error-area">
           <div className="d-table">
             <div className="d-table-cell">
@@ -35,7 +30,7 @@ class Custom404 extends React.Component {
             content="initial-scale=1.0, width=device-width"
           />
         </Head>
-      </Preloader>
+      </div>
     );
   }
 }

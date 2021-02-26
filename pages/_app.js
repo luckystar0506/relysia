@@ -1,4 +1,6 @@
 import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
+import "react-phone-number-input/style.css";
+
 import "vionex-pay-button/dist/index.css";
 import "../static/css/bootstrap.min.css";
 import "../static/css/slick.css";
@@ -30,12 +32,27 @@ import withRedux from "next-redux-wrapper";
 import { initStore } from "../store/reducers/authReducer";
 import React from "react";
 import GetCurrentUser from "../components/Layouts/GetCurrentUser";
+import { createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#f48665",
+    },
+    secondary: {
+      main: "#44ce6f",
+    },
+  },
+});
 
 export default withRedux(initStore)(
   class MyApp extends App {
     static async getInitialProps({ Component, ctx }) {
       return {
-        pageProps: Component.getInitialProps ? await Component.getInitialProps(ctx) : {},
+        pageProps: Component.getInitialProps
+          ? await Component.getInitialProps(ctx)
+          : {},
       };
     }
 
@@ -52,8 +69,10 @@ export default withRedux(initStore)(
             }}
           />
           <Provider store={store}>
-            <GetCurrentUser />
-            <Component {...pageProps} />
+            <ThemeProvider theme={theme}>
+              <GetCurrentUser />
+              <Component {...pageProps} />
+            </ThemeProvider>
           </Provider>
         </>
       );

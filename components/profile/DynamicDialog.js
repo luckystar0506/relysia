@@ -345,7 +345,7 @@ export default function DynamicDialog(props) {
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
       fullWidth
-      style={{ zIndex: 100 }}
+      style={{ zIndex: 1000 }}
       maxWidth="sm"
     >
       <h5 style={{ padding: "18px 24px 5px 24px" }}>

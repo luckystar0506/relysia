@@ -40,6 +40,7 @@ function DashboardSidebar(props) {
           .ref("userWallets/" + user.uid)
           .on("value", (snapshot) => {
             let recWalletsData = snapshot.val();
+            console.log("recWalletsData", recWalletsData);
             setwalletsData(recWalletsData);
           });
 
@@ -51,7 +52,8 @@ function DashboardSidebar(props) {
 
   const updatebalances = async () => {
     let walletListAPI = firebase.functions().httpsCallable("getWalletBalances");
-    await walletListAPI();
+    let res = await walletListAPI();
+    console.log("res", res);
   };
 
   useEffect(() => {
@@ -83,7 +85,7 @@ function DashboardSidebar(props) {
           collapsed={collapsed}
           // onCollapse={(e) => setcollapsed(e)}
         >
-          <Menu theme="dark" selectedKeys={selectedKey} mode="inline">
+          <Menu theme="light" selectedKeys={selectedKey} mode="inline">
             {walletsData &&
               Object.values(walletsData).map((wallet_ele, wallet_index) => {
                 return (
@@ -105,7 +107,9 @@ function DashboardSidebar(props) {
                           />
                         </div>
                       ) : (
-                        <WalletOutlined />
+                        <WalletOutlined
+                          style={{ color: "#ffffff !important" }}
+                        />
                       )
                     }
                   >
