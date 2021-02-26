@@ -40,6 +40,7 @@ function DashboardSidebar(props) {
           .ref("userWallets/" + user.uid)
           .on("value", (snapshot) => {
             let recWalletsData = snapshot.val();
+            console.log("recWalletsData", recWalletsData);
             setwalletsData(recWalletsData);
           });
 
@@ -51,7 +52,8 @@ function DashboardSidebar(props) {
 
   const updatebalances = async () => {
     let walletListAPI = firebase.functions().httpsCallable("getWalletBalances");
-    await walletListAPI();
+    let res = await walletListAPI();
+    console.log("res", res);
   };
 
   useEffect(() => {

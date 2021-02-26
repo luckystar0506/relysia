@@ -2,5 +2,7 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
+  "/app/wallet/[walletId]": "pages/app/wallet/[walletId].js",
+  "/auth/login": "pages/auth/login.js",
   "/profile": "pages/profile.js"
 }
