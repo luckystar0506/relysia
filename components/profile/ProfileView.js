@@ -9,6 +9,8 @@ import ProfileImage from "./ProfileImage";
 import { DB1 } from "../../config/fire-conf";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { ToastContainer, toast } from "react-toastify";
+import { Alert, AlertTitle } from "@material-ui/lab";
+import firebase from "../../config/fire-conf";
 
 var QRCode = require("qrcode.react");
 
@@ -22,6 +24,7 @@ export default function ProfileView() {
   const [dialogType, setdialogType] = useState("");
   const [profileImg, setprofileImg] = useState(undefined);
   const [walletData, setwalletData] = useState({ address: "" });
+  const [isEmailVerfied, setisEmailVerfied] = useState(true);
 
   useEffect(() => {
     console.log("userDataRedux", userDataRedux);
@@ -35,6 +38,9 @@ export default function ProfileView() {
         }
       });
     }
+    if (userDataRedux) {
+      setisEmailVerfied(userDataRedux.emailVerified);
+    }
   }, [userDataRedux]);
 
   const refetchImageUpdate = () => {
@@ -43,10 +49,49 @@ export default function ProfileView() {
     setprofileImg(localSwap);
   };
 
+  const resendEmailVerficationLink = async () => {
+    console.log("start test");
+    toast.info("Verficatin Email Send", {
+      position: "bottom-left",
+      autoClose: 10000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+    let resendEmailAPI = firebase
+      .functions()
+      .httpsCallable("verificationEmailLink");
+    await resendEmailAPI({
+      appName: "relysia",
+    });
+  };
+
   return (
-    <section className="team-area ptb-80 bg-f9f6f6">
+    <section
+      className="team-area ptb-80 bg-f9f6f6"
+      style={{ paddingTop: !isEmailVerfied && 10 }}
+    >
       <ToastContainer />
       <div className="container">
+        {/* //resend verfication link */}
+        {!isEmailVerfied && (
+          <div
+            style={{
+              margin: "20px auto",
+              position: "relative",
+              cursor: "pointer",
+            }}
+            className="alert-old-tran"
+            onClick={resendEmailVerficationLink}
+          >
+            <Alert severity="info">
+              <AlertTitle>Your Email is not Verfied!</AlertTitle>
+              Please verify your email, after clicking this Alert you will
+              recieve an verfication email — <strong>verify now</strong>
+            </Alert>
+          </div>
+        )}{" "}
         <div className="row">
           <div className="col-lg-5 col-md-6">
             <div className="single-team">
@@ -210,11 +255,11 @@ export default function ProfileView() {
                 >
                   <div>
                     <h6 style={{ textAlign: "left" }}>
-                      Bitcoin Wallet:{" "}
-                      <span style={{ fontWeight: 300, marginLeft: 10 }}>
+                      Bitcoin Wallet
+                      {/* <span style={{ fontWeight: 300, marginLeft: 10 }}>
                         {" "}
                         {walletData.balance ? walletData.balance : 0} sats
-                      </span>
+                      </span> */}
                     </h6>
                   </div>
 

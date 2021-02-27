@@ -545,7 +545,6 @@ svg:focus {
   display: flex;
   justify-content: flex-start;
   margin-top: 8px;
-  margin-bottom: 10px;
 }
 
 .disabled-btn {
@@ -567,6 +566,14 @@ svg:focus {
   background: #949494;
 }
 
+.alert-old-tran button {
+  outline: none !important;
+  width: 50%;
+}
+.alert-old-tran {
+  width: 50%;
+}
+
 @media only screen and (max-width: 1200px) {
   .activity-box {
     width: 95%;
@@ -581,6 +588,9 @@ svg:focus {
   }
   .tabViewCon {
     margin: 20px 10px 20px 10px;
+  }
+  .alert-old-tran {
+    width: 70%;
   }
 }
 
@@ -631,11 +641,17 @@ svg:focus {
   .tabViewCon {
     margin: 15px 10px 15px 10px;
   }
+  .alert-old-tran {
+    width: 100%;
+  }
 }
 @media only screen and (min-width: 767px) {
   .fix-height {
     min-height: 250px !important;
     margin-bottom: 20px;
+  }
+  .alert-old-tran button {
+    width: 90%;
   }
 }
 
