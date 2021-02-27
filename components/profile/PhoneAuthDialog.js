@@ -21,6 +21,7 @@ export default function PhoneAuthDialog(props) {
   const [otpField, setotpField] = useState("");
   const [recaptchaToken, setrecaptchaToken] = useState("");
   const [btnLoader, setbtnLoader] = useState(false);
+  const [renderRecaptcha, setrenderRecaptcha] = useState(true);
 
   const containerRef = useRef(null);
 
@@ -33,12 +34,18 @@ export default function PhoneAuthDialog(props) {
       setphNumberField("");
       setotpField("");
       setrecaptchaToken("");
+      if (!renderRecaptcha) {
+        setrenderRecaptcha(true);
+      }
     }
   }, [props.dialogState]);
 
   useEffect(() => {
-    getRecaptcha();
-  }, [containerRef.current]);
+    if (renderRecaptcha && containerRef.current && containerRef) {
+      getRecaptcha();
+      setrenderRecaptcha(false);
+    }
+  }, [containerRef.current, renderRecaptcha]);
 
   const getRecaptcha = () => {
     if (containerRef.current) {
@@ -94,7 +101,10 @@ export default function PhoneAuthDialog(props) {
 
       return null;
     }
+    await sendOtp();
+  };
 
+  const sendOtp = async () => {
     //send otp
     try {
       let sendVerficationSmsAPI = firebase
@@ -166,7 +176,6 @@ export default function PhoneAuthDialog(props) {
       setisButtonDisabled(true);
     }
   };
-
   const submitOtp = async () => {
     setbtnLoader(true);
 
@@ -264,9 +273,10 @@ export default function PhoneAuthDialog(props) {
           onChange={(e) => {
             setphNumberField(e);
           }}
+          international={true}
         />
         <div className="recaptcha-div" ref={containerRef}></div>
-        <p>
+        <p style={{ marginTop: 20 }}>
           By tapping Verify, an SMS will be sent. Message &amp; data rates may
           apply.
         </p>
@@ -276,7 +286,12 @@ export default function PhoneAuthDialog(props) {
 
   const View2 = (
     <div className="form-group">
-      <label>Enter the 6-digit code</label>
+      <label>
+        Enter the 6-digit code we sent to{" "}
+        <p style={{ margin: 0, fontSize: 14, display: "inline-block" }}>
+          {phNumberField}
+        </p>
+      </label>
       <input
         onChange={(e) => {
           setotpField(e.target.value);
@@ -286,16 +301,23 @@ export default function PhoneAuthDialog(props) {
         value={otpField}
         placeholder="code"
       />
-      {/* <p
+      <p
         className="link"
-        style={{ fontSize: 12, marginTop: 10, display: "inline-block" }}
+        style={{
+          fontSize: 12,
+          marginTop: 10,
+          display: "inline-block",
+          marginBottom: 0,
+        }}
         onClick={() => {
-          setisButtonDisabled(true);
           props.setphoneAuthDialogView(1);
+          // getRecaptcha();
+          setisButtonDisabled(true);
+          setrenderRecaptcha(true);
         }}
       >
         Change contact number
-      </p> */}
+      </p>
     </div>
   );
 

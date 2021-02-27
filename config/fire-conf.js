@@ -2,7 +2,7 @@
 import firebase from "firebase";
 import "firebase/storage";
 import "firebase/analytics";
-const MODE = "PROD";
+const MODE = "DEV";
 
 //DEV or PROD
 const firebaseConfig =
@@ -17,8 +17,7 @@ const firebaseConfig =
         appId: "1:540169846332:web:f3c5e00aa07b48d2db8d39",
         measurementId: "G-2SF16EW2KV",
       }
-    : 
-      {
+    : {
         apiKey: "AIzaSyCGzjD8zb2yJzRi6W54FJvfj55CWu_36q4",
         authDomain: "hivedb-cdbf7.firebaseapp.com",
         databaseURL: "https://relysia-9e4c5.firebaseio.com/",
@@ -26,15 +25,15 @@ const firebaseConfig =
         storageBucket: "hivedb-cdbf7.appspot.com",
         messagingSenderId: "882176606224",
         appId: "1:882176606224:web:4b5a448b3bf607e1680a95",
-        measurementId: "G-89Z5B2W3KM"
-      }
-      ;
+        measurementId: "G-89Z5B2W3KM",
+      };
 var db1Url =
   MODE === "DEV"
     ? "https://vaionexdev.firebaseio.com/"
     : "https://vaionexusers.firebaseio.com/";
 
-var tokensFirebaseUrl = MODE === "DEV" ? "gs://wallettokens_vionex/" : "gs://relysia-cdbf8/";
+var tokensFirebaseUrl =
+  MODE === "DEV" ? "gs://wallettokens_vionex/" : "gs://relysia-cdbf8/";
 
 try {
   firebase.initializeApp(firebaseConfig);

@@ -17,7 +17,7 @@ function MainBanner() {
   const dispatch = useDispatch();
   const userDataRedux = useSelector((state) => state.userData);
   const router = useRouter();
-  const onFormSubmit = (e) => {
+  const onFormSubmit = async(e) => {
     e.preventDefault();
     setLoading(true);
 
@@ -25,6 +25,14 @@ function MainBanner() {
       .auth()
       .createUserWithEmailAndPassword(EmailField, PasswordField)
       .then((res) => {
+          //sending verfication email
+          let resendEmailAPI = firebase
+          .functions()
+          .httpsCallable("verificationEmailLink");
+        await resendEmailAPI({
+          appName: "relysia",
+        });
+
         var user = firebase.auth().currentUser;
 
         let userLocal = { ...res.user, displayName: UsernameField };
