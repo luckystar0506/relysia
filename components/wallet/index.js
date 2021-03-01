@@ -17,6 +17,7 @@ import { Checkbox } from "antd";
 import Computer from "bitcoin-computer";
 import TokensCon from "./tokensCon";
 import moment from "moment";
+import StasTokenCon from "./stasTokenCon";
 
 function WalletPage(props) {
   const router = useRouter();
@@ -35,7 +36,6 @@ function WalletPage(props) {
 
   useEffect(() => {
     if (userDataRedux) {
-      console.log("userDataRedux", userDataRedux);
       firebase
         .database()
         .ref(
@@ -274,6 +274,8 @@ function WalletPage(props) {
               setloadingTokens={setloadingTokens}
               getTokens={getTokens}
             />
+
+            <StasTokenCon userDataRedux={userDataRedux} />
           </div>
           <div className="wallet-con2">
             <PerfectScrollbar

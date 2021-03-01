@@ -17,16 +17,16 @@ function MainBanner() {
   const dispatch = useDispatch();
   const userDataRedux = useSelector((state) => state.userData);
   const router = useRouter();
-  const onFormSubmit = async(e) => {
+  const onFormSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     firebase
       .auth()
       .createUserWithEmailAndPassword(EmailField, PasswordField)
-      .then((res) => {
-          //sending verfication email
-          let resendEmailAPI = firebase
+      .then(async (res) => {
+        //sending verfication email
+        let resendEmailAPI = firebase
           .functions()
           .httpsCallable("verificationEmailLink");
         await resendEmailAPI({
