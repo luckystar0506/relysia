@@ -85,7 +85,6 @@ export default function MintTokenDialog(props) {
         console.log(
           `Minted ${token.name} with supply ${tokenSupply} and id ${token._id}`
         );
-        console.log("token details", tokenData);
 
         setTimeout(() => {
           setimageFile([]);
@@ -160,7 +159,7 @@ export default function MintTokenDialog(props) {
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
       fullWidth
-      style={{ zIndex: 100 }}
+      style={{ zIndex: 1000 }}
       maxWidth="sm"
       className="custom-dialog"
     >
@@ -253,14 +252,7 @@ export default function MintTokenDialog(props) {
             </>
           </DialogContent>
           <DialogActions style={{ marginTop: 10, height: 50 }}>
-            <button
-              type="button"
-              onClick={handleClose}
-              className="btn btn-primary btn-small"
-              style={{ marginRight: 5 }}
-            >
-              Cancel
-            </button>
+         
             {(() => {
               if (loading) {
                 return (

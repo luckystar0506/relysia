@@ -243,6 +243,7 @@ export default function NewWalletDialog(props) {
                         setwalletIconIndex(index1);
                         setimageFile([]);
                       }}
+                      key={index1 + "wallet-div"}
                     >
                       <img
                         style={{ width: "100%", height: "100%" }}

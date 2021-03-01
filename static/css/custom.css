@@ -573,6 +573,9 @@ svg:focus {
 .alert-old-tran {
   width: 50%;
 }
+.fade {
+  z-index: 10000 !important;
+}
 
 @media only screen and (max-width: 1200px) {
   .activity-box {

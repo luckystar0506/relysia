@@ -1,5 +1,6 @@
 import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
 import "react-phone-number-input/style.css";
+import "react-bootstrap-country-select/dist/react-bootstrap-country-select.css";
 
 import "vionex-pay-button/dist/index.css";
 import "../static/css/bootstrap.min.css";
