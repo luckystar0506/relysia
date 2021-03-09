@@ -373,6 +373,11 @@ svg:focus {
 .token-ele {
   margin: 10px 25px 15px 10px;
 }
+.stas-token-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
 .token-item {
   display: flex;
   align-items: center;
@@ -395,6 +400,9 @@ svg:focus {
   max-width: 10%;
   margin-left: auto;
 }
+/* .stas-tokens-count {
+  margin-left: auto;
+} */
 .mint-btn {
   margin-left: auto;
   margin-right: 25px;

@@ -63,7 +63,6 @@ class DefaultStyle extends React.Component {
       : "navbar-toggler navbar-toggler-right";
 
     let { pathname } = this.props.router;
-    console.log("this.props.router.pathname", this.props.router.pathname);
     return (
       <header
         id="header"
