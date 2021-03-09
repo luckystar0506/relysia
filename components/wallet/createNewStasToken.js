@@ -6,18 +6,14 @@ import Slide from "@material-ui/core/Slide";
 import firebase from "../../config/fire-conf";
 import CustomLoader from "../Layouts/CustomLoader";
 import { ToastContainer, toast } from "react-toastify";
-import { PlusOutlined } from "@ant-design/icons";
 import { makeStyles } from "@material-ui/core/styles";
-import { Upload, message } from "antd";
-import ImgCrop from "antd-img-crop";
 import PerfectScrollbar from "react-perfect-scrollbar";
-import { v4 as uuidv4 } from "uuid";
 import TextareaAutosize from "react-textarea-autosize";
 import CountrySelect from "react-bootstrap-country-select";
-import { contract, utils, issue } from "stas-js";
+import { contract, utils } from "../../stas-js/index";
 
 const bsv = require("bsv");
-const { getFundsFromFaucet, broadcast, getTransaction } = utils;
+const { getFundsFromFaucet, broadcast } = utils;
 
 const useStyles = makeStyles((theme) => ({
   select: {
@@ -52,7 +48,7 @@ export default function CreateStasTokenDialog(props) {
   });
 
   const [tokenSchema, settokenSchema] = useState({
-    schemaId: "",
+    schemaId: "Schema STAS Coupon",
     tokenName: "",
     tokenId: "",
     tokenDescription: "",
@@ -61,8 +57,7 @@ export default function CreateStasTokenDialog(props) {
     issuerLegalForm: "Limited Liability Public Company",
     issuerEmail: "",
     issuerWebsite: "",
-    terms:
-      "© 2021 {{Company name}}\nALL RIGHTS RESERVED. ANY USE OF THIS SOFTWARE IS SUBJECT TO TERMS AND CONDITIONS OF LICENSE. USE OF THIS SOFTWARE WITHOUT LICENSE CONSTITUTES INFRINGEMENT OF INTELLECTUAL PROPERTY. FOR LICENSE DETAILS OF THE SOFTWARE, PLEASE REFER TO: {{contact-details}}",
+    terms: "© 2021",
     governingLaw: "Cayman Islands Law",
     icon: "",
     tickerSymbol: "TAAL",
@@ -74,54 +69,64 @@ export default function CreateStasTokenDialog(props) {
 
   const createNewTokenFunc = async () => {
     setloading(true);
-    console.log("tokenSchema", tokenSchema);
     try {
-      let tokenDetails = { ...tokenSchema };
-      let contractPrivateKey = bsv.PrivateKey();
-      let utxos = await getFundsFromFaucet(
+      const tokenDetails = { ...tokenSchema };
+      const contractPrivateKey = bsv.PrivateKey();
+
+      const utxos = await getFundsFromFaucet(
         contractPrivateKey.toAddress("testnet").toString()
       );
 
-      let publicKeyHash = bsv.crypto.Hash.sha256ripemd160(
+      const publicKeyHash = bsv.crypto.Hash.sha256ripemd160(
         contractPrivateKey.publicKey.toBuffer()
       ).toString("hex");
+
       tokenDetails.tokenId = publicKeyHash;
-      tokenDetails.schemaId = uuidv4();
 
       const contractHex = contract(
         contractPrivateKey,
         utxos,
         tokenDetails,
-        tokenSupply
+        Number(tokenSupply)
       );
 
       const contractTxid = await broadcast(contractHex);
       console.log(`Contract TX:     ${contractTxid}`);
+      console.log("address", contractPrivateKey.toAddress().toString());
 
       //storing token details in firebase
       let contractPublicKey = contractPrivateKey.publicKey.toString();
-      //   console.log(
-      //     "contractPublicKey",
-      //     contractPublicKey,
-      //     contractPublicKey.toString(),
-      //     bsv.PublicKey.fromString(contractPublicKey.toString())
-      //   );
+      let contractAddress = contractPrivateKey.toAddress().toString();
+
+      tokenDetails.contractPublicKey = contractPublicKey;
+      tokenDetails.contractAddress = contractAddress;
+
       let updates = {};
-      updates["stasTokens/tokensDetails/" + contractPublicKey] = tokenDetails;
-      updates[
-        "stasTokens/tokensUsers/" +
-          props.userDataRedux.uid +
-          "/admin/" +
-          contractPublicKey
-      ] = {
+      updates["stasTokens/tokensDetails/" + contractAddress] = tokenDetails;
+      let tokenObj = {
         contractPrivateKey: contractPrivateKey.toString(),
         contractTxid: contractTxid,
         issued: 0,
         supply: tokenSupply,
         contractPublicKey: contractPublicKey,
+        tokenId: publicKeyHash,
+        tokenName: tokenDetails.tokenName,
+        tickerSymbol: tokenDetails.tickerSymbol,
+        icon: tokenDetails.icon,
+        tokensIssued: false,
+        issueTxid: null,
+        contractAddress: contractAddress,
+        tokenTransferred: false,
       };
+      updates[
+        "stasTokens/userTokens/" +
+          props.userDataRedux.uid +
+          "/myTokens/" +
+          contractAddress
+      ] = tokenObj;
       firebase.database().ref().update(updates);
 
+      props.setuserCreatedTokens([...props.userCreatedTokens, tokenObj]);
       toast.success(`Contract created successfully!`, {
         position: "bottom-left",
         autoClose: 10000,
@@ -134,7 +139,7 @@ export default function CreateStasTokenDialog(props) {
       handleClose();
 
       settokenSchema({
-        schemaId: "",
+        schemaId: "Schema STAS Coupon",
         tokenName: "",
         tokenId: "",
         tokenDescription: "",
@@ -143,8 +148,7 @@ export default function CreateStasTokenDialog(props) {
         issuerLegalForm: "Limited Liability Public Company",
         issuerEmail: "",
         issuerWebsite: "",
-        terms:
-          "© 2021 {{Company name}}\nALL RIGHTS RESERVED. ANY USE OF THIS SOFTWARE IS SUBJECT TO TERMS AND CONDITIONS OF LICENSE. USE OF THIS SOFTWARE WITHOUT LICENSE CONSTITUTES INFRINGEMENT OF INTELLECTUAL PROPERTY. FOR LICENSE DETAILS OF THE SOFTWARE, PLEASE REFER TO: {{contact-details}}",
+        terms: "© 2021",
         governingLaw: "Cayman Islands Law",
         icon: "",
         tickerSymbol: "TAAL",
@@ -183,7 +187,7 @@ export default function CreateStasTokenDialog(props) {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
         fullWidth
-        style={{ zIndex: 100 }}
+        style={{ zIndex: 1000 }}
         maxWidth="sm"
         className="custom-dialog"
       >

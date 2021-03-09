@@ -41,7 +41,7 @@ export default function DepositeDialog(props) {
   const handleClose = () => {
     props.setdialogState(false);
   };
- 
+
   const getDynamicAddress = () => {
     //use randomly
     setcurrentAddress(
@@ -66,7 +66,7 @@ export default function DepositeDialog(props) {
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
       fullWidth
-      style={{ zIndex: 100 }}
+      style={{ zIndex: 1000 }}
       maxWidth="sm"
     >
       <div style={{ padding: "18px 24px 5px 24px" }}>

@@ -275,7 +275,12 @@ function WalletPage(props) {
               getTokens={getTokens}
             />
 
-            <StasTokenCon userDataRedux={userDataRedux} />
+            <StasTokenCon
+              userDataRedux={userDataRedux}
+              walletData={
+                props.currentWalletsData ? props.currentWalletsData : null
+              }
+            />
           </div>
           <div className="wallet-con2">
             <PerfectScrollbar
