@@ -52,12 +52,12 @@ export default function NewWalletDialog(props) {
           walletLogo = walletDefaultTokens[walletIconIndex];
         }
         //  else {
-        //   let imageId = uuidv4();
-        //   let uploadTask = tokensFirebaseStorage.child(
-        //     "walletLogos/" + imageId
-        //   );
-        //   uploadTask.put(imageFile[0].originFileObj);
-        //   walletLogo = `https://firebasestorage.googleapis.com/v0/b/wallettokens_vionex/o/walletLogos%2F${imageId}?alt=media`;
+          // let imageId = uuidv4();
+          // let uploadTask = tokensFirebaseStorage.child(
+          //   "walletLogos/" + imageId
+          // );
+          // uploadTask.put(imageFile[0].originFileObj);
+          // walletLogo = `https://firebasestorage.googleapis.com/v0/b/wallettokens_vionex/o/walletLogos%2F${imageId}?alt=media`;
         // }
 
         toast.info("Generating Wallet Keys..", {

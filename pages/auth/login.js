@@ -13,7 +13,7 @@ function Login() {
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        router.push("/app/wallet/vionex-wallet");
+        router.push("/app/wallet/vaionex-wallet");
       }
     });
   }, []);

@@ -52,7 +52,7 @@ function MainBanner() {
         if (userLocal) {
           dispatch(updateUserDataAction(userLocal));
         }
-        router.push("/app/wallet/vionex-wallet");
+        router.push("/app/wallet/vaionex-wallet");
       })
       .catch((error) => {
         let errorMessage = error.message;

@@ -61,67 +61,8 @@ export default function TrasnferStasTokenDialog(props) {
   };
 
   const transferUserIssuedTokens = async () => {
-    const issueTx = await getTransaction(props.tokenDetails.issueTxid);
-    console.log("issueTx", issueTx);
-
-    const transferHex = transfer(
-      bsv.PrivateKey.fromString(props.tokenDetails.contractPrivateKey),
-      bsv.PrivateKey.fromString(props.tokenDetails.contractPrivateKey)
-        .publicKey,
-      {
-        txid: props.tokenDetails.issueTxid,
-        vout: 0,
-        scriptPubKey: issueTx.vout[0].scriptPubKey.hex,
-        amount: issueTx.vout[0].value,
-      },
-      bsv.PublicKey.fromString(recipientPublicKey),
-      [
-        {
-          txid: props.tokenDetails.issueTxid,
-          vout: 1,
-          scriptPubKey: issueTx.vout[1].scriptPubKey.hex,
-          amount: issueTx.vout[1].value,
-        },
-      ],
-      bsv.PrivateKey.fromString(props.tokenDetails.contractPrivateKey)
-    );
-    const transferTxid = await broadcast(transferHex);
-    console.log(`Transfer TX:     ${transferTxid}`);
-
-    toast.success(`Tokens transferred successfully!`, {
-      position: "bottom-left",
-      autoClose: 10000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
-
-    //updating state and db
-    let modifiedObj = [...props.userCreatedTokens];
-    modifiedObj[props.selectedTransferTokenIndex].tokenTransferred = true;
-
-    props.setuserCreatedTokens(modifiedObj);
-
-    let updates = {};
-    updates[
-      "stasTokens/userTokens/" +
-        props.userDataRedux.uid +
-        "/myTokens/" +
-        props.tokenDetails.contractAddress +
-        "/tokenTransferred"
-    ] = true;
-
-    firebase.database().ref().update(updates);
-    props.getWalletTokens();
-    setloading(false);
-    handleClose();
-  };
-
-  const transferWalletTokens = async () => {
     // const issueTx = await getTransaction(props.tokenDetails.issueTxid);
     // console.log("issueTx", issueTx);
-
     // const transferHex = transfer(
     //   bsv.PrivateKey.fromString(props.tokenDetails.contractPrivateKey),
     //   bsv.PrivateKey.fromString(props.tokenDetails.contractPrivateKey)
@@ -145,7 +86,6 @@ export default function TrasnferStasTokenDialog(props) {
     // );
     // const transferTxid = await broadcast(transferHex);
     // console.log(`Transfer TX:     ${transferTxid}`);
-
     // toast.success(`Tokens transferred successfully!`, {
     //   position: "bottom-left",
     //   autoClose: 10000,
@@ -154,13 +94,6 @@ export default function TrasnferStasTokenDialog(props) {
     //   pauseOnHover: true,
     //   draggable: true,
     // });
-
-    // //updating state and db
-    // let modifiedObj = [...props.userCreatedTokens];
-    // modifiedObj[props.selectedTransferTokenIndex].tokenTransferred = true;
-
-    // props.setuserCreatedTokens(modifiedObj);
-
     // let updates = {};
     // updates[
     //   "stasTokens/userTokens/" +
@@ -169,7 +102,58 @@ export default function TrasnferStasTokenDialog(props) {
     //     props.tokenDetails.contractAddress +
     //     "/tokenTransferred"
     // ] = true;
+    // firebase.database().ref().update(updates);
+    // props.getWalletTokens();
+    // setloading(false);
+    // handleClose();
+  };
 
+  const transferWalletTokens = async () => {
+    // const issueTx = await getTransaction(props.tokenDetails.issueTxid);
+    // console.log("issueTx", issueTx);
+    // const transferHex = transfer(
+    //   bsv.PrivateKey.fromString(props.tokenDetails.contractPrivateKey),
+    //   bsv.PrivateKey.fromString(props.tokenDetails.contractPrivateKey)
+    //     .publicKey,
+    //   {
+    //     txid: props.tokenDetails.issueTxid,
+    //     vout: 0,
+    //     scriptPubKey: issueTx.vout[0].scriptPubKey.hex,
+    //     amount: issueTx.vout[0].value,
+    //   },
+    //   bsv.PublicKey.fromString(recipientPublicKey),
+    //   [
+    //     {
+    //       txid: props.tokenDetails.issueTxid,
+    //       vout: 1,
+    //       scriptPubKey: issueTx.vout[1].scriptPubKey.hex,
+    //       amount: issueTx.vout[1].value,
+    //     },
+    //   ],
+    //   bsv.PrivateKey.fromString(props.tokenDetails.contractPrivateKey)
+    // );
+    // const transferTxid = await broadcast(transferHex);
+    // console.log(`Transfer TX:     ${transferTxid}`);
+    // toast.success(`Tokens transferred successfully!`, {
+    //   position: "bottom-left",
+    //   autoClose: 10000,
+    //   hideProgressBar: false,
+    //   closeOnClick: true,
+    //   pauseOnHover: true,
+    //   draggable: true,
+    // });
+    // //updating state and db
+    // let modifiedObj = [...props.userCreatedTokens];
+    // modifiedObj[props.selectedTransferTokenIndex].tokenTransferred = true;
+    // props.setuserCreatedTokens(modifiedObj);
+    // let updates = {};
+    // updates[
+    //   "stasTokens/userTokens/" +
+    //     props.userDataRedux.uid +
+    //     "/myTokens/" +
+    //     props.tokenDetails.contractAddress +
+    //     "/tokenTransferred"
+    // ] = true;
     // firebase.database().ref().update(updates);
     // props.getWalletTokens();
     // setloading(false);

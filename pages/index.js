@@ -20,7 +20,7 @@ function Index() {
     firebase.auth().onAuthStateChanged((user) => {
       console.log("router.query.loggedin", router.query.loggedin);
       if (user && !router.query.loggedin) {
-        router.push("/app/wallet/vionex-wallet");
+        router.push("/app/wallet/vaionex-wallet");
       }
     });
   }, []);

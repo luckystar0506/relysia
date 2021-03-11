@@ -147,7 +147,7 @@ function GeneralSettings(props) {
                                   top: -4,
                                 }}
                               >
-                                {ele.id === "vionex-wallet"
+                                {ele.id === "vaionex-wallet"
                                   ? "Default wallet"
                                   : "Custom wallet"}
                               </p>

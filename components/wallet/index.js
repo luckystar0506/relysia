@@ -72,8 +72,8 @@ function WalletPage(props) {
       try {
         let newComputerObj = new Computer({
           chain: "BSV",
-          network: "testnet",
-          // network: "livenet",
+          // network: "testnet",
+          network: "livenet",
           seed: props.currentWalletsData.mnemonic,
           path: "m/44'/0'/0'/0/0",
         });

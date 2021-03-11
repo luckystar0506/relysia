@@ -57,6 +57,7 @@
     "react-iframe": "^1.8.0",
     "react-image-lightbox": "^5.1.1",
     "react-json-view": "^1.19.1",
+    "react-lottie": "^1.2.3",
     "react-modal-video": "^1.2.3",
     "react-no-ssr": "^1.1.0",
     "react-odometerjs": "^2.1.1",

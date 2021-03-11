@@ -9,7 +9,6 @@ import Head from "next/head";
 
 class CustomWalletPage extends React.Component {
   render() {
-    console.log("not default");
 
     return (
       <NoSSR>

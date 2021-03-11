@@ -13,6 +13,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core/styles";
 import NewWalletDialog from "./newWalletDialog";
 import { useSelector } from "react-redux";
+import TelegramIcon from "@material-ui/icons/Telegram";
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -119,7 +120,7 @@ function DashboardSidebar(props) {
               })}
             <div className="sidebar-seperator"></div>
             <Menu.Item
-              key="11111"
+              key="11"
               icon={<AddBoxIcon style={{ color: "#f48665" }} />}
             >
               <a
@@ -131,6 +132,14 @@ function DashboardSidebar(props) {
               >
                 Create New Wallet
               </a>
+            </Menu.Item>
+            <Menu.Item
+              key="22"
+              icon={<TelegramIcon style={{ color: "#f48665" }} />}
+            >
+              <Link href={`/app/stas-tokens`}>
+                <a>Manage Stas Tokens</a>
+              </Link>
             </Menu.Item>
             <Menu.Item
               key="2"

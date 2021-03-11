@@ -202,7 +202,7 @@ class DefaultStyle extends React.Component {
                     <li className="nav-item">
                       <Link
                         activeClassName="active"
-                        href="/app/wallet/vionex-wallet"
+                        href="/app/wallet/vaionex-wallet"
                       >
                         <a
                           className="nav-link"

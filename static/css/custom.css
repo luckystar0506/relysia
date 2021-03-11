@@ -280,6 +280,7 @@ svg:focus {
   padding-left: 10px;
   padding-right: 10px;
 }
+
 .wallet-con1 {
   width: 40%;
   border-right: 1px solid #dcdbdb;
@@ -585,6 +586,86 @@ svg:focus {
   z-index: 10000 !important;
 }
 
+.stas-view-con {
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.stas-head h1 {
+  font-size: 20px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.stas-head {
+  display: flex;
+  align-items: center;
+}
+.stas-tokenDetails {
+  margin-top: 25px;
+}
+.fix-height-tokencon {
+  min-height: 150px !important;
+  margin-bottom: 20px;
+  padding: 25px 20px;
+}
+
+.details-box-con {
+  width: 100%;
+  border: 1px solid #f48665;
+  border-radius: 5px;
+}
+.details-box-head {
+  background-color: #f4866524;
+  padding: 12px;
+  font-size: 16px;
+  border-bottom: 1px solid #fd9474;
+}
+.details-box-details {
+  padding: 20px 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.details-box-details .box{
+  width: 49%;
+}
+.details-box-item {
+  width: 100%;
+  margin-right: 10px;
+  display: inline-block;
+  margin-bottom: 3px;
+}
+.details-box-item p {
+  margin: 0px;
+}
+
+.details-box-item .details-title {
+  color: #000000;
+  margin-right: 10px;
+}
+
+.details-box-item .details-val {
+  word-break: break-all;
+}
+.details-box-tran-con {
+  margin-bottom: 5px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.details-box-tran-con p {
+  word-break: break-all;
+  margin: 0px;
+  cursor: pointer;
+}
+.details-box-tran-con p:hover {
+  text-decoration: underline;
+  color: #f48665;
+}
+
 @media only screen and (max-width: 1200px) {
   .activity-box {
     width: 95%;
@@ -655,12 +736,12 @@ svg:focus {
   .alert-old-tran {
     width: 100%;
   }
+  .details-box-item {
+    width: 100%;
+    margin-right: 0px;
+  }
 }
 @media only screen and (min-width: 767px) {
-  .fix-height {
-    min-height: 250px !important;
-    margin-bottom: 20px;
-  }
   .alert-old-tran button {
     width: 90%;
   }
@@ -731,4 +812,8 @@ svg:focus {
 .ant-menu-item:active,
 .ant-menu-submenu-title:active {
   background: #f4866563;
+}
+
+.ant-upload.ant-upload-select-picture-card:hover {
+  border-color: #f48665;
 }
