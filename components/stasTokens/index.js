@@ -89,7 +89,7 @@ function StasTokenComponent(props) {
                       </div>
                       <h3 style={{ cursor: "pointer", fontSize: 22 }}>
                         {ele.tickerSymbol}
-                      </h3>
+                      </h3> 
                       <p>{ele.tokenName}</p>
                     </div>
                   </div>

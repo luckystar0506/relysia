@@ -16,8 +16,11 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import { Checkbox } from "antd";
 import Computer from "bitcoin-computer";
 import TokensCon from "./tokensCon";
-import moment from "moment";
 import StasTokenCon from "./stasTokenCon";
+import axios from "axios";
+
+const CryptoJS = require("crypto-js");
+const bsv = require("bsv");
 
 function WalletPage(props) {
   const router = useRouter();
@@ -33,6 +36,8 @@ function WalletPage(props) {
   const [tokensList, settokensList] = useState([]);
   const [loadingTokens, setloadingTokens] = useState(true);
   const userDataRedux = useSelector((state) => state.userData);
+  const [walletStasTokens, setwalletStasTokens] = useState([]); //wallet tokens
+  const [walletPrivateKey, setwalletPrivateKey] = useState("");
 
   useEffect(() => {
     if (userDataRedux) {
@@ -53,7 +58,44 @@ function WalletPage(props) {
           }
         });
     }
+    if (userDataRedux && props.currentWalletsData) {
+      let gethdPrivateKey = CryptoJS.AES.decrypt(
+        props.currentWalletsData.hdPrivateKey,
+        props.currentWalletsData.password
+      ).toString(CryptoJS.enc.Utf8);
+
+      let hdPrivateKey = bsv.HDPrivateKey.fromString(gethdPrivateKey);
+
+      let standardPrivateKey = hdPrivateKey
+        .deriveChild("m/44'/0'/0'/0/0")
+        .privateKey.toString();
+
+      setwalletPrivateKey(standardPrivateKey);
+      getWalletStasTokens(standardPrivateKey);
+    }
   }, [userDataRedux, props.currentWalletsData]);
+
+  const getWalletStasTokens = async (privateKey) => {
+    let privKey = privateKey ? privateKey : walletPrivateKey;
+
+    let walletAddress = bsv.PrivateKey.fromString(privKey)
+      .toAddress("testnet")
+      .toString(); //test
+    let res = await axios({
+      method: "get",
+      url: `https://taalnet.whatsonchain.com/v1/bsv/taalnet/address/${walletAddress}/tokens`,
+    });
+
+    if (res && res.status === 200 && res.data && res.data.tokens) {
+      if (res.data.tokens) {
+        setwalletStasTokens([...res.data.tokens]);
+      } else {
+        setwalletStasTokens([]);
+      }
+    } else {
+      setwalletStasTokens([]);
+    }
+  };
 
   useEffect(() => {
     DB1.ref("stats/market_price_usd")
@@ -72,8 +114,8 @@ function WalletPage(props) {
       try {
         let newComputerObj = new Computer({
           chain: "BSV",
-          // network: "testnet",
-          network: "livenet",
+          network: "testnet",
+          // network: "livenet",
           seed: props.currentWalletsData.mnemonic,
           path: "m/44'/0'/0'/0/0",
         });
@@ -273,13 +315,18 @@ function WalletPage(props) {
               loadingTokens={loadingTokens}
               setloadingTokens={setloadingTokens}
               getTokens={getTokens}
-            />
+            /> 
 
             <StasTokenCon
               userDataRedux={userDataRedux}
-              walletData={
-                props.currentWalletsData ? props.currentWalletsData : null
+              walletStasTokens={walletStasTokens}
+              walletPrivateKey={walletPrivateKey}
+              walletId={
+                props.currentWalletsData && props.currentWalletsData.id
+                  ? props.currentWalletsData.id
+                  : ""
               }
+              getWalletStasTokens={getWalletStasTokens}
             />
           </div>
           <div className="wallet-con2">
@@ -328,14 +375,14 @@ function WalletPage(props) {
             </PerfectScrollbar>
           </div>
         </div>
-      </div>
+      </div> 
       <DepositeDialog
         dialogState={depositeDialogState}
         setdialogState={setdepositeDialogState}
         userDataRedux={userDataRedux}
         walletData={props.currentWalletsData ? props.currentWalletsData : null}
         walletComputerObj={walletComputerObj}
-      />
+      /> 
       <WithdrawDialog
         dialogState={withdrawDialogState}
         setdialogState={setwithdrawDialogState}
@@ -345,6 +392,14 @@ function WalletPage(props) {
         getTokens={getTokens}
         tokensList={tokensList}
         settokensList={settokensList}
+        walletStasTokens={walletStasTokens}
+        walletId={
+          props.currentWalletsData && props.currentWalletsData.id
+            ? props.currentWalletsData.id
+            : ""
+        }
+        getWalletStasTokens={getWalletStasTokens}
+
       />
     </section>
   );

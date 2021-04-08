@@ -1,0 +1,925 @@
+import React, { useState, useEffect } from "react";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import Slide from "@material-ui/core/Slide";
+import firebase from "../../config/fire-conf";
+import CustomLoader from "../Layouts/CustomLoader";
+import { ToastContainer, toast } from "react-toastify";
+import { makeStyles } from "@material-ui/core/styles";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import TextareaAutosize from "react-textarea-autosize";
+import CountrySelect from "react-bootstrap-country-select";
+import { split, utils, transfer } from "../../stas-js/index";
+import axios from "axios";
+
+const bsv = require("bsv");
+const { getFundsFromFaucet, broadcast, getTransaction } = utils;
+
+const useStyles = makeStyles((theme) => ({
+  icon: {
+    fill: "#f48665",
+  },
+}));
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+export default function SplitStasTokenDialog(props) {
+  const classes = useStyles();
+
+  const [loading, setloading] = useState(false);
+  const [recipientAddress, setrecipientAddress] = useState("");
+  const [amount, setamount] = useState("");
+
+  const handleClose = () => {
+    props.setdialogState(false);
+  };
+
+  const transferTokenFunc = async () => {
+    setloading(true);
+    let transferAmount = Number(amount);
+    try {
+      console.log("split");
+
+      //getting keys
+      let tokenKeys = await getTokenKeys(props.selectedTokenId);
+      if (!tokenKeys) {
+        toast.error("Keys not found!", {
+          position: "bottom-left",
+          autoClose: 10000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
+
+      //getting txids
+      let walletAddress = bsv.PrivateKey.fromString(props.walletPrivateKey)
+        .toAddress("testnet")
+        .toString(); //test
+
+      let txidRes = await getTxids(walletAddress);
+      let txids = [];
+      if (
+        txidRes &&
+        txidRes.status === 200 &&
+        txidRes.data &&
+        txidRes.data.utxos
+      ) {
+        txids = txidRes.data.utxos.filter(
+          (x) => x.tokenId === props.selectedTokenId && x.amount > 0
+        );
+      }
+
+      if (txids.length === 0) {
+        toast.error("Txids not found!", {
+          position: "bottom-left",
+          autoClose: 10000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        return null;
+      }
+
+      let totalTokens = 0;
+      txids.map((a, b) => {
+        totalTokens = totalTokens + a.amount;
+      });
+
+      console.log("totalTokens", totalTokens);
+      if (totalTokens < transferAmount) {
+        toast.error("Insufficient Tokens!", {
+          position: "bottom-left",
+          autoClose: 10000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        setloading(false);
+
+        return null;
+      }
+
+      //split
+      console.log("txids", txids);
+      let lastSplit = true;
+      let sumOfAmount = 0;
+      let updatedTxids = [];
+      txids.map((x) => {
+        if (sumOfAmount < transferAmount) {
+          sumOfAmount = sumOfAmount + x.amount;
+          if (sumOfAmount === transferAmount) {
+            lastSplit = false;
+          }
+          updatedTxids.push(x);
+        }
+      });
+      console.log("updatedTxids", updatedTxids, lastSplit);
+
+      let amountTransferred = 0;
+      await Promise.all(
+        updatedTxids.map(async (ele, index) => {
+          console.log("tx", ele, index);
+          //situation 1
+          if (
+            updatedTxids.length - 1 !== index ||
+            (updatedTxids.length - 1 === index && !lastSplit)
+          ) {
+            console.log("situation 1");
+            let issueTxid = ele.txid;
+            let issueTx = await getTransaction(issueTxid);
+            console.log("txid", issueTxid);
+            let utxos = await getFundsFromFaucet(
+              bsv.PrivateKey.fromString(props.walletPrivateKey)
+                .toAddress("testnet")
+                .toString()
+            );
+
+            let transferHex = transfer(
+              bsv.PrivateKey.fromString(props.walletPrivateKey),
+              bsv.PrivateKey.fromString(tokenKeys.contractPrivateKey).publicKey,
+              {
+                txid: issueTxid,
+                vout: 0,
+                scriptPubKey: issueTx.vout[0].scriptPubKey.hex,
+                amount: issueTx.vout[0].value,
+              },
+              recipientAddress,
+              utxos,
+              bsv.PrivateKey.fromString(props.walletPrivateKey)
+            );
+            console.log(`broadcasting..`);
+            const transferTxid = await broadcast(transferHex);
+            console.log(`Transfer TX:     ${transferTxid}`);
+          } else {
+            console.log("situation 2");
+
+            //situation 2
+            let issueTxid = ele.txid;
+            let issueTx = await getTransaction(issueTxid);
+            console.log("txid", issueTxid);
+            let utxos = await getFundsFromFaucet(
+              bsv.PrivateKey.fromString(props.walletPrivateKey)
+                .toAddress("testnet")
+                .toString()
+            );
+            console.log(
+              "val in split",
+              ele.amount - (sumOfAmount - transferAmount),
+              sumOfAmount - transferAmount
+            );
+            const splitHex = split(
+              bsv.PrivateKey.fromString(props.walletPrivateKey),
+              bsv.PrivateKey.fromString(tokenKeys.contractPrivateKey).publicKey,
+              {
+                txid: issueTxid,
+                vout: 0,
+                scriptPubKey: issueTx.vout[0].scriptPubKey.hex,
+                amount: issueTx.vout[0].value,
+              },
+              recipientAddress,
+              (ele.amount - (sumOfAmount - transferAmount)) / 100000000,
+
+              bsv.PrivateKey.fromString(props.walletPrivateKey)
+                .toAddress()
+                .toString(),
+              (sumOfAmount - transferAmount) / 100000000,
+
+              utxos,
+              bsv.PrivateKey.fromString(props.walletPrivateKey)
+            );
+
+            console.log("broadcasting...");
+            const splitTxid = await broadcast(splitHex);
+            console.log(`Split TX:     ${splitTxid}`);
+          }
+        })
+      );
+      //   console.log(1);
+      //   let issueTxid = txids[0].txid;
+
+      //   let issueTx = await getTransaction(issueTxid);
+      //   console.log("tt", issueTxid);
+      //   let utxos = await getFundsFromFaucet(
+      //     bsv.PrivateKey.fromString(props.walletPrivateKey)
+      //       .toAddress("testnet")
+      //       .toString()
+      //   );
+      //   console.log(
+      //     "cc",
+      //     bsv.PrivateKey.fromString(props.walletPrivateKey),
+      //     bsv.PrivateKey.fromString(tokenKeys.contractPrivateKey).publicKey,
+      //     {
+      //       txid: issueTxid,
+      //       vout: 0,
+      //       scriptPubKey: issueTx.vout[0].scriptPubKey.hex,
+      //       amount: issueTx.vout[0].value,
+      //     },
+      //     recipientAddress,
+      //     Number(amount) / 100000000,
+      //     bsv.PrivateKey.fromString(props.walletPrivateKey)
+      //       .toAddress()
+      //       .toString(),
+      //     txids[0].amount / 100000000 - Number(amount) / 100000000,
+      //     utxos,
+      //     bsv.PrivateKey.fromString(props.walletPrivateKey)
+      //   );
+      //   const splitHex = split(
+      //     bsv.PrivateKey.fromString(props.walletPrivateKey),
+      //     bsv.PrivateKey.fromString(tokenKeys.contractPrivateKey).publicKey,
+      //     {
+      //       txid: issueTxid,
+      //       vout: 0,
+      //       scriptPubKey: issueTx.vout[0].scriptPubKey.hex,
+      //       amount: issueTx.vout[0].value,
+      //     },
+      //     recipientAddress,
+      //     Number(amount) / 100000000,
+      //     bsv.PrivateKey.fromString(props.walletPrivateKey)
+      //       .toAddress()
+      //       .toString(),
+      //     txids[0].amount / 100000000 - Number(amount) / 100000000,
+      //     utxos,
+      //     bsv.PrivateKey.fromString(props.walletPrivateKey)
+      //   );
+
+      //   console.log("splitHex", splitHex);
+      //   const splitTxid = await broadcast(splitHex);
+      //   console.log(`Split TX:     ${splitTxid}`);
+      props.getWalletTokens();
+      setrecipientAddress(""); 
+      handleClose();
+      toast.success(`Tokens transferred successfully!`, {
+        position: "bottom-left",
+        autoClose: 10000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    } catch (err) {
+      console.log("catch err", err.response, err);
+      toast.error(err.message, {
+        position: "bottom-left",
+        autoClose: 10000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
+    setloading(false);
+  };
+
+  const getTxids = async (walletAddress) => {
+    //getting txids
+    let txidRes = await axios({
+      method: "get",
+      url: `https://taalnet.whatsonchain.com/v1/bsv/taalnet/address/${walletAddress}/tokens/unspent`,
+      auth: {
+        username: "taal_private",
+        password: "dotheT@@l007",
+      },
+    });
+    console.log("txidRes", txidRes.data);
+    return txidRes;
+  };
+
+  const getTokenKeys = async (tokenId) => {
+    //getting token keys
+    let tokenKeys = await firebase
+      .database()
+      .ref("stasTokens/tokensDetails/" + tokenId)
+      .once("value");
+
+    if (!tokenKeys.val()) {
+      return null;
+    }
+    console.log("tokenKeys", tokenKeys);
+    return tokenKeys.val();
+  };
+
+  return (
+    <Dialog
+      open={props.dialogState}
+      TransitionComponent={Transition}
+      keepMounted
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-slide-title"
+      aria-describedby="alert-dialog-slide-description"
+      fullWidth
+      style={{ zIndex: 1000 }}
+      maxWidth="sm"
+      className="custom-dialog"
+    >
+      <PerfectScrollbar style={{ maxHeight: "90vh" }}>
+        <h5 style={{ padding: "18px 24px 0px 24px" }}>Split Tokens</h5>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            transferTokenFunc();
+          }}
+        >
+          <DialogContent>
+            <>
+              <div className="form-group">
+                <label>Recipient Address</label>
+
+                <input
+                  onChange={(e) => {
+                    setrecipientAddress(e.target.value);
+                  }}
+                  value={recipientAddress}
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter recipient wallet address"
+                  required
+                />
+                <input
+                  onChange={(e) => {
+                    setamount(e.target.value);
+                  }}
+                  value={amount}
+                  type="number"
+                  className="form-control"
+                  placeholder="Enter amount you want to transfer"
+                  required
+                  style={{ marginTop: 15 }}
+                />
+              </div>
+              <button
+                onClick={() =>
+                  getTxids(
+                    bsv.PrivateKey.fromString(props.walletPrivateKey)
+                      .toAddress("testnet")
+                      .toString()
+                  )
+                }
+              >
+                gettxids
+              </button>
+            </>
+          </DialogContent>
+          <DialogActions style={{ marginTop: 10, height: 50 }}>
+            {(() => {
+              if (loading) {
+                return (
+                  <div style={{ width: 80 }}>
+                    <CustomLoader width={25} height={25} />
+                  </div>
+                );
+              } else {
+                return (
+                  <button type="submit" className="btn btn-primary btn-small">
+                    Submit
+                  </button>
+                );
+              }
+            })()}
+          </DialogActions>
+        </form>
+
+        <ToastContainer />
+      </PerfectScrollbar>
+    </Dialog>
+  );
+}
+
+
+
+
+
+
+
+
+
+
+///create token in client
+const createNewTokenFunc = async () => {
+    setsubmitLoader(true);
+    try {
+      let stasTokenImg;
+      let imageId = uuidv4();
+      let uploadTask = tokensFirebaseStorage.child("walletLogos/" + imageId);
+      uploadTask.put(imageFile[0].originFileObj);
+      stasTokenImg = `https://firebasestorage.googleapis.com/v0/b/wallettokens_vionex/o/walletLogos%2F${imageId}?alt=media`;
+
+      const tokenDetails = { ...tokenSchema };
+      tokenDetails.icon = stasTokenImg;
+
+     
+      //
+      // const contractPrivateKey = bsv.PrivateKey();
+
+      // const utxos = await getFundsFromFaucet(
+      //   contractPrivateKey.toAddress("testnet").toString()
+      // );
+
+      // const publicKeyHash = bsv.crypto.Hash.sha256ripemd160(
+      //   contractPrivateKey.publicKey.toBuffer()
+      // ).toString("hex");
+
+      // tokenDetails.tokenId = publicKeyHash;
+
+      // const contractHex = contract(
+      //   contractPrivateKey,
+      //   utxos,
+      //   tokenDetails,
+      //   Number(tokenSupply)
+      // );
+
+      // const contractTxid = await broadcast(contractHex);
+      // console.log(`Contract TX:     ${contractTxid}`);
+      // const contractTx = await getTransaction(contractTxid);
+
+      // const destinationAddress = [userWallets[selectedWalletIndex].address[0]];
+
+      // //issuing
+      // const issueHex = issue(
+      //   contractPrivateKey,
+      //   destinationAddress,
+      //   {
+      //     txid: contractTxid,
+      //     vout: 0,
+      //     scriptPubKey: contractTx.vout[0].scriptPubKey.hex,
+      //     amount: contractTx.vout[0].value,
+      //   },
+      //   [
+      //     {
+      //       txid: contractTxid,
+      //       vout: 1,
+      //       scriptPubKey: contractTx.vout[1].scriptPubKey.hex,
+      //       amount: contractTx.vout[1].value,
+      //     },
+      //   ],
+      //   1
+      // );
+      // const issueTxid = await broadcast(issueHex);
+      // console.log(`Issue TX:        ${issueTxid}`);
+
+      // //storing token details in firebase
+      // let contractPublicKey = contractPrivateKey.publicKey.toString();
+      // let contractAddress = contractPrivateKey.toAddress().toString();
+
+      // let tokenObj = {
+      //   contractPrivateKey: contractPrivateKey.toString(),
+      //   contractTxid: contractTxid,
+      //   intialSupply: tokenSupply,
+      //   contractPublicKey: contractPublicKey,
+      //   tokenId: publicKeyHash,
+      //   tokensIssued: true,
+      //   contractAddress: contractAddress,
+      // };
+
+      // let tokenDetailsInDB = { ...tokenDetails, ...tokenObj };
+
+      // let updates = {};
+      // updates["stasTokens/tokensDetails/" + publicKeyHash] = tokenDetailsInDB;
+
+      // let tokenUserObj = {
+      //   contractTxid: contractTxid,
+      //   issued: 0,
+      //   supply: tokenSupply,
+      //   contractPublicKey: contractPublicKey,
+      //   tokenId: publicKeyHash,
+      //   tokenName: tokenDetails.tokenName,
+      //   tickerSymbol: tokenDetails.tickerSymbol,
+      //   icon: tokenDetails.icon,
+      //   contractAddress: contractAddress,
+      // };
+      // updates[
+      //   "stasTokens/userTokens/" +
+      //     userDataRedux.uid +
+      //     "/myTokens/" +
+      //     publicKeyHash
+      // ] = tokenUserObj;
+
+      // firebase.database().ref().update(updates);
+
+      // toast.success(`Contract created successfully!`, {
+      //   position: "bottom-left",
+      //   autoClose: 10000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      // });
+
+      // settokenSchema({
+      //   schemaId: "Schema STAS Coupon",
+      //   tokenName: "",
+      //   tokenId: "",
+      //   tokenDescription: "",
+      //   issuerName: "",
+      //   issuerCountry: "United States",
+      //   issuerLegalForm: "Limited Liability Public Company",
+      //   issuerEmail: "",
+      //   issuerWebsite: "",
+      //   terms: "© 2021",
+      //   governingLaw: "Cayman Islands Law",
+      //   icon: "",
+      //   tickerSymbol: "",
+      // });
+      // settokenSupply("");
+      // setissuerCountryObj({
+      //   alpha2: "us",
+      //   alpha3: "usa",
+      //   flag: "🇺🇸",
+      //   id: "us",
+      //   ioc: "usa",
+      //   name: "United States",
+      // });
+      // router.push("/app/stas-tokens");
+      // setsubmitLoader(false);
+    } catch (err) {
+      console.log("catch err", err);
+      toast.error(err.message, {
+        position: "bottom-left",
+        autoClose: 10000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
+      setsubmitLoader(false);
+    }
+  };
+
+
+
+
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+  import React, { useState, useEffect } from "react";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import Slide from "@material-ui/core/Slide";
+import firebase from "../../config/fire-conf";
+import CustomLoader from "../Layouts/CustomLoader";
+import { ToastContainer, toast } from "react-toastify";
+import { makeStyles } from "@material-ui/core/styles";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import TextareaAutosize from "react-textarea-autosize";
+import CountrySelect from "react-bootstrap-country-select";
+import { split, utils, transfer } from "../../stas-js/index";
+import axios from "axios";
+
+const bsv = require("bsv");
+const { getFundsFromFaucet, broadcast, getTransaction } = utils;
+
+const useStyles = makeStyles((theme) => ({
+  icon: {
+    fill: "#f48665",
+  },
+}));
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+export default function SplitStasTokenDialog(props) {
+  const classes = useStyles();
+
+  const [loading, setloading] = useState(false);
+  const [recipientAddress, setrecipientAddress] = useState("");
+  const [amount, setamount] = useState("");
+
+  const handleClose = () => {
+    props.setdialogState(false);
+  };
+  const transferTokenFunc = async () => {
+    setloading(true);
+
+    let stasTokenTransferAPI = firebase
+      .functions()
+      .httpsCallable("stasTokenTransferAndSplit");
+    let res = await stasTokenTransferAPI({
+      transferAmount: Number(amount),
+      walletId: props.walletId,
+      recipientAddress: recipientAddress,
+      currentTokenId: props.selectedTokenId,
+    });
+    console.log("res", res);
+
+    // let transferAmount = Number(amount);
+    // try {
+    //   //getting keys
+    //   let tokenKeys = await getTokenKeys(props.selectedTokenId);
+    //   if (!tokenKeys) {
+    //     toast.error("Keys not found!", {
+    //       position: "bottom-left",
+    //       autoClose: 10000,
+    //       hideProgressBar: false,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //     });
+    //   }
+
+    //   //getting txids
+    //   let walletAddress = bsv.PrivateKey.fromString(props.walletPrivateKey)
+    //     .toAddress("testnet")
+    //     .toString(); //test
+
+    //   let txidRes = await getTxids(walletAddress);
+    //   let txids = [];
+    //   if (
+    //     txidRes &&
+    //     txidRes.status === 200 &&
+    //     txidRes.data &&
+    //     txidRes.data.utxos
+    //   ) {
+    //     txids = txidRes.data.utxos.filter(
+    //       (x) => x.tokenId === props.selectedTokenId && x.amount > 0
+    //     );
+    //   }
+
+    //   if (txids.length === 0) {
+    //     toast.error("Txids not found!", {
+    //       position: "bottom-left",
+    //       autoClose: 10000,
+    //       hideProgressBar: false,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //     });
+    //     return null;
+    //   }
+
+    //   let totalTokens = 0;
+    //   txids.map((a, b) => {
+    //     totalTokens = totalTokens + a.amount;
+    //   });
+
+    //   console.log("totalTokens", totalTokens);
+    //   if (totalTokens < transferAmount) {
+    //     toast.error("Insufficient Tokens!", {
+    //       position: "bottom-left",
+    //       autoClose: 10000,
+    //       hideProgressBar: false,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //     });
+    //     setloading(false);
+
+    //     return null;
+    //   }
+
+    //   //split
+    //   console.log("txids", txids);
+    //   let lastSplit = true;
+    //   let sumOfAmount = 0;
+    //   let updatedTxids = [];
+    //   txids.map((x) => {
+    //     if (sumOfAmount < transferAmount) {
+    //       sumOfAmount = sumOfAmount + x.amount;
+    //       if (sumOfAmount === transferAmount) {
+    //         lastSplit = false;
+    //       }
+    //       updatedTxids.push(x);
+    //     }
+    //   });
+    //   console.log("updatedTxids", updatedTxids, lastSplit);
+    //   await Promise.all(
+    //     updatedTxids.map(async (ele, index) => {
+    //       console.log("tx", ele, index);
+    //       //situation 1
+    //       if (
+    //         updatedTxids.length - 1 !== index ||
+    //         (updatedTxids.length - 1 === index && !lastSplit)
+    //       ) {
+    //         console.log("situation 1");
+    //         let issueTxid = ele.txid;
+    //         let issueTx = await getTransaction(issueTxid);
+    //         let utxos = await getFundsFromFaucet(
+    //           bsv.PrivateKey.fromString(props.walletPrivateKey)
+    //             .toAddress("testnet")
+    //             .toString()
+    //         );
+
+    //         let transferHex = transfer(
+    //           bsv.PrivateKey.fromString(props.walletPrivateKey),
+    //           bsv.PrivateKey.fromString(tokenKeys.contractPrivateKey).publicKey,
+    //           {
+    //             txid: issueTxid,
+    //             vout: ele.index,
+    //             scriptPubKey: issueTx.vout[ele.index].scriptPubKey.hex,
+    //             amount: issueTx.vout[ele.index].value,
+    //           },
+    //           recipientAddress,
+    //           utxos,
+    //           bsv.PrivateKey.fromString(props.walletPrivateKey)
+    //         );
+    //         console.log(`broadcasting..`);
+    //         const transferTxid = await broadcast(transferHex);
+    //         console.log(`Transfer TX:     ${transferTxid}`);
+    //       } else {
+    //         console.log("situation 2");
+
+    //         //situation 2
+    //         let issueTxid = ele.txid;
+    //         let issueTx = await getTransaction(issueTxid);
+    //         let utxos = await getFundsFromFaucet(
+    //           bsv.PrivateKey.fromString(props.walletPrivateKey)
+    //             .toAddress("testnet")
+    //             .toString()
+    //         );
+    //         console.log(
+    //           "val in split",
+    //           ele.amount - (sumOfAmount - transferAmount),
+    //           sumOfAmount - transferAmount
+    //         );
+    //         const splitHex = split(
+    //           bsv.PrivateKey.fromString(props.walletPrivateKey),
+    //           bsv.PrivateKey.fromString(tokenKeys.contractPrivateKey).publicKey,
+    //           {
+    //             txid: issueTxid,
+    //             vout: ele.index,
+    //             scriptPubKey: issueTx.vout[ele.index].scriptPubKey.hex,
+    //             amount: issueTx.vout[ele.index].value,
+    //           },
+    //           recipientAddress,
+    //           (ele.amount - (sumOfAmount - transferAmount)) / 100000000,
+
+    //           bsv.PrivateKey.fromString(props.walletPrivateKey)
+    //             .toAddress()
+    //             .toString(),
+    //           (sumOfAmount - transferAmount) / 100000000,
+
+    //           utxos,
+    //           bsv.PrivateKey.fromString(props.walletPrivateKey)
+    //         );
+
+    //         console.log("broadcasting...");
+    //         const splitTxid = await broadcast(splitHex);
+    //         console.log(`Split TX:     ${splitTxid}`);
+    //       }
+    //     })
+    //   );
+    //   // let issueTxid = txids[0].txid;
+
+    //   // let issueTx = await getTransaction(issueTxid);
+    //   // let utxos = await getFundsFromFaucet(
+    //   //   bsv.PrivateKey.fromString(props.walletPrivateKey)
+    //   //     .toAddress("testnet")
+    //   //     .toString()
+    //   // );
+
+    //   // const splitHex = split(
+    //   //   bsv.PrivateKey.fromString(props.walletPrivateKey),
+    //   //   bsv.PrivateKey.fromString(tokenKeys.contractPrivateKey).publicKey,
+    //   //   {
+    //   //     txid: issueTxid,
+    //   //     vout: txids[0].index,
+    //   //     scriptPubKey: issueTx.vout[txids[0].index].scriptPubKey.hex,
+    //   //     amount: issueTx.vout[txids[0].index].value,
+    //   //   },
+    //   //   recipientAddress,
+    //   //   Number(amount) / 100000000,
+    //   //   bsv.PrivateKey.fromString(props.walletPrivateKey)
+    //   //     .toAddress()
+    //   //     .toString(),
+    //   //   txids[0].amount / 100000000 - Number(amount) / 100000000,
+    //   //   utxos,
+    //   //   bsv.PrivateKey.fromString(props.walletPrivateKey)
+    //   // );
+
+    //   // const splitTxid = await broadcast(splitHex);
+    //   // console.log(`Split TX:     ${splitTxid}`);
+    //   props.getWalletTokens();
+    //   setrecipientAddress("");
+    //   handleClose();
+    //   toast.success(`Tokens transferred successfully!`, {
+    //     position: "bottom-left",
+    //     autoClose: 10000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //   });
+    // } catch (err) {
+    //   console.log("catch err", err.response, err);
+    //   toast.error(err.message, {
+    //     position: "bottom-left",
+    //     autoClose: 10000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //   });
+    // }
+    setloading(false);
+  };
+
+  const getTxids = async (walletAddress) => {
+    //getting txids
+    let txidRes = await axios({
+      method: "get",
+      url: `https://taalnet.whatsonchain.com/v1/bsv/taalnet/address/${walletAddress}/tokens/unspent`,
+      auth: {
+        username: "taal_private",
+        password: "dotheT@@l007",
+      },
+    });
+    return txidRes;
+  };
+
+  const getTokenKeys = async (tokenId) => {
+    //getting token keys
+    let tokenKeys = await firebase
+      .database()
+      .ref("stasTokens/tokensDetails/" + tokenId)
+      .once("value");
+
+    if (!tokenKeys.val()) {
+      return null;
+    }
+    console.log("tokenKeys", tokenKeys);
+    return tokenKeys.val();
+  };
+
+  return (
+    <Dialog
+      open={props.dialogState}
+      TransitionComponent={Transition}
+      keepMounted
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-slide-title"
+      aria-describedby="alert-dialog-slide-description"
+      fullWidth
+      style={{ zIndex: 1000 }}
+      maxWidth="sm"
+      className="custom-dialog"
+    >
+      <PerfectScrollbar style={{ maxHeight: "90vh" }}>
+        <h5 style={{ padding: "18px 24px 0px 24px" }}>Split Tokens</h5>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            transferTokenFunc();
+          }}
+        >
+          <DialogContent>
+            <>
+              <div className="form-group">
+                <label>Recipient Address</label>
+
+                <input
+                  onChange={(e) => {
+                    setrecipientAddress(e.target.value);
+                  }}
+                  value={recipientAddress}
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter recipient wallet address"
+                  required
+                />
+                <input
+                  onChange={(e) => {
+                    setamount(e.target.value);
+                  }}
+                  value={amount}
+                  type="number"
+                  className="form-control"
+                  placeholder="Enter amount you want to transfer"
+                  required
+                  style={{ marginTop: 15 }}
+                />
+              </div>
+            </>
+          </DialogContent>
+          <DialogActions style={{ marginTop: 10, height: 50 }}>
+            {(() => {
+              if (loading) {
+                return (
+                  <div style={{ width: 80 }}>
+                    <CustomLoader width={25} height={25} />
+                  </div>
+                );
+              } else {
+                return (
+                  <button type="submit" className="btn btn-primary btn-small">
+                    Submit
+                  </button>
+                );
+              }
+            })()}
+          </DialogActions>
+        </form>
+
+        <ToastContainer />
+      </PerfectScrollbar>
+    </Dialog>
+  );
+}

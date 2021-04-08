@@ -47,8 +47,11 @@ export default function WithdrawDialog(props) {
   const [tokenAomunt, settokenAomunt] = useState("");
   const [tokenAddress, settokenAddress] = useState("");
   const [selectedToken, setselectedToken] = useState(0);
-  const [value, setValue] = React.useState(0);
-
+  const [value, setValue] = useState(0);
+  const [textFieldLabel1, settextFieldLabel1] = useState(
+    "Recipient Wallet PublicKey/Address"
+  );
+  const [textFieldLabel2, settextFieldLabel2] = useState("Public Key");
   useEffect(() => {
     DB1.ref("stats/market_price_usd")
       .once("value")
@@ -58,6 +61,24 @@ export default function WithdrawDialog(props) {
         }
       });
   }, []);
+
+  useEffect(() => {
+    if (props.walletStasTokens && props.walletStasTokens.length > 0) {
+      setselectedToken("stasToken" + 0);
+    } else {
+      setselectedToken("bitcoinComputer" + 0);
+    }
+  }, [props.walletStasTokens]);
+
+  useEffect(() => {
+    if (selectedToken && selectedToken.includes("stasToken")) {
+      settextFieldLabel1("Recipient Wallet Address");
+      settextFieldLabel2("Address");
+    } else if (selectedToken && selectedToken.includes("bitcoinComputer")) {
+      settextFieldLabel1("Recipient Wallet PublicKey");
+      settextFieldLabel2("Public Key");
+    }
+  }, [selectedToken]);
 
   const handleClose = () => {
     props.setdialogState(false);
@@ -122,12 +143,16 @@ export default function WithdrawDialog(props) {
     }
   };
 
-  const withdrawTokens = async () => {
+  const withdrawBitcoinComputerTokens = async () => {
     setloading(true);
 
     try {
+      let selectedTokenIndex = Number(
+        selectedToken.slice(selectedToken.length - 1, selectedToken.length)
+      );
+
       let currentToken = Object.values(groupByRoot(props.tokensList))[
-        selectedToken
+        selectedTokenIndex
       ];
 
       const balance = currentToken.reduce(
@@ -195,6 +220,91 @@ export default function WithdrawDialog(props) {
     }
   };
 
+  const withdrawStasTokens = async () => {
+    setloading(true);
+
+    try {
+      let selectedTokenIndex = Number(
+        selectedToken.slice(selectedToken.length - 1, selectedToken.length)
+      );
+
+      let currentToken = props.walletStasTokens[selectedTokenIndex];
+      if (currentToken.balance < Number(tokenAomunt)) {
+        toast.error("Insufficient tokens", {
+          position: "bottom-left",
+          autoClose: 10000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+
+        setloading(false);
+        return null;
+      }
+      let stasTokenTransferAPI = firebase
+        .functions()
+        .httpsCallable("stasTokenTransferAndSplit");
+      let res = await stasTokenTransferAPI({
+        transferAmount: Number(tokenAomunt),
+        walletId: props.walletId,
+        recipientAddress: tokenAddress,
+        currentTokenId: currentToken.tokenId,
+      });
+      console.log("res", res);
+
+      if (res && res.data && res.data.status === "success") {
+        toast.success(res.data.msg, {
+          position: "bottom-left",
+          autoClose: 10000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        setloading(false);
+        handleClose();
+        settokenAomunt("");
+        settokenAddress("");
+        props.getWalletStasTokens();
+      } else if (res && res.data && res.data.status === "errpr") {
+        toast.error(res.data.msg, {
+          position: "bottom-left",
+          autoClose: 10000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+
+        setloading(false);
+      } else {
+        toast.error("An error occured", {
+          position: "bottom-left",
+          autoClose: 10000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+
+        setloading(false);
+      }
+    } catch (err) {
+      console.log("catch err", err);
+      toast.error(err.message, {
+        position: "bottom-left",
+        autoClose: 10000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
+      setloading(false);
+    }
+  };
+
   const groupByRoot = (list) =>
     list.reduce(
       (acc, obj) => ({
@@ -205,6 +315,11 @@ export default function WithdrawDialog(props) {
     );
 
   const handleChange = (event, newValue) => {
+    if (newValue === 1) {
+      setwithdrawType("TOKEN");
+    } else {
+      setwithdrawType("BSV");
+    }
     setValue(newValue);
   };
 
@@ -225,10 +340,14 @@ export default function WithdrawDialog(props) {
         onSubmit={(e) => {
           e.preventDefault();
 
-          if (withdrawType == "BSV") {
+          if (withdrawType === "BSV") {
             withdrawBSVs();
           } else {
-            withdrawTokens();
+            if (selectedToken.includes("stasToken")) {
+              withdrawStasTokens();
+            } else {
+              withdrawBitcoinComputerTokens();
+            }
           }
         }}
       >
@@ -331,23 +450,35 @@ export default function WithdrawDialog(props) {
                           },
                         }}
                       >
+                        {props.walletStasTokens.map((token, index) => {
+                          return (
+                            <MenuItem
+                              key={token.tokenId + "stas"}
+                              value={"stasToken" + index}
+                            >
+                              {`${token.ticker} (id: ${token.tokenId})`}
+                            </MenuItem>
+                          );
+                        })}
                         {Object.values(groupByRoot(props.tokensList)).map(
                           (tokens, index) => {
                             return (
                               <MenuItem
                                 key={tokens[0]._rootId + "menuitem"}
-                                value={index}
+                                value={"bitcoinComputer" + index}
                               >
                                 {`${tokens[0].name} (_rootId: ${tokens[0]._rootId})`}
                               </MenuItem>
                             );
                           }
                         )}
-                        {props.tokensList.length === 0 && (
-                          <MenuItem value={0}>
-                            You didn't have any tokens
-                          </MenuItem>
-                        )}
+
+                        {props.tokensList.length === 0 &&
+                          props.walletStasTokens.length === 0 && (
+                            <MenuItem value={0}>
+                              You didn't have any tokens
+                            </MenuItem>
+                          )}
                       </Select>
                     </div>
                   </div>
@@ -365,14 +496,14 @@ export default function WithdrawDialog(props) {
                     />
                   </div>
                   <div className="form-group">
-                    <label>Recipient Wallet PublicKey</label>
+                    <label>{textFieldLabel1}</label>
                     <input
                       onChange={(e) => {
                         settokenAddress(e.target.value);
                       }}
                       type="text"
                       className="form-control"
-                      placeholder="Public Key"
+                      placeholder={textFieldLabel2}
                       value={tokenAddress}
                       required
                     />

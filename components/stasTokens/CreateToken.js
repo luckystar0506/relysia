@@ -32,15 +32,11 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import TuneIcon from "@material-ui/icons/Tune";
 import clsx from "clsx";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
-import { contract, utils, issue, transfer } from "../../stas-js/index";
 import { useSelector } from "react-redux";
 import { Upload } from "antd";
 import ImgCrop from "antd-img-crop";
 import { PlusOutlined } from "@ant-design/icons";
 import { tokensFirebaseStorage } from "../../config/fire-conf";
-
-const bsv = require("bsv");
-const { getFundsFromFaucet, broadcast, getTransaction } = utils;
 
 const styles = (theme) => ({
   inputFieldStyle: {
@@ -118,7 +114,6 @@ function CreateToken(props) {
       .ref("userWallets/" + userDataRedux.uid)
       .once("value", (snapshot) => {
         let recWalletsData = snapshot.val();
-        console.log("recWalletsData", recWalletsData);
         if (recWalletsData) {
           let arr = Object.values(recWalletsData);
           let defaultWalletIndex = arr.findIndex(
@@ -164,145 +159,66 @@ function CreateToken(props) {
 
       const tokenDetails = { ...tokenSchema };
       tokenDetails.icon = stasTokenImg;
-      const contractPrivateKey = bsv.PrivateKey();
 
-      const utxos = await getFundsFromFaucet(
-        contractPrivateKey.toAddress("testnet").toString()
-      );
+      let destinationAddress = [userWallets[selectedWalletIndex].address[0]];
 
-      const publicKeyHash = bsv.crypto.Hash.sha256ripemd160(
-        contractPrivateKey.publicKey.toBuffer()
-      ).toString("hex");
-
-      tokenDetails.tokenId = publicKeyHash;
-
-      const contractHex = contract(
-        contractPrivateKey,
-        utxos,
-        tokenDetails,
-        Number(tokenSupply)
-      );
-
-      const contractTxid = await broadcast(contractHex);
-      console.log(`Contract TX:     ${contractTxid}`);
-      const contractTx = await getTransaction(contractTxid);
-
-      //issuing
-      const issueHex = issue(
-        contractPrivateKey,
-        {
-          txid: contractTxid,
-          vout: 0,
-          scriptPubKey: contractTx.vout[0].scriptPubKey.hex,
-          amount: contractTx.vout[0].value,
-        },
-        [
-          {
-            txid: contractTxid,
-            vout: 1,
-            scriptPubKey: contractTx.vout[1].scriptPubKey.hex,
-            amount: contractTx.vout[1].value,
-          },
-        ],
-        1
-      );
-      const issueTxid = await broadcast(issueHex);
-      console.log(`Issue TX:        ${issueTxid}`);
-
-      //transferring to user wallet
-      const issueTx = await getTransaction(issueTxid);
-      const transferHex = transfer(
-        contractPrivateKey,
-        contractPrivateKey.publicKey,
-        {
-          txid: issueTxid,
-          vout: 0,
-          scriptPubKey: issueTx.vout[0].scriptPubKey.hex,
-          amount: issueTx.vout[0].value,
-        },
-        bsv.PublicKey.fromString(userWallets[selectedWalletIndex].publicKey),
-        [
-          {
-            txid: issueTxid,
-            vout: 1,
-            scriptPubKey: issueTx.vout[1].scriptPubKey.hex,
-            amount: issueTx.vout[1].value,
-          },
-        ],
-        contractPrivateKey
-      );
-      const transferTxid = await broadcast(transferHex);
-      console.log(`Transfer TX:     ${transferTxid}`);
-
-      console.log("address", contractPrivateKey.toAddress().toString());
-
-      //storing token details in firebase
-      let contractPublicKey = contractPrivateKey.publicKey.toString();
-      let contractAddress = contractPrivateKey.toAddress().toString();
-
-      tokenDetails.contractPublicKey = contractPublicKey;
-      tokenDetails.contractAddress = contractAddress;
-
-      let updates = {};
-      updates["stasTokens/tokensDetails/" + publicKeyHash] = tokenDetails;
-      let tokenObj = {
-        contractPrivateKey: contractPrivateKey.toString(),
-        contractTxid: contractTxid,
-        issued: 0,
-        supply: tokenSupply,
-        contractPublicKey: contractPublicKey,
-        tokenId: publicKeyHash,
-        tokenName: tokenDetails.tokenName,
-        tickerSymbol: tokenDetails.tickerSymbol,
-        icon: tokenDetails.icon,
-        tokensIssued: true,
-        transferTxid: transferTxid,
-        contractAddress: contractAddress,
-        tokenTransferred: true,
-      };
-      updates[
-        "stasTokens/userTokens/" +
-          userDataRedux.uid +
-          "/myTokens/" +
-          publicKeyHash
-      ] = tokenObj;
-      firebase.database().ref().update(updates);
-
-      toast.success(`Contract created successfully!`, {
-        position: "bottom-left",
-        autoClose: 10000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
+      let stasTokenIssuanceAPI = firebase
+        .functions()
+        .httpsCallable("stasTokenIssuance");
+      let res = await stasTokenIssuanceAPI({
+        tokenDetails: tokenDetails,
+        tokenSupply: tokenSupply,
+        destinationAddress: destinationAddress,
       });
+      console.log("res", res);
+      if (res && res.data && res.data.status === "success") {
+        toast.success(res.data.msg, {
+          position: "bottom-left",
+          autoClose: 10000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
 
-      settokenSchema({
-        schemaId: "Schema STAS Coupon",
-        tokenName: "",
-        tokenId: "",
-        tokenDescription: "",
-        issuerName: "",
-        issuerCountry: "United States",
-        issuerLegalForm: "Limited Liability Public Company",
-        issuerEmail: "",
-        issuerWebsite: "",
-        terms: "© 2021",
-        governingLaw: "Cayman Islands Law",
-        icon: "",
-        tickerSymbol: "",
-      });
-      settokenSupply("");
-      setissuerCountryObj({
-        alpha2: "us",
-        alpha3: "usa",
-        flag: "🇺🇸",
-        id: "us",
-        ioc: "usa",
-        name: "United States",
-      });
-      router.push("/app/stas-tokens");
-      setsubmitLoader(false);
+        settokenSchema({
+          schemaId: "Schema STAS Coupon",
+          tokenName: "",
+          tokenId: "",
+          tokenDescription: "",
+          issuerName: "",
+          issuerCountry: "United States",
+          issuerLegalForm: "Limited Liability Public Company",
+          issuerEmail: "",
+          issuerWebsite: "",
+          terms: "© 2021",
+          governingLaw: "Cayman Islands Law",
+          icon: "",
+          tickerSymbol: "",
+        });
+        settokenSupply("");
+        setissuerCountryObj({
+          alpha2: "us",
+          alpha3: "usa",
+          flag: "🇺🇸",
+          id: "us",
+          ioc: "usa",
+          name: "United States",
+        });
+        router.push("/app/stas-tokens");
+        setsubmitLoader(false);
+      } else {
+        toast.error(res.data.msg, {
+          position: "bottom-left",
+          autoClose: 10000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+
+        setsubmitLoader(false);
+      }
     } catch (err) {
       console.log("catch err", err);
       toast.error(err.message, {

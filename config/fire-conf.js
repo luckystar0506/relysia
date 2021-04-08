@@ -2,7 +2,7 @@
 import firebase from "firebase";
 import "firebase/storage";
 import "firebase/analytics";
-const MODE = "PROD";
+const MODE = "DEV";
 
 //DEV or PROD
 const firebaseConfig =
