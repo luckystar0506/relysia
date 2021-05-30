@@ -38,11 +38,7 @@ function Index() {
         {/* Relysia/components/home-one/MainBanner.js */}
         <MainBanner />
         {/* Relysia/components/home-one/BoxArea.js */}
-        <BoxArea />
-        <WhyChoose />
-        <Features />
-        <Pricing />
-
+       
         {/* Relysia/components/Layouts/Footer.js */}
         <Footer />
         {/* Relysia/components/Layouts/GoTop.js */}

@@ -307,7 +307,7 @@ function WalletPage(props) {
               </div>
             </div>
 
-            <TokensCon
+            {/* <TokensCon
               walletComputerObj={walletComputerObj}
               userDataRedux={userDataRedux}
               tokensList={tokensList}
@@ -315,7 +315,7 @@ function WalletPage(props) {
               loadingTokens={loadingTokens}
               setloadingTokens={setloadingTokens}
               getTokens={getTokens}
-            /> 
+            />  */}
 
             <StasTokenCon
               userDataRedux={userDataRedux}

@@ -11,11 +11,9 @@ const MainBanner = () => {
             <div className="row h-100 justify-content-center align-items-center">
               <div className="col-lg-5">
                 <div className="hero-content">
-                  <h1>Secure Database Solutions on Bitcoin</h1>
+                  <h1>A Token Wallet</h1>
                   <p>
-                    With Relysia you can easily access data stored on the
-                    Blockchain. You can create databases, host websites and
-                    store files on-chain.
+                    The Relysia is more than just a wallet and supports a variety of token protocols.
                   </p>
 
                   <Link href="#">
