@@ -26,6 +26,10 @@ import "../static/styles/brink-pink-style.css";
 import "../static/css/responsive.css";
 import "../static/css/custom.css";
 
+// global css of docs container
+
+import "../static/styles/GlobalNewDocsContainer.css"
+
 import { Provider } from "react-redux";
 import App from "next/app";
 import { DefaultSeo } from "next-seo";

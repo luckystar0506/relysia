@@ -2,9 +2,6 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
-  "/app/wallet/[walletId]": "pages/app/wallet/[walletId].js",
-  "/app/settings": "pages/app/settings.js",
-  "/profile": "pages/profile.js",
-  "/": "pages/index.js",
-  "/app/stas-tokens": "pages/app/stas-tokens.js"
+  "/404": "pages/404.js",
+  "/docs": "pages/docs.js"
 }
