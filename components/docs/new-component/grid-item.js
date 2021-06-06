@@ -6,7 +6,7 @@ class GridItem extends Component {
     render() {
         return (
             <div className={`col-lg-3 col-sm-6 mb-4 shadow-box ${docsStyle.shadow}`} style={{marginLeft: "5px", marginRight: "5px"}} >
-                   <Link activeClassName="active" href={`/docs/${this.props.data.id}`}>
+                   <Link activeClassName="active" href="/docs/[id]" as={`/docs/${this.props.data.id}`}>
 
                     <a className="text-center" style= {{height: "260px", display: "flex", flexFlow: "column nowrap",alignItems: "center", justifyContent: "center", flexDirection: "column"}}>
                         <h3>{this.props.data.title}</h3>

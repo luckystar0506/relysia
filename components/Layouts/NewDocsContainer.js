@@ -7,29 +7,6 @@ import styles from "../../static/styles/NewDocsContainer.module.css";
 
 
 function NewDocsContainer(props){
-  console.log(props.data);
-
-  console.log(props.data.groupData);
-  
-  
-    const router = useRouter();
-
-    useEffect(() => {
-        if(router.pathname === "/docs"){
-
-        } else if (router.pathname === "/docs/general"){
-          console.log("genertal");
-          
-
-        } else if (router.pathname === "docs/open") {
-          console.log("open");
-        } else if (router.pathname === "docs/sms-verification") {
-          console.log("sms");
-        } 
-        // else if (router.pathname === "docs") {
-
-        // }
-    }, [router.query.topic]);
     
 
 
