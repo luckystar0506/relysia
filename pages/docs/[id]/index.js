@@ -26,7 +26,7 @@ function index(){
              setValue(0);
          } else if (id === "user") {
              setValue(1);
-         } else if (id === "sms-verification") {
+         } else if (id === "transactions") {
              setValue(2);
          }
 

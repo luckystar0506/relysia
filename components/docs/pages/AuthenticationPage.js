@@ -1,5 +1,5 @@
-import ApiUrlContainer from "./new-component/ApiUrlContainer";
-import CodeContainer from "./new-component/CodeContainer";
+import ApiUrlContainer from "../new-component/ApiUrlContainer";
+import CodeContainer from "../new-component/CodeContainer";
 
 function AuthenticationPage(){
 
