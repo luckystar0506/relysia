@@ -1,7 +1,7 @@
 import ApiUrlContainer from "./new-component/ApiUrlContainer";
 import CodeContainer from "./new-component/CodeContainer";
 
-function GeneralPage(){
+function AuthenticationPage(){
 
     const styles = {
         heading1Space: {
@@ -225,4 +225,4 @@ function GeneralPage(){
 
 }
 
-export default GeneralPage;
+export default AuthenticationPage;

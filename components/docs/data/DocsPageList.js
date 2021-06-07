@@ -1,8 +1,9 @@
-import GeneralPage from "../GeneralPage";
-import OpenPage from "../OpenPage";
-import SmsPage from "../SmsPage";
+import AuthenticationPage from "../AuthenticationPage";
+import UserPage from "../UserPage";
+import TransactionPage from "../TransactionPage";
 
 export const pageListData = [
-<GeneralPage />, 
-<OpenPage/>,
-<SmsPage />]
+<AuthenticationPage />, 
+<UserPage/>,
+<TransactionPage />
+]

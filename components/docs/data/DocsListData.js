@@ -11,9 +11,9 @@ export const listData = [{
     },
 
     {
-        title: "SMS Verification Apis",
-        desc: "In SMS verification Apis, send Otp and verify Otp",
-        id: "sms-verification"
-    }
+        title: "Transaction",
+        desc: "In User, get user details, update user Details",
+        id: "transactions"
+    },
 
 ]
