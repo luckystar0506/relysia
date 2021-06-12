@@ -2,7 +2,6 @@ import Link from "../../common/ActiveLink";
 
 function GoBackAndNextButton(props){
     const {listData, value} = props.data;
-    console.log(value === listData.length-1);
     
 
     
@@ -14,16 +13,16 @@ function GoBackAndNextButton(props){
 
                 <div style={{display: "inline-flex"}}>
                     <p>hello</p>
-                    <Link activeClassName="active" href={`${value === 0 ? "/docs": `${listData[value -1].id}`}`} >
+                    <Link activeClassName="active" href={`${value === null ? "/docs": value === 0 ? "/docs": `${listData[value -1].id}`}`} >
                      <a>
-                       <p style={{marginLeft: "10px"}}>{value ===0 ? "Overview": `${listData[value -1].title}`}</p>
+                       <p style={{marginLeft: "10px"}}>{value === null ? "overview" :value ===0 ? "Overview": `${listData[value -1].title}`}</p>
                      </a>
                     </Link>
                 </div>
 
-                <div style={{display: `${value === listData.length-1 ? "none":"inline-flex"}`}}>
+                <div style={{display: `${value == null ? "none": value === listData.length-1 ? "none":"inline-flex"}`}}>
                     <p>ho</p>
-                    <Link activeClassName="active" href={`${value === listData.length-1 ? "": `/docs/${listData[value+1].id}`}`}>
+                    <Link activeClassName="active" href={`${value === listData.length-1 || value=== null ? "": `/docs/${listData[value+1].id}`}`}>
                         <a>
                             <p style={{marginLeft: "10px"}}>{value === listData.length-1 ? " ": `${listData[value+1].title}`}</p>
                         </a>

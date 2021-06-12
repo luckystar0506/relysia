@@ -55,6 +55,31 @@ function AuthenticationPage(){
             </div>
 
             <div style={styles.heading2Space}>
+                <h6>Example</h6>
+            </div>
+            < CodeContainer title = {`
+
+    const config ={
+        method: 'post',
+        url: 'https://api.vaionex.com/createUser',
+        headers: {
+            Content-Type: "application/json,
+        },
+        data:{
+            email: "test@gmail.com",
+            password: "123456"
+        }
+    };
+
+    axios(config).then((res) =>{
+        console.log(res);
+    });
+
+
+`}
+            />
+
+            <div style={styles.heading2Space}>
                 <h6>Response</h6>
             </div>
 
@@ -101,6 +126,29 @@ function AuthenticationPage(){
             <div style={styles.paraSpace}>
                 <p>To Authenticate or Login your account, you have to pass two header parameters <b>email</b> and <b>password</b></p>
             </div>
+
+            <div style={styles.heading2Space}>
+                <h6>Example</h6>
+            </div>
+            < CodeContainer title = {`
+
+    const config ={
+        method: 'get',
+        url: 'https://api.vaionex.com/auth',
+        headers: {
+            Content-Type: "application/json,
+            email: test@gmail.com,
+            password: 123456
+        },
+    };
+
+    axios(config).then((res) =>{
+        console.log(res);
+    });
+
+
+`}
+            />
 
             <div style={styles.heading2Space}>
                 <h6>Response</h6>
@@ -151,6 +199,29 @@ function AuthenticationPage(){
             </div>
 
             <div style={styles.heading2Space}>
+                <h6>Example</h6>
+            </div>
+            < CodeContainer title = {`
+
+    const config = {
+        method: 'get',
+        url: 'https://api.vaionex.com/sendVerficationOtp',
+        headers: {
+            Content-Type: application/json,
+            tokenid: eyJhbGciOiJSUzI1NiIsImtpZCI6ImFiMGNiMTk5Zjg3MGYyOGUyOTg5YWI0ODFjYzJlNDdlMGUyY2MxOWQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdmFpb25leGRldiIsImF1ZCI6InZhaW9uZXhkZXYiLCJhdXRoX3RpbWUiOjE2MjI5NTc1MjMsInVzZXJfaWQiOiJZSEEwMGhCbG1zTUR1RDZuZ05sNTZSczhaQTczIiwic3ViIjoiWUhBMDBoQmxtc01EdUQ2bmdObDU2UnM4WkE3MyIsImlhdCI6MTYyMjk1NzUyMywiZXhwIjoxNjIyOTYxMTIzLCJlbWFpbCI6InRlc3RhZEB0ZXN0Mi5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsidGVzdGFkQHRlc3QyLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.IncXnmKxzRTzT66WSDkvx8i - eEHBpGBymLVWlAoZLjwhH7I2U7WHgmYz7AW8ts5G_6FE7zUdcyD_7P1tZvCRUvrKFBURPklzzGco6rRa5dEvWqgIDH0rwMZuAdw - vb_Jr6c628HLJB2ambMVuGbJn7o9jXU1XhNr1H2SNbQcbF88OUm_n8Tzu1Wq - hHi - 9 Gj02D8TsXrBJI8BQpT63bmMQN1AgXXqC8ChGDQ1cOdV6zcmOxScLSMsNpOTs2ffDIYovKQPOiIUVjds3H8uVfMAu3HZx_vu5xMFmEJ6R2sWCNip0tZyWJr76_7g4AmDZmAugc3b3i - O - mdS5oFoosa9Q,
+            phonenumber: 8215441111
+        },
+    };
+
+    axios(config).then((res) =>{
+        console.log(res);
+    });
+
+
+`}
+            />
+
+            <div style={styles.heading2Space}>
                 <h6>Response</h6>
             </div>
 
@@ -199,6 +270,29 @@ function AuthenticationPage(){
             <div style={styles.paraSpace}>
                 <p>To verify otp, you have to pass two header parameters <b>phonenumber</b> and <b>otp</b></p>
             </div>
+
+            <div style={styles.heading2Space}>
+                <h6>Example</h6>
+            </div>
+            < CodeContainer title = {`
+
+    const config ={
+        method: 'get',
+        url: 'https://api.vaionex.com/verfiOtp',
+        headers: {
+            Content-Type: "application/json,
+            phonenumber: 8215441111,
+            otp: 123456
+        },
+    };
+
+    axios(config).then((res) =>{
+        console.log(res);
+    });
+
+
+`}
+            />
 
             <div style={styles.heading2Space}>
                 <h6>Response</h6>

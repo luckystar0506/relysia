@@ -1,9 +1,13 @@
-import AuthenticationPage from "../AuthenticationPage";
-import UserPage from "../UserPage";
-import TransactionPage from "../TransactionPage";
+import AuthenticationPage from "../pages/AuthenticationPage";
+import UserPage from "../pages/UserPage";
+import TransactionPage from "../pages/TransactionPage";
+import WalletsPage from "../pages/WalletsPage";
+import TokenPage from "../pages/TokenPage";
 
 export const pageListData = [
 <AuthenticationPage />, 
 <UserPage/>,
-<TransactionPage />
+<WalletsPage />,
+<TransactionPage />,
+<TokenPage />
 ]
