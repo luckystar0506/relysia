@@ -40,18 +40,18 @@ function AuthenticationPage(){
             <div style={styles.heading2Space}>
                 <h6>request</h6>
             </div>
-            <ApiUrlContainer title="[POST] https://api.vaionex.com/createUser" />
+            <ApiUrlContainer title="[GET] https://api.vaionex.com/createUser" />
 
             <div style={styles.heading2Space}>
-                <h6>body</h6>
+                <h6>headers</h6>
             </div>
             < CodeContainer title = {`{
-    "email": "test@gmail.com",
-    "password": "123456"
+    email: test@gmail.com,
+    password: 123456
 }`}
             />
             <div style={styles.paraSpace}>
-                <p>To Create account you have to pass json object with two key <b>email</b> and <b>password</b></p>
+                <p>To Create account you have to pass two headers parameters <b>email</b> and <b>password</b></p>
             </div>
 
             <div style={styles.heading2Space}>
@@ -60,15 +60,13 @@ function AuthenticationPage(){
             < CodeContainer title = {`
 
     const config ={
-        method: 'post',
+        method: 'get',
         url: 'https://api.vaionex.com/createUser',
         headers: {
             Content-Type: "application/json,
-        },
-        data:{
-            email: "test@gmail.com",
+            email: test@gmail.com,
             password: "123456"
-        }
+        },
     };
 
     axios(config).then((res) =>{
@@ -179,23 +177,23 @@ function AuthenticationPage(){
             <div style={styles.paraSpace}>
                 <p>In Now days,To validate genuine users most of apps uses otp validation. you can also validate by sending HTTP <b>GET</b> request to send verification otp URI</p>
             </div>
-            <ApiUrlContainer title="https://api.vaionex.com/sendVerficationOtp" />
+            <ApiUrlContainer title="https://api.vaionex.com/sendOTP" />
 
             <div style={styles.heading2Space}>
                 <h6>request</h6>
             </div>
-            <ApiUrlContainer title="[GET] https://api.vaionex.com/sendVerficationOtp" />
+            <ApiUrlContainer title="[GET] https://api.vaionex.com/sendOTP" />
 
             <div style={styles.heading2Space}>
                 <h6>header</h6>
             </div>
             < CodeContainer title = {`
-    tokenid: eyJhbGciOiJSUzI1NiIsImtpZCI6ImFiMGNiMTk5Zjg3MGYyOGUyOTg5YWI0ODFjYzJlNDdlMGUyY2MxOWQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdmFpb25leGRldiIsImF1ZCI6InZhaW9uZXhkZXYiLCJhdXRoX3RpbWUiOjE2MjI5NTc1MjMsInVzZXJfaWQiOiJZSEEwMGhCbG1zTUR1RDZuZ05sNTZSczhaQTczIiwic3ViIjoiWUhBMDBoQmxtc01EdUQ2bmdObDU2UnM4WkE3MyIsImlhdCI6MTYyMjk1NzUyMywiZXhwIjoxNjIyOTYxMTIzLCJlbWFpbCI6InRlc3RhZEB0ZXN0Mi5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsidGVzdGFkQHRlc3QyLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.IncXnmKxzRTzT66WSDkvx8i - eEHBpGBymLVWlAoZLjwhH7I2U7WHgmYz7AW8ts5G_6FE7zUdcyD_7P1tZvCRUvrKFBURPklzzGco6rRa5dEvWqgIDH0rwMZuAdw - vb_Jr6c628HLJB2ambMVuGbJn7o9jXU1XhNr1H2SNbQcbF88OUm_n8Tzu1Wq - hHi - 9 Gj02D8TsXrBJI8BQpT63bmMQN1AgXXqC8ChGDQ1cOdV6zcmOxScLSMsNpOTs2ffDIYovKQPOiIUVjds3H8uVfMAu3HZx_vu5xMFmEJ6R2sWCNip0tZyWJr76_7g4AmDZmAugc3b3i - O - mdS5oFoosa9Q,
-    phonenumber: 8215441111
+    authToken: eyJhbGciOiJSUzI1NiIsImtpZCI6ImFiMGNiMTk5Zjg3MGYyOGUyOTg5YWI0ODFjYzJlNDdlMGUyY2MxOWQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdmFpb25leGRldiIsImF1ZCI6InZhaW9uZXhkZXYiLCJhdXRoX3RpbWUiOjE2MjI5NTc1MjMsInVzZXJfaWQiOiJZSEEwMGhCbG1zTUR1RDZuZ05sNTZSczhaQTczIiwic3ViIjoiWUhBMDBoQmxtc01EdUQ2bmdObDU2UnM4WkE3MyIsImlhdCI6MTYyMjk1NzUyMywiZXhwIjoxNjIyOTYxMTIzLCJlbWFpbCI6InRlc3RhZEB0ZXN0Mi5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsidGVzdGFkQHRlc3QyLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.IncXnmKxzRTzT66WSDkvx8i - eEHBpGBymLVWlAoZLjwhH7I2U7WHgmYz7AW8ts5G_6FE7zUdcyD_7P1tZvCRUvrKFBURPklzzGco6rRa5dEvWqgIDH0rwMZuAdw - vb_Jr6c628HLJB2ambMVuGbJn7o9jXU1XhNr1H2SNbQcbF88OUm_n8Tzu1Wq - hHi - 9 Gj02D8TsXrBJI8BQpT63bmMQN1AgXXqC8ChGDQ1cOdV6zcmOxScLSMsNpOTs2ffDIYovKQPOiIUVjds3H8uVfMAu3HZx_vu5xMFmEJ6R2sWCNip0tZyWJr76_7g4AmDZmAugc3b3i - O - mdS5oFoosa9Q,
+    phoneNumber: 8215441111
 `}
             />
             <div style={styles.paraSpace}>
-                <p>To generate otp, you have to pass two header parameters <b>tokenid</b> and <b>phonenumber</b></p>
+                <p>To generate otp, you have to pass two header parameters <b>authToken</b> and <b>phoneNumber</b></p>
             </div>
 
             <div style={styles.heading2Space}>
@@ -205,11 +203,11 @@ function AuthenticationPage(){
 
     const config = {
         method: 'get',
-        url: 'https://api.vaionex.com/sendVerficationOtp',
+        url: 'https://api.vaionex.com/sendOT',
         headers: {
             Content-Type: application/json,
-            tokenid: eyJhbGciOiJSUzI1NiIsImtpZCI6ImFiMGNiMTk5Zjg3MGYyOGUyOTg5YWI0ODFjYzJlNDdlMGUyY2MxOWQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdmFpb25leGRldiIsImF1ZCI6InZhaW9uZXhkZXYiLCJhdXRoX3RpbWUiOjE2MjI5NTc1MjMsInVzZXJfaWQiOiJZSEEwMGhCbG1zTUR1RDZuZ05sNTZSczhaQTczIiwic3ViIjoiWUhBMDBoQmxtc01EdUQ2bmdObDU2UnM4WkE3MyIsImlhdCI6MTYyMjk1NzUyMywiZXhwIjoxNjIyOTYxMTIzLCJlbWFpbCI6InRlc3RhZEB0ZXN0Mi5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsidGVzdGFkQHRlc3QyLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.IncXnmKxzRTzT66WSDkvx8i - eEHBpGBymLVWlAoZLjwhH7I2U7WHgmYz7AW8ts5G_6FE7zUdcyD_7P1tZvCRUvrKFBURPklzzGco6rRa5dEvWqgIDH0rwMZuAdw - vb_Jr6c628HLJB2ambMVuGbJn7o9jXU1XhNr1H2SNbQcbF88OUm_n8Tzu1Wq - hHi - 9 Gj02D8TsXrBJI8BQpT63bmMQN1AgXXqC8ChGDQ1cOdV6zcmOxScLSMsNpOTs2ffDIYovKQPOiIUVjds3H8uVfMAu3HZx_vu5xMFmEJ6R2sWCNip0tZyWJr76_7g4AmDZmAugc3b3i - O - mdS5oFoosa9Q,
-            phonenumber: 8215441111
+            authToken: eyJhbGciOiJSUzI1NiIsImtpZCI6ImFiMGNiMTk5Zjg3MGYyOGUyOTg5YWI0ODFjYzJlNDdlMGUyY2MxOWQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdmFpb25leGRldiIsImF1ZCI6InZhaW9uZXhkZXYiLCJhdXRoX3RpbWUiOjE2MjI5NTc1MjMsInVzZXJfaWQiOiJZSEEwMGhCbG1zTUR1RDZuZ05sNTZSczhaQTczIiwic3ViIjoiWUhBMDBoQmxtc01EdUQ2bmdObDU2UnM4WkE3MyIsImlhdCI6MTYyMjk1NzUyMywiZXhwIjoxNjIyOTYxMTIzLCJlbWFpbCI6InRlc3RhZEB0ZXN0Mi5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsidGVzdGFkQHRlc3QyLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.IncXnmKxzRTzT66WSDkvx8i - eEHBpGBymLVWlAoZLjwhH7I2U7WHgmYz7AW8ts5G_6FE7zUdcyD_7P1tZvCRUvrKFBURPklzzGco6rRa5dEvWqgIDH0rwMZuAdw - vb_Jr6c628HLJB2ambMVuGbJn7o9jXU1XhNr1H2SNbQcbF88OUm_n8Tzu1Wq - hHi - 9 Gj02D8TsXrBJI8BQpT63bmMQN1AgXXqC8ChGDQ1cOdV6zcmOxScLSMsNpOTs2ffDIYovKQPOiIUVjds3H8uVfMAu3HZx_vu5xMFmEJ6R2sWCNip0tZyWJr76_7g4AmDZmAugc3b3i - O - mdS5oFoosa9Q,
+            phoneNumber: 8215441111
         },
     };
 
@@ -247,23 +245,23 @@ function AuthenticationPage(){
                         {/* verify otp docs start from here */}
 
             <div style={styles.heading2Space}>
-                <h4>(4.) varify OTP</h4>
+                <h4>(4.) validate OTP</h4>
             </div>
             <div style={styles.paraSpace}>
                 <p>In Now days,To validate genuine users most of apps uses otp validation. you can also validate by sending HTTP <b>GET</b> request to send verification otp URI</p>
             </div>
-            <ApiUrlContainer title="https://api.vaionex.com/verfiOtp" />
+            <ApiUrlContainer title="https://api.vaionex.com/validateOTP" />
 
             <div style={styles.heading2Space}>
                 <h6>request</h6>
             </div>
-            <ApiUrlContainer title="[GET] https://api.vaionex.com/verfiOtp" />
+            <ApiUrlContainer title="[GET] https://api.vaionex.com/validateOTP" />
 
             <div style={styles.heading2Space}>
                 <h6>header</h6>
             </div>
             < CodeContainer title = {`
-    phonenumber: 8215441111
+    phoneNumber: 8215441111
     otp: 123456
 `}
             />
@@ -278,10 +276,10 @@ function AuthenticationPage(){
 
     const config ={
         method: 'get',
-        url: 'https://api.vaionex.com/verfiOtp',
+        url: 'https://api.vaionex.com/validateOTP',
         headers: {
             Content-Type: "application/json,
-            phonenumber: 8215441111,
+            phoneNumber: 8215441111,
             otp: 123456
         },
     };

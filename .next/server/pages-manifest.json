@@ -1,23 +1,7 @@
 {
-  "/404": "pages/404.js",
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
-  "/about": "pages/about.js",
-  "/app/settings": "pages/app/settings.js",
-  "/app/stas-tokens/[tokenId]": "pages/app/stas-tokens/[tokenId].js",
-  "/app/stas-tokens/create": "pages/app/stas-tokens/create.js",
-  "/app/stas-tokens": "pages/app/stas-tokens.js",
-  "/app/wallet/[walletId]": "pages/app/wallet/[walletId].js",
-  "/app/zaps": "pages/app/zaps.js",
-  "/auth/login": "pages/auth/login.js",
-  "/auth/register": "pages/auth/register.js",
-  "/contact": "pages/contact.js",
-  "/docs/[id]": "pages/docs/[id].js",
   "/docs": "pages/docs.js",
-  "/": "pages/index.js",
-  "/pay-button-v1": "pages/pay-button-v1.js",
-  "/profile": "pages/profile.js",
-  "/services": "pages/services.js",
-  "/terms": "pages/terms.js"
+  "/docs/[id]": "pages/docs/[id].js"
 }
