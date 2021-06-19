@@ -88,12 +88,13 @@ function WalletsPage(){
 
             <CodeContainer title={
                 `{
-    "message": "Operation completed successfully",
-    "statusCode": 200,
-    "data": {
-        "status": "success",
-        "data": []              // if you are getting empty data array means you don't have balance.
-    }
+  "statusCode": 200,
+  "data": {
+    "status": "success",
+    "msg": "Operation completed successfully",
+    "addresses": "17n2JVhrCf1oYSMkZtZNjcf1deteUEKQsH",
+    "paymail": "string"
+  }
 }
                 `
             }/>
@@ -160,12 +161,15 @@ function WalletsPage(){
 
             <CodeContainer title={
                 `{
-    "message": "Operation completed successfully",
-    "statusCode": 200,
-    "data": {
-        "status": "success",
-        "data": []              // if you are getting empty data array means you don't have balance.
-    }
+  "statusCode": 200,
+  "data": {
+    "status": "success",
+    "msg": "Operation completed successfully",
+    "addresses": [
+      "17n2JVhrCf1oYSMkZtZNjcf1deteUEKQsH"
+    ],
+    "paymail": "string"
+  }
 }
                 `
             }/>
@@ -318,12 +322,20 @@ function WalletsPage(){
 
             <CodeContainer title={
                 `{
-    "message": "Operation completed successfully",
-    "statusCode": 200,
-    "data": {
-        "status": "success",
-        "data": []              // if you are getting empty data array means you don't have balance.
-    }
+  "statusCode": 200,
+  "data": {
+    "msg": "Operation completed successfully",
+    "utxos": [
+      {
+        "txid": "3a0d4b10f301a0ee12258732fcda6c97766837a8943842fdaa35ec36ac62b3a8",
+        "vout": 1,
+        "value": "11725",
+        "height": 691790,
+        "confirmations": 232,
+        "scriptPubKey": "76a9144a548f3da5526d1e2f8b5c3584ebb9739edfbe3b88ac"
+      }
+    ]
+  }
 }
                 `
             }/>

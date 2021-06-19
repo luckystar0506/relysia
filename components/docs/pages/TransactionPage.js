@@ -48,7 +48,7 @@ function TransactionPage(){
                 <h6>header</h6>
             </div>
             < CodeContainer title = {`
-    authtoken: <your auth token id>
+    authToken: <your auth token id>
 `}
             />
 
@@ -139,149 +139,59 @@ function TransactionPage(){
                 `
             }/>
 
-            {/* bsv transfer function docs start from here */}
+
+            {/* pay docs start from here */}
 
             <div style={styles.heading2Space}>
-                <h4>(2.) Bsv Transfer Function</h4>
+                <h4>(2.) Pay</h4>
             </div>
             <div style={styles.paraSpace}>
-                <p>you can transfer funds to other user, by sending HTTP <b>POST</b> request to the bsvTransferFuction URI </p>
+                <p>you can pay funds to user, by sending HTTP <b>POST</b> request to the URI </p>
             </div>
-            <ApiUrlContainer title="https://api.vaionex.com/bsvTransferFunction" />
+            <ApiUrlContainer title="https://api.vaionex.com/pay" />
 
             <div style={styles.heading2Space}>
                 <h6>request</h6>
             </div>
-            <ApiUrlContainer title="[POST] https://api.vaionex.com/bsvTransferFunction" />
+            <ApiUrlContainer title="[POST] https://api.vaionex.com/pay" />
 
             <div style={styles.heading2Space}>
                 <h6>header</h6>
             </div>
             < CodeContainer title = {`
-    tokenid: <your token id>
+    authToken: <your auth token>
 `}
             />
 
             <div style={styles.paraSpace}>
-                <p>To make bsv transation to other user , you have to pass one header parameters <b>tokenid</b>.</p>
+                <p>To pay funds to other user, you have to pass one header parameter <b>authToken</b>.</p>
             </div>
 
 
-            
             <div style={styles.heading2Space}>
-                <h6>Body</h6>
+                <h6>body</h6>
             </div>
             < CodeContainer title = {`
     {
-        dataArray: [{to: " <user paymail or address id which you want to send fund> ", amount: <how much amount you want to send in respective currency> }],
-        currency: "<which type of curreny you want to send>",           //USD or STAS
-        opReturn: [<array of op_return>]
+        "uri": "string",
+        "type": "string",
+        "mainProtocol": "string",
+        "outputs": [{
+            "script": "string",
+            "satoshis": 0
+        }],
+        "inputs": [{
+            "txid": "string",
+            "vout": 0,
+            "satoshis": 0,
+            "scriptSig": "string"
+        }],
+        "memo": "string",
+        "isBSV": true,
+        "peer": "string",
+        "peerData": "string",
+        "peerProtocol": "string"
     }
-`}
-            />
-
-            <div style={styles.paraSpace}>
-                <p>To make bsv transation to other user , you have to pass json body object with three key.</p>
-                <p><b>(1) dataArray</b> - dataArray will be array object of <b>to</b> (user paymail or address id which you want to transfer fund) and <b>amount</b> which you want to transfer </p>
-                 <p><b>(2) currency</b> - curreny key value will be <b>USD or STAS</b> becuse we are current support only two type</p>
-                 <p><b>(3) opReturns</b> opReturns will be array of op_return</p>
-            </div>
-
-            <div style={styles.heading2Space}>
-                <h6>Example</h6>
-            </div>
-            < CodeContainer title = {`
-
-    const config ={
-        method: 'post',
-        url: 'https://api.vaionex.com/bsvTransferFunction',
-        headers: {
-            Content-Type: "application/json,
-            tokenid: eyJhbGciOiJSUzI1NiIsImtpZCI6ImFiMGNiMTk5Zjg3MGYyOGUyOTg5YWI0ODFjYzJlNDdlMGUyY2MxOWQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdmFpb25leGRldiIsImF1ZCI6InZhaW9uZXhkZXYiLCJhdXRoX3RpbWUiOjE2MjMwODEyOTYsInVzZXJfaWQiOiJ6Yk0yeDNVRXVEUzFiZWNlbGhGWTJvTzhnNkQyIiwic3ViIjoiemJNMngzVUV1RFMxYmVjZWxoRlkyb084ZzZEMiIsImlhdCI6MTYyMzA4MTI5NiwiZXhwIjoxNjIzMDg0ODk2LCJlbWFpbCI6IjEyMzVAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbIjEyMzVAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.ZgRVxWH--tJdVuBdzjl2NeABWW605z0kEub37n3nEbWQzu1BlxNV6I_MOtUXfv1g6QOzc6mgK7gpQvkGGXgprxqv0tOuaPGUjVUQKemPLbt4bWdf-fGWbAekH-4k4TQZqpI2vyfhDclc_G9B0eh7_83jE0H19KPLTj42Lmqzr5SLEIpijf5AlHOPK-9QUaQCuQo-VVSM6h2XP4jOXruZQ7VacMTiJYWHxxX2FELHGoTBiWImNQrBfPL3OXOWhq9yDwaxBxVNJuBAyGDGRp6K9zPK5YsZKKFXQBpzP5sLxg1ekUTa7u6tprWiHqa1ODyBoS2FozIWb5m8-luP6BKXIQ,
-        },
-
-        data:{
-	"dataArray":[
-		{"to":"28275@moneybutton.com","amount": 3},
-		{"to":"17LhJgucvA7vPsRRJwvb53rEqq6PXxGREj","amount": 2}
-		],
-	"currency":"STAS",   // BSV or STAS
-	"opReturns":[]
-
-        }
-    };
-
-    axios(config).then((res) =>{
-        console.log(res);
-    });
-
-
-`}
-            />
-
-            <div style={styles.heading2Space}>
-                <h6>Response</h6>
-            </div>
-
-             <div style={styles.paraSpace}>
-                <p>If your request succeeds,  the server responds with an HTTP <b>200 OK</b>  status code and transaction info.</p>
-            </div>
-
-            <CodeContainer title={
-                `
-    {
-    "statusCode": 200,
-    "data": {
-    "status": "success",
-    "msg": "Tokens transferred successfully!"
-    }
-    }
-
-                `
-            }/>
-
-
-
-             {/* stas token transfer and split docs start from here */}
-
-            <div style={styles.heading2Space}>
-                <h4>(2.)stasTokenTransferAndSplit</h4>
-            </div>
-            <div style={styles.paraSpace}>
-                <p>you can transfer and split token, by sending HTTP <b>POST</b> request to the stasTokenTransferAndSplit URI </p>
-            </div>
-            <ApiUrlContainer title="https://api.vaionex.com/stasTokenTransferAndSplit" />
-
-            <div style={styles.heading2Space}>
-                <h6>request</h6>
-            </div>
-            <ApiUrlContainer title="[POST] https://api.vaionex.com/stasTokenTransferAndSplit" />
-
-            <div style={styles.heading2Space}>
-                <h6>header</h6>
-            </div>
-            < CodeContainer title = {`
-    authtoken: <your auth token>
-`}
-            />
-
-            <div style={styles.paraSpace}>
-                <p>To transfer and split stas token , you have to pass one header parameters <b>authtoken</b>.</p>
-            </div>
-
-            <div style={styles.heading2Space}>
-                <h6>Body</h6>
-            </div>
-            < CodeContainer title = {`
-{
-    "walletId":"vaionex-wallet",
-    "dataArray":[
-		{"to":"mshahzaib@wallet.vaionex.com","amount": 1},
-		{"to":"17LhJgucvA7vPsRRJwvb53rEqq6PXxGREj","amount": 2}
-		],
-    "tokenId":"dfdfdf"
-    }
-
 `}
             />
 
@@ -293,25 +203,11 @@ function TransactionPage(){
 
     const config ={
         method: 'get',
-        url: 'https://api.vaionex.com/stasTokenTransferAndSplit',
+        url: 'https://api.vaionex.com/URI',
         headers: {
             Content-Type: application/json,
-            authtoken: eyJhbGciOiJSUzI1NiIsImtpZCI6ImFiMGNiMTk5Zjg3MGYyOGUyOTg5YWI0ODFjYzJlNDdlMGUyY2MxOWQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdmFpb25leGRldiIsImF1ZCI6InZhaW9uZXhkZXYiLCJhdXRoX3RpbWUiOjE2MjMwODEyOTYsInVzZXJfaWQiOiJ6Yk0yeDNVRXVEUzFiZWNlbGhGWTJvTzhnNkQyIiwic3ViIjoiemJNMngzVUV1RFMxYmVjZWxoRlkyb084ZzZEMiIsImlhdCI6MTYyMzA4MTI5NiwiZXhwIjoxNjIzMDg0ODk2LCJlbWFpbCI6IjEyMzVAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbIjEyMzVAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.ZgRVxWH--tJdVuBdzjl2NeABWW605z0kEub37n3nEbWQzu1BlxNV6I_MOtUXfv1g6QOzc6mgK7gpQvkGGXgprxqv0tOuaPGUjVUQKemPLbt4bWdf-fGWbAekH-4k4TQZqpI2vyfhDclc_G9B0eh7_83jE0H19KPLTj42Lmqzr5SLEIpijf5AlHOPK-9QUaQCuQo-VVSM6h2XP4jOXruZQ7VacMTiJYWHxxX2FELHGoTBiWImNQrBfPL3OXOWhq9yDwaxBxVNJuBAyGDGRp6K9zPK5YsZKKFXQBpzP5sLxg1ekUTa7u6tprWiHqa1ODyBoS2FozIWb5m8-luP6BKXIQ
+            uri: bitcoin:1FMif2XbHJx5L2x6QWYKyWEWPpxJC1ipXw?amount=0.00123456
         },
-        data:{
-            {
-            "walletId": "vaionex-wallet",
-            "dataArray": [{
-                    "to": "mshahzaib@wallet.vaionex.com",
-                    "amount": 1
-                },
-                {
-                    "to": "17LhJgucvA7vPsRRJwvb53rEqq6PXxGREj",
-                    "amount": 2
-                }
-            ],
-            "tokenId": "dfdfdf"
-        }
 
     };
 
@@ -337,7 +233,22 @@ function TransactionPage(){
         "statusCode": 200,
         "data": {
             "status": "success",
-            "msg": "Tokens transferred successfully!"
+            "msg": "Operation completed successfully",
+            "data": {
+                "uri": "bitcoin:1FMif2XbHJx5L2x6QWYKyWEWPpxJC1ipXw?amount=0.00123456",
+                "type": "bip21",
+                "mainProtocol": "bip21",
+                "outputs": [{
+                    "script": "76a9149d7cda4252e8f46b12fee2d14e2d731ac074330688ac",
+                    "satoshis": 123456
+                }],
+                "inputs": [],
+                "memo": "Payment to Address",
+                "isBSV": false,
+                "peer": null,
+                "peerData": null,
+                "peerProtocol": null
+            }
         }
     }
 
@@ -345,10 +256,12 @@ function TransactionPage(){
             }/>
 
 
+
+
             {/* get uri docs start from here */}
 
             <div style={styles.heading2Space}>
-                <h4>(1.) URI</h4>
+                <h4>(3.) URI</h4>
             </div>
             <div style={styles.paraSpace}>
                 <p>you can get data object from bit uri, by sending HTTP <b>GET</b> request to the URI </p>

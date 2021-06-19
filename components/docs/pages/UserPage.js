@@ -52,7 +52,7 @@ function UserPage(){
 `}
             />
             <div style={styles.paraSpace}>
-                <p>To get user details, you have to pass one header parameters <b>authToken</b></p>
+                <p>To get user details, you have to pass one header parameter <b>authToken</b></p>
             </div>
 
             <div style={styles.heading2Space}>
@@ -173,12 +173,12 @@ function UserPage(){
 
             <CodeContainer title={
                 `{
-    "message": "Operation completed successfully",
-    "statusCode": 200,
-    "data": {
-        "data": "elevator chef aim burst educate trophy scheme busy planet shaft earn major",
-        "status": "success"
-    }
+  "statusCode": 200,
+  "data": {
+    "data": "elevator chef aim burst educate trophy scheme busy planet shaft earn major",
+    "status": "success",
+    "msg": "Operation completed successfully."
+  }
 }
                 `
             }/>
@@ -245,26 +245,26 @@ function UserPage(){
 
             <CodeContainer title={
                 `{
-    "message": "Operation completed successfully",
-    "statusCode": 200,
+  "statusCode": 200,
+  "data": {
+    "status": "success",
+    "msg": "Operation completed successfully",
     "data": {
-        "uid": "zbM2x3UEuDS1becelhFY2oO8g6D2",
-        "email": "1235@gmail.com",
-        "emailVerified": false,
-        "disabled": false,
-        "metadata": {
-            "lastSignInTime": "Mon, 07 Jun 2021 11:16:42 GMT",
-            "creationTime": "Mon, 07 Jun 2021 11:16:42 GMT"
-        },
-        "tokensValidAfterTime": "Mon, 07 Jun 2021 11:16:42 GMT",
-        "providerData": [
-            {
-                "uid": "1235@gmail.com",
-                "email": "1235@gmail.com",
-                "providerId": "password"
-            }
-        ]
+      "balance": {
+        "bsvBal": 17534,
+        "dollarBal": 0.0286980155
+      },
+      "transctions": [
+        {
+          "block_id": 691790,
+          "hash": "3a0d4b10f301a0ee12258732fcda6c97766837a8943842fdaa35ec36ac62b3a8",
+          "time": "2021-06-15 17:56:30",
+          "balance_change": -775,
+          "address": "17n2JVhrCf1oYSMkZtZNjcf1deteUEKQsH"
+        }
+      ]
     }
+  }
 }
                 `
             }/>
