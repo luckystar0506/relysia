@@ -343,6 +343,97 @@ function WalletsPage(){
             }/>
 
 
+
+
+{/* create wallet docs start from here */}
+
+            <div style={styles.heading2Space}>
+                <h4>(5.) CreateWallet</h4>
+            </div>
+            <div style={styles.paraSpace}>
+                <p>you can create wallet by sending HTTP <b>GET</b> request to the createWallet URI </p>
+            </div>
+            <ApiUrlContainer title="https://api.vaionex.com/createWallet" />
+
+            <div style={styles.heading2Space}>
+                <h6>request</h6>
+            </div>
+            <ApiUrlContainer title="[GET] https://api.vaionex.com/createWallet" />
+
+            <div style={styles.heading2Space}>
+                <h6>headers</h6>
+            </div>
+            < CodeContainer title = {`
+    authToken: <your auth token>
+    walletId: < your wallet id >
+    walletPassword: < wallet password >
+    walletTitle: < wallet title >
+    walletLogo: < wallet logo >     //optional
+`}
+            />
+            <div style={styles.paraSpace}>
+                <p>To create wallet, you have to pass five header parameters <b>authToken</b>, <b>walletId</b>, <b>walletPassword</b>, <b>walletTitle</b> and <b>walletLogo</b></p>
+            </div>
+
+            <div style={styles.heading2Space}>
+                <h6>Example</h6>
+            </div>
+            < CodeContainer title = {`
+
+    const config ={
+        method: 'get',
+        url: 'https://api.vaionex.com/metrics',
+        headers: {
+            Content-Type: "application/json,
+            authToken: "eyJhbGciOiJSUzI1NiIsImtpZCI6ImFiMGNiMTk5Zjg3MGYyOGUyOTg5YWI0ODFjYzJlNDdlMGUyY2MxOWQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdmFpb25leGRldiIsImF1ZCI6InZhaW9uZXhkZXYiLCJhdXRoX3RpbWUiOjE2MjMwODEyOTYsInVzZXJfaWQiOiJ6Yk0yeDNVRXVEUzFiZWNlbGhGWTJvTzhnNkQyIiwic3ViIjoiemJNMngzVUV1RFMxYmVjZWxoRlkyb084ZzZEMiIsImlhdCI6MTYyMzA4MTI5NiwiZXhwIjoxNjIzMDg0ODk2LCJlbWFpbCI6IjEyMzVAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbIjEyMzVAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.ZgRVxWH--tJdVuBdzjl2NeABWW605z0kEub37n3nEbWQzu1BlxNV6I_MOtUXfv1g6QOzc6mgK7gpQvkGGXgprxqv0tOuaPGUjVUQKemPLbt4bWdf-fGWbAekH-4k4TQZqpI2vyfhDclc_G9B0eh7_83jE0H19KPLTj42Lmqzr5SLEIpijf5AlHOPK-9QUaQCuQo-VVSM6h2XP4jOXruZQ7VacMTiJYWHxxX2FELHGoTBiWImNQrBfPL3OXOWhq9yDwaxBxVNJuBAyGDGRp6K9zPK5YsZKKFXQBpzP5sLxg1ekUTa7u6tprWiHqa1ODyBoS2FozIWb5m8-luP6BKXIQ",
+            walletId: "vaionex-wallet",
+            walletPassword: "vaionexwallet",
+            walletTitle: "vaionexwallet",
+            walletLogo: "cdn.vaionex.com/image/logo.png",
+        }
+    };
+
+    axios(config).then((res) =>{
+        console.log(res);
+    });
+
+
+`}
+            />
+
+            <div style={styles.heading2Space}>
+                <h6>Response</h6>
+            </div>
+
+             <div style={styles.paraSpace}>
+                <p>If your request succeeds,  the server responds with an HTTP <b>200 OK</b>  status code and wallet data.</p>
+            </div>
+
+            <CodeContainer title={
+                `{
+  "statusCode": 200,
+  "data": {
+    "status": "success",
+    "msg": "Wallet created successfully",
+    "data": {
+      "id": "vaionex-wallet",
+      "bsvBal": 0,
+      "dollerBal": 0,
+      "title": "vaionex wallet",
+      "walletLogo": null,
+      "address": [
+        "Q3G6EawHeG4kAhGBWDzCRYd3y6f8WU73X"
+      ],
+      "publicKey": "02fd399b51fb5e2bb120322c0baf67e9cc4e22f3515d3194efe52863da3075ef09",
+      "hdPublicKey": "02fd399b51fb5e2bb120322c0baf67e9cc4e22f3515d3194efe52863da3075ef09",
+      "hdPrivateKey": "U2FsdGVkX19tdNTc6EPIMgprYV2WbO3xIJiDvVLYx1HEkTf50K3Y6EUGXlkL45+6ab1dDhUTXUiNOlrBdjw2WrgK4dG4G6N5sgit51cY3kJCCdFM+TJR8Dm90XtkOhvKM3tXD5rb9m0S22w+NnuYAudhJrv9in9vcXvTRYHtomY=",
+      "mnemonic": "congress until during wet calm claw saddle target black bike"
+    }
+  }
+  
+                `
+            }/>
+
         </div>
     );
 }
