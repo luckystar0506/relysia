@@ -23,7 +23,7 @@ export const listData = [
     },
 
     {
-        title: "token",
+        title: "Token",
         desc: "In User, get user details, update user Details",
         id: "tokens"
     },

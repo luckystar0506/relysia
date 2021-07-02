@@ -125,10 +125,11 @@ function TokensPage(){
             </div>
             < CodeContainer title = {`
     authToken: <your auth token>
+    protocol: < In which protocol you want to issue Token>      // default STAS
 `}
             />
             <div style={styles.paraSpace}>
-                <p>To generate token, you have to pass one header parameter <b>authToken</b></p>
+                <p>To generate token, you have to pass two header parameters, one is <b>authToken</b> and second is <b>protocol</b> by default protocol will be <b>STAS</b></p>
             </div>
 
 
@@ -181,6 +182,7 @@ function TokensPage(){
         headers: {
             Content-Type: "application/json",
             authToken: "eyJhbGciOiJSUzI1NiIsImtpZCI6ImFiMGNiMTk5Zjg3MGYyOGUyOTg5YWI0ODFjYzJlNDdlMGUyY2MxOWQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdmFpb25leGRldiIsImF1ZCI6InZhaW9uZXhkZXYiLCJhdXRoX3RpbWUiOjE2MjMwNzE3MDMsInVzZXJfaWQiOiJ6Yk0yeDNVRXVEUzFiZWNlbGhGWTJvTzhnNkQyIiwic3ViIjoiemJNMngzVUV1RFMxYmVjZWxoRlkyb084ZzZEMiIsImlhdCI6MTYyMzA3MTcwMywiZXhwIjoxNjIzMDc1MzAzLCJlbWFpbCI6IjEyMzVAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbIjEyMzVAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.bqz1wdiBCg7P9LaH9NNtx4nYFLTpcCRz7O7gtzhjENGrHCkXSOoKdWnVkw-6NBZRW3nscCcnHeMQMq4VloZ_1f7_matcmAjbfPyjZ4h6PGlrrSKwusU-nxph6Xi89uOABXkHFQPYIMzz_ZooGqFK6jhINJgAnMvCd9tWXyY3Md5gd6_OcTc4_TMIQI1WvcdGTskcHHc3yP7l63yv8mOPwC1EQY8MXLwfqv6HXrSehY6qduunsXz1Au86v5N5wCia62JT4o1mmFHqVDicnsPUKDiSNQOHW4qGoKd5p4TTre_g5N5H2wyzvOYrZqC4_drjXO4r_9AllI_P4Bl89v703A"
+            protocol: "STAS"        // default will be "STAS"
         },
         data: {
         "tokenSupply": 1,

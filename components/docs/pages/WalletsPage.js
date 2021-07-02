@@ -187,7 +187,7 @@ function WalletsPage(){
             <div style={styles.heading2Space}>
                 <h6>request</h6>
             </div>
-            <ApiUrlContainer title="[POST] https://api.vaionex.com/balance" />
+            <ApiUrlContainer title="[GET] https://api.vaionex.com/balance" />
 
             <div style={styles.heading2Space}>
                 <h6>headers</h6>
@@ -195,11 +195,12 @@ function WalletsPage(){
             < CodeContainer title = {`
     authToken: <your auth token>
     currency: <which type of balance you want to get>           //defalt value is "USD".,
-    walletsID: [ <array string of wallets id> ]                 // default value is ["vaionex-wallet"]
+    walletID: <your wallet id>                                  // default value is "vaionex-wallet"
+    type: <which type of coins you want to display>            // type will be 'BSV or STAS'
 `}
             />
             <div style={styles.paraSpace}>
-                <p>To get balance, you have to pass two header parameters one is <b>authToken</b> which is required and second <b>type</b>. type key value should be <b>BSV</b> or <b>STAS</b></p>
+                <p>To get balance, you have to pass four header parameters one is <b>authToken</b> which is required  , second <b>type</b>. type key value should be <b>BSV</b> or <b>STAS</b>, third <b>walletID</b>. by default walletID will be <b>vaionex-wallet</b> and fourth <b>currency</b>. currency by defalt will be <b>USD</b></p>
             </div>
 
              <div style={styles.paraSpace}>
@@ -212,12 +213,14 @@ function WalletsPage(){
             < CodeContainer title = {`
 
     const config ={
-        method: 'post',
+        method: 'get',
         url: 'https://api.vaionex.com/balance',
         headers: {
             Content-Type: "application/json,
             authToken: "eyJhbGciOiJSUzI1NiIsImtpZCI6ImFiMGNiMTk5Zjg3MGYyOGUyOTg5YWI0ODFjYzJlNDdlMGUyY2MxOWQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdmFpb25leGRldiIsImF1ZCI6InZhaW9uZXhkZXYiLCJhdXRoX3RpbWUiOjE2MjMwODEyOTYsInVzZXJfaWQiOiJ6Yk0yeDNVRXVEUzFiZWNlbGhGWTJvTzhnNkQyIiwic3ViIjoiemJNMngzVUV1RFMxYmVjZWxoRlkyb084ZzZEMiIsImlhdCI6MTYyMzA4MTI5NiwiZXhwIjoxNjIzMDg0ODk2LCJlbWFpbCI6IjEyMzVAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbIjEyMzVAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.ZgRVxWH--tJdVuBdzjl2NeABWW605z0kEub37n3nEbWQzu1BlxNV6I_MOtUXfv1g6QOzc6mgK7gpQvkGGXgprxqv0tOuaPGUjVUQKemPLbt4bWdf-fGWbAekH-4k4TQZqpI2vyfhDclc_G9B0eh7_83jE0H19KPLTj42Lmqzr5SLEIpijf5AlHOPK-9QUaQCuQo-VVSM6h2XP4jOXruZQ7VacMTiJYWHxxX2FELHGoTBiWImNQrBfPL3OXOWhq9yDwaxBxVNJuBAyGDGRp6K9zPK5YsZKKFXQBpzP5sLxg1ekUTa7u6tprWiHqa1ODyBoS2FozIWb5m8-luP6BKXIQ",
-            currency: "BSV"
+            currency: "CHF"             // default is USD
+            type: "BSV"                 // default will be all type
+            wallletID: "vaionex-wallet"         // default value will be "vaionex-wallet"
         },
     };
 
@@ -243,20 +246,46 @@ function WalletsPage(){
   "data": {
     "status": "success",
     "msg": "Operation completed successfully",
-    "stasTokenBal": {
-      "data": [
-        "string"
-      ]
-    },
-    "otherBal": {
-      "data": {
-        "walletData": "string",
-        "totalBalance": {
-          "bsvBal": 619338,
-          "currencyCode": "BSV",
-          "currencyBal": 619338
+    "balances": {
+      "totalBalance": {
+        "currency": "CHF",
+        "balance": "0.13992795037688774"
+      },
+      "coins": [
+        {
+          "protocol": "BSV",
+          "dollarBal": 0.1523433989,
+          "balance": 104797
+        },
+        {
+          "protocol": "STAS",
+          "tokenId": "d658f6e8177d7fbb5ee516df5cee50daddda19ac",
+          "ticker": "test 9908",
+          "iconURL": "test",
+          "balance": 1
+        },
+        {
+          "protocol": "STAS",
+          "tokenId": "00fdb2cbc10dfd3fb8f3dcbf97ac272f90b29d16",
+          "ticker": "test 9908",
+          "iconURL": "test.me",
+          "balance": 0
+        },
+        {
+          "protocol": "STAS",
+          "tokenId": "9852fae231d3ac46c70be4f40f0c5cbab4bb74e0",
+          "ticker": "stas1",
+          "iconURL": "https://cdn.searchenginejournal.com/wp-content/uploads/2019/12/how-to-execute-a-link-conversion-strategy-5df792498b991-760x400.png",
+          "balance": 100
+        },
+        {
+          "protocol": "STAS",
+          "tokenId": "4fb1f80e37c4739ef80f3e3d171da2e2e1b05632",
+          "ticker": "test 9908",
+          "iconURL": "test",
+          "balance": 1
         }
-      }
+      ]
     }
   }
 }
