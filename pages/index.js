@@ -2,16 +2,12 @@ import React, { useEffect } from "react";
 import { Preloader, Placeholder } from "react-preloading-screen";
 import NoSSR from "react-no-ssr";
 import Header from "../components/Layouts/Header";
-import MainBanner from "../components/home-one/MainBanner";
-import BoxArea from "../components/home-one/BoxArea";
-import Pricing from "../components/home-one/Pricing";
 import Footer from "../components/Layouts/Footer";
-import GoTop from "../components/Layouts/GoTop";
-import WhyChoose from "../components/home-one/WhyChoose";
-import Features from "../components/home-one/Features";
+
 import Head from "next/head";
 import { useRouter } from "next/router";
 import firebase from "../config/fire-conf";
+import TopSection from "../components/home-one/top-section";
 
 function Index() {
   const router = useRouter();
@@ -24,7 +20,7 @@ function Index() {
       }
     });
   }, []);
-  
+
   return (
     <NoSSR>
       <Preloader>
@@ -33,16 +29,10 @@ function Index() {
             <div className="spinner"></div>
           </div>
         </Placeholder>
-        {/* Relysia/components/Layouts/Header.js */}
-        <Header />
-        {/* Relysia/components/home-one/MainBanner.js */}
-        <MainBanner />
-        {/* Relysia/components/home-one/BoxArea.js */}
-       
-        {/* Relysia/components/Layouts/Footer.js */}
-        <Footer />
-        {/* Relysia/components/Layouts/GoTop.js */}
-        <GoTop scrollStepInPx="50" delayInMs="16.66" />
+
+        {/* <Header /> */}
+        <TopSection />
+        {/* <Footer /> */}
       </Preloader>
       <Head>
         <title>Relysia - The Bitcoin database</title>

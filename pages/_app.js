@@ -28,7 +28,11 @@ import "../static/css/custom.css";
 
 // global css of docs container
 
-import "../static/styles/GlobalNewDocsContainer.css"
+import "../static/styles/GlobalNewDocsContainer.css";
+
+// tailwindcss
+import "tailwindcss/tailwind.css";
+import "../assets/styles/globals.css";
 
 import { Provider } from "react-redux";
 import App from "next/app";
@@ -39,6 +43,7 @@ import React from "react";
 import GetCurrentUser from "../components/Layouts/GetCurrentUser";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
+import Head from "next/head";
 
 const theme = createMuiTheme({
   palette: {
@@ -73,6 +78,12 @@ export default withRedux(initStore)(
               locale: "en_IE",
             }}
           />
+          <Head>
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no"
+            />
+          </Head>
           <Provider store={store}>
             <ThemeProvider theme={theme}>
               <GetCurrentUser />

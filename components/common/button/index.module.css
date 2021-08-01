@@ -1,0 +1,37 @@
+.base {
+  @apply rounded-default
+  bg-gray-500
+  px-8 py-3
+  leading-4
+  inline-flex
+  items-center
+  font-semibold
+  cursor-pointer
+
+  focus:outline-none;
+}
+
+.link {
+  @apply hover:text-white;
+}
+
+.primary {
+  @apply bg-gradient;
+}
+
+.secondary {
+  @apply bg-third;
+}
+
+.fat {
+  @apply bg-gradient py-4;
+}
+
+.noBox {
+  @apply font-normal bg-transparent p-0 underline
+  hover:text-secondary;
+}
+
+.btnIcon {
+  @apply ml-2;
+}

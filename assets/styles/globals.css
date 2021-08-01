@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: 'Sofia Pro';
+    src: url('../fonts/sofia_pro_regular_az-webfont.woff2') format('woff2'),
+      url('../fonts/sofia_pro_regular_az-webfont.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Sofia Pro';
+    src: url('../fonts/sofia_pro_medium_az-webfont.woff2') format('woff2'),
+      url('../fonts/sofia_pro_medium_az-webfont.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Sofia Pro';
+    src: url('../fonts/sofia_pro_semi_bold_az-webfont.woff2') format('woff2'),
+      url('../fonts/sofia_pro_semi_bold_az-webfont.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Sofia Pro';
+    src: url('../fonts/sofia_pro_bold_az-webfont.woff2') format('woff2'),
+      url('../fonts/sofia_pro_bold_az-webfont.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+  }
+}
+
+html {
+  @apply overflow-x-hidden;
+}
+
+body {
+  @apply relative
+  font-body
+  text-body
+  bg-primary
+  text-white
+  font-normal
+  antialiased
+  w-full
+  h-full
+  overflow-x-hidden;
+}
+
+.container {
+  max-width: calc(1128px + 2.5rem);
+  @apply relative
+  px-5
+  h-full;
+}
+
+.preloader {
+  @apply bg-gradient;
+}
