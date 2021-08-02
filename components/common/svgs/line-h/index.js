@@ -1,4 +1,4 @@
-function LineH({ width = '100%', sides }) {
+function LineH({ width = "100vw", sides }) {
   return (
     <svg
       width={width}
@@ -11,13 +11,13 @@ function LineH({ width = '100%', sides }) {
       className="absolute z-5"
     >
       <path
-        d="M-4 1L1444 1.00011"
+        d="M0 1h5000"
         stroke="#FF838D"
         strokeOpacity="0.4"
         strokeDasharray="2 2"
       />
     </svg>
-  )
+  );
 }
 
-export default LineH
+export default LineH;

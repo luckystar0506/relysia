@@ -1,13 +1,14 @@
-import LineV from '../svgs/line-v'
+import LineV from "../svgs/line-v";
+import cn from "classnames";
 
-const Container = ({ children }) => {
+const Container = ({ children, classNames }) => {
   return (
-    <div className="container">
-      <LineV sides={{ top: '0', left: '1.25rem' }} />
+    <div className={cn("container", classNames)}>
+      <LineV sides={{ top: "0", left: "1.25rem" }} />
       {children}
-      <LineV sides={{ top: '0', right: '1.25rem' }} />
+      <LineV sides={{ top: "0", right: "1.25rem" }} />
     </div>
-  )
-}
+  );
+};
 
-export default Container
+export default Container;

@@ -1,4 +1,4 @@
-.title {
+.base {
   @apply text-white font-bold;
 }
 
@@ -19,5 +19,5 @@
 }
 
 .h5 {
-  @apply text-h5 text-secondary font-normal;
+  @apply text-h5 text-secondary font-semibold uppercase;
 }

@@ -7,6 +7,7 @@ import Footer from "../components/Layouts/Footer";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import firebase from "../config/fire-conf";
+
 import TopSection from "../components/home-one/top-section";
 
 function Index() {

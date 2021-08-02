@@ -10,17 +10,16 @@ import Title from "../../../common/title";
 
 function Hero() {
   return (
-    <>
+    <section className={styles.hero}>
       <LineH sides={{ top: "49.7%", left: "0", right: "0" }} />
       <LineH sides={{ top: "55%", left: "0", right: "0" }} />
       <LineH sides={{ bottom: "0%", left: "0", right: "0" }} />
-      <Title heading="h1" />
       <Container>
         <Dots sides={{ bottom: "44px", left: "64px" }} />
         <Dots sides={{ top: "90px", right: "-20px" }} />
         <Dots sides={{ top: "460px", right: "160px" }} />
 
-        <div className={styles.hero}>
+        <div>
           <div className={cn(styles.heroLeft)}>
             <Title heading="h1">Jump start your crypto portfolio</Title>
             <p className={styles.p}>
@@ -50,7 +49,7 @@ function Hero() {
           </div>
         </div>
       </Container>
-    </>
+    </section>
   );
 }
 

@@ -1,8 +1,10 @@
-import CloudOneSVG from '../../common/svgs/clouds/cloud-one'
-import CloudTwoSVG from '../../common/svgs/clouds/cloud-two'
-import MainGradient from '../../common/svgs/main-gradient'
-import Hero from './hero'
-import styles from './index.module.css'
+import Hero from "./hero";
+import Platform from "./platform";
+
+import CloudOneSVG from "../../common/svgs/clouds/cloud-one";
+import CloudTwoSVG from "../../common/svgs/clouds/cloud-two";
+import MainGradient from "../../common/svgs/main-gradient";
+import styles from "./index.module.css";
 
 const TopSection = () => {
   return (
@@ -11,8 +13,9 @@ const TopSection = () => {
       <CloudOneSVG />
       <CloudTwoSVG />
       <Hero />
+      <Platform />
     </div>
-  )
-}
+  );
+};
 
-export default TopSection
+export default TopSection;

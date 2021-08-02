@@ -1,4 +1,5 @@
 module.exports = {
+  important: true,
   mode: "jit",
   purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   darkMode: false, // or 'media' or 'class'
@@ -55,13 +56,16 @@ module.exports = {
             lineHeight: "1.5rem",
           },
         ],
-        "par-s": ["1rem", { lineHeight: "1.5" }],
+        "par-s": ["1rem", { lineHeight: "1.625rem" }],
       },
       maxWidth: {
         heroMax: "60.5rem",
       },
       zIndex: {
         5: "5",
+      },
+      letterSpacing: {
+        tightS: "-0.5px",
       },
     },
     fontFamily: {
