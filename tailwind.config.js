@@ -9,10 +9,13 @@ module.exports = {
         primary: "#2E2E47",
         secondary: "#FE2C3D",
         third: "#3F4060",
+        fourth: "#FF9199",
+        fifth: "#282554",
       },
       backgroundImage: {
         gradient: "linear-gradient(92.55deg, #E70077 3.08%, #FC8F0C 97.48%)",
         gradient2: "linear-gradient(180deg, #1F87EF 0%, #D614A8 100%)",
+        gradient3: "linear-gradient(101.46deg, #40CA69 9.74%, #0CFCD1 118.22%)",
       },
       borderRadius: {
         default: "32px",
