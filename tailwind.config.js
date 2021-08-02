@@ -50,7 +50,6 @@ module.exports = {
           "1.125rem",
           {
             lineHeight: "1.125rem",
-            color: "#FE2C3D",
           },
         ],
         par: [

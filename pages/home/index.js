@@ -1,12 +1,13 @@
 import {
   CloudOneSVG,
-  CloudThreeSVG,
   CloudTwoSVG,
+  CloudThreeSVG,
 } from "../../components/common/svgs/clouds";
 
 import MainGradient from "../../components/common/svgs/main-gradient";
-import Hero from "./hero";
-import Platform from "./platform";
+import ApiSection from "../../components/home/api-section";
+import Hero from "../../components/home/hero";
+import Platform from "../../components/home/platform";
 
 const HomeOne = () => {
   return (
@@ -16,6 +17,7 @@ const HomeOne = () => {
       <CloudTwoSVG />
       <Hero />
       <Platform />
+      <ApiSection />
     </div>
   );
 };

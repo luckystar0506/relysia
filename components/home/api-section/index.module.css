@@ -1,0 +1,30 @@
+.base {
+  @apply pb-52;
+}
+
+.wrapper {
+  @apply flex justify-between gap-20;
+}
+
+.left {
+  @apply py-8 flex-1;
+}
+
+.right {
+  width: 31.5rem;
+  @apply relative;
+}
+
+.p {
+  @apply text-par-s text-white my-8;
+}
+
+.img {
+  @apply z-10;
+}
+
+.circle {
+  width: 347px;
+  z-index: -1;
+  @apply absolute inline-block -top-36 -right-24;
+}

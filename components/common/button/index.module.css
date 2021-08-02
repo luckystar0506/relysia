@@ -12,7 +12,7 @@
 }
 
 .link {
-  @apply hover:text-white;
+  @apply hover:text-white no-underline;
 }
 
 .primary {
@@ -24,14 +24,9 @@
 }
 
 .fat {
-  @apply bg-gradient py-4;
+  @apply bg-gradient py-4 items-end;
 }
 
 .noBox {
-  @apply font-normal bg-transparent p-0 underline
-  hover:text-secondary;
-}
-
-.btnIcon {
-  @apply ml-2;
+  @apply font-normal bg-transparent p-0;
 }

@@ -3,7 +3,7 @@ import "react-phone-number-input/style.css";
 import "react-bootstrap-country-select/dist/react-bootstrap-country-select.css";
 
 import "vionex-pay-button/dist/index.css";
-import "../static/css/bootstrap.min.css";
+// import "../static/css/bootstrap.min.css";
 import "../static/css/slick.css";
 import "../static/css/animate.css";
 import "../static/css/flaticon.css";
