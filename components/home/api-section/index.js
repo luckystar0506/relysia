@@ -1,11 +1,10 @@
-import Image from "next/image";
 import Container from "../../common/container";
 import Title from "../../common/title";
 import styles from "./index.module.css";
 import apiCodeImgx2 from "../../../assets/images/home-page/api-section/api-code@2x.png";
 import circleShapex2 from "../../../assets/images/home-page/api-section/circle-shape@2x.png";
 import Button from "../../common/button";
-import SeeMore from "../../common/cards/see-more";
+import CardSeeMore from "../../common/cards/card-see-more";
 import Dots from "../../common/svgs/dots";
 
 const ApiSection = () => {
@@ -30,13 +29,13 @@ const ApiSection = () => {
             </Button>
 
             <div className="flex gap-20">
-              <SeeMore
+              <CardSeeMore
                 title="Tools for every stack"
                 p="We offer client and server libraries in everything from React and PHP to .NET and iOS."
                 btnText="See libraries"
               />
 
-              <SeeMore
+              <CardSeeMore
                 title="Prebuilt integrations
               "
                 p="Use integrations for systems like Shopify, WooCommerce, NetSuite, and more."
@@ -46,22 +45,10 @@ const ApiSection = () => {
           </div>
           <div className={styles.right}>
             <span className={styles.img}>
-              <Image
-                src={apiCodeImgx2}
-                alt="Api Code"
-                width={504}
-                height={612}
-                layout="responsive"
-              />
+              <img src={apiCodeImgx2} alt="Api Code" />
             </span>
             <span className={styles.circle}>
-              <Image
-                src={circleShapex2}
-                alt=""
-                width={347}
-                height={361}
-                layout="responsive"
-              />
+              <img src={circleShapex2} alt="Api Code Circle" />
             </span>
           </div>
         </div>

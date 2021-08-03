@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "next/router";
 import { connect } from "react-redux";
-import Link from "../common/ActiveLink";
+import Link from "../common/active-link";
 import * as Icon from "react-feather";
 import firebase from "../../config/fire-conf";
 import { updateUserDataAction } from "../../store/actions/actiosMain";

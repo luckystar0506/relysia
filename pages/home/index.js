@@ -6,6 +6,7 @@ import {
 
 import MainGradient from "../../components/common/svgs/main-gradient";
 import ApiSection from "../../components/home/api-section";
+import GlobalScale from "../../components/home/global-scale";
 import Hero from "../../components/home/hero";
 import Platform from "../../components/home/platform";
 
@@ -18,6 +19,7 @@ const HomeOne = () => {
       <Hero />
       <Platform />
       <ApiSection />
+      <GlobalScale />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Link from "../common/ActiveLink";
+import Link from "../common/active-link";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { tomorrowNightBright } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import Table from "@material-ui/core/Table";
@@ -86,7 +86,7 @@ function HTMLPage(props) {
                     style={tomorrowNightBright}
                   >
                     {`
- <div id="pay-button-root" amount='[20,30]' to='["address1GoesHere","address2GoesHere"]'></div>  
+ <div id="pay-button-root" amount='[20,30]' to='["address1GoesHere","address2GoesHere"]'></div>
         `}
                   </SyntaxHighlighter>
                 </div>
@@ -113,7 +113,7 @@ function HTMLPage(props) {
                     style={tomorrowNightBright}
                   >
                     {`
- <div id="pay-button-root" amount='["20"]' to='["publicKeyGoesHere"]' token="token_id"></div>  
+ <div id="pay-button-root" amount='["20"]' to='["publicKeyGoesHere"]' token="token_id"></div>
         `}
                   </SyntaxHighlighter>
                 </div>
