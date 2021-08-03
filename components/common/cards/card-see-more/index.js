@@ -1,5 +1,5 @@
-import Button from "../../button";
-import styles from "./index.module.css";
+import Button from '../../button'
+import styles from './index.module.css'
 
 const CardSeeMore = ({ title, p, btnText }) => {
   return (
@@ -20,7 +20,7 @@ const CardSeeMore = ({ title, p, btnText }) => {
         </Button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CardSeeMore;
+export default CardSeeMore

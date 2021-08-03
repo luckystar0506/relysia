@@ -1,19 +1,19 @@
-import Button from "../../../components/common/button";
-import Container from "../../../components/common/container";
-import styles from "./index.module.css";
-import laptopImg from "../../../assets/images/home-page/hero/hero-laptop.png";
-import laptopImgLines from "../../../assets/images/home-page/hero/laptop-lines.svg";
-import cn from "classnames";
-import Dots from "../../../components/common/svgs/dots";
-import Title from "../../../components/common/title";
+import Button from '../../../components/common/button'
+import Container from '../../../components/common/container'
+import styles from './index.module.css'
+import laptopImg from '../../../assets/images/home-page/hero/hero-laptop.png'
+import laptopImgLines from '../../../assets/images/home-page/hero/laptop-lines.svg'
+import cn from 'classnames'
+import Dots from '../../../components/common/svgs/dots'
+import Title from '../../../components/common/title'
 
 function Hero() {
   return (
     <section className={styles.hero}>
       <Container>
-        <Dots sides={{ bottom: "44px", left: "64px" }} />
-        <Dots sides={{ top: "90px", right: "-20px" }} />
-        <Dots sides={{ top: "460px", right: "160px" }} />
+        <Dots sides={{ bottom: '44px', left: '64px' }} />
+        <Dots sides={{ top: '90px', right: '-20px' }} />
+        <Dots sides={{ top: '460px', right: '160px' }} />
         <div>
           <div className={cn(styles.heroLeft)}>
             <Title heading="h1">Jump start your crypto portfolio</Title>
@@ -45,7 +45,7 @@ function Hero() {
         </div>
       </Container>
     </section>
-  );
+  )
 }
 
-export default Hero;
+export default Hero

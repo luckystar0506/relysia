@@ -1,4 +1,4 @@
-function LineH({ width = "100vw", sides }) {
+function LineH({ width = '100vw', sides }) {
   return (
     <svg
       width={width}
@@ -17,7 +17,7 @@ function LineH({ width = "100vw", sides }) {
         strokeDasharray="2 2"
       />
     </svg>
-  );
+  )
 }
 
-export default LineH;
+export default LineH

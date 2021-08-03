@@ -1,43 +1,43 @@
-import Container from "../../../components/common/container";
-import Title from "../../../components/common/title";
-import styles from "./index.module.css";
+import Container from '../../../components/common/container'
+import Title from '../../../components/common/title'
+import styles from './index.module.css'
 import {
   platform1svg,
   platform2svg,
   platform3svg,
-} from "../../../assets/images/home-page/platform";
-import Dots from "../../../components/common/svgs/dots";
+} from '../../../assets/images/home-page/platform'
+import Dots from '../../../components/common/svgs/dots'
 
 const platformData = [
   {
     id: 1,
-    title: "Fastest-improving platform",
+    title: 'Fastest-improving platform',
     content:
-      "We release hundreds of features and improvements each year to help you stay ahead of industry shifts. (On average, we deploy our production API 16x per day.)",
+      'We release hundreds of features and improvements each year to help you stay ahead of industry shifts. (On average, we deploy our production API 16x per day.)',
     image: platform1svg,
   },
   {
     id: 2,
-    title: "Battle-tested reliability",
+    title: 'Battle-tested reliability',
     content:
-      "Our systems operate with 99.9%+ uptime and are highly scalable and redundant. Relysia is certified to the highest compliance standards.",
+      'Our systems operate with 99.9%+ uptime and are highly scalable and redundant. Relysia is certified to the highest compliance standards.',
     image: platform2svg,
   },
   {
     id: 3,
-    title: "Intelligent optimizations",
+    title: 'Intelligent optimizations',
     content:
-      "Our machine learning models train on billions of data points and help increase revenue across conversion, fraud, revenue recovery, and more.",
+      'Our machine learning models train on billions of data points and help increase revenue across conversion, fraud, revenue recovery, and more.',
     image: platform3svg,
   },
-];
+]
 
 const Platform = () => {
   return (
     <section className={styles.platform}>
       <Container classNames="pb-52">
-        <Dots sides={{ bottom: "22px", left: "-156px" }} />
-        <Dots sides={{ bottom: "22px", left: "30%" }} />
+        <Dots sides={{ bottom: '22px', left: '-156px' }} />
+        <Dots sides={{ bottom: '22px', left: '30%' }} />
         <Title heading="h5" classNames="text-center py-1">
           Hi-tech platform
         </Title>
@@ -58,7 +58,7 @@ const Platform = () => {
         </div>
       </Container>
     </section>
-  );
-};
+  )
+}
 
-export default Platform;
+export default Platform

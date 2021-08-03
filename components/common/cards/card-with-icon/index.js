@@ -1,4 +1,4 @@
-import styles from "./index.module.css";
+import styles from './index.module.css'
 
 const CardWithIcon = ({ title, p, icon }) => {
   return (
@@ -9,7 +9,7 @@ const CardWithIcon = ({ title, p, icon }) => {
         <p className={styles.p}> {p} </p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CardWithIcon;
+export default CardWithIcon

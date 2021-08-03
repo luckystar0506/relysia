@@ -1,18 +1,18 @@
-import Container from "../../common/container";
-import Title from "../../common/title";
-import styles from "./index.module.css";
-import apiCodeImgx2 from "../../../assets/images/home-page/api-section/api-code@2x.png";
-import circleShapex2 from "../../../assets/images/home-page/api-section/circle-shape@2x.png";
-import Button from "../../common/button";
-import CardSeeMore from "../../common/cards/card-see-more";
-import Dots from "../../common/svgs/dots";
+import Container from '../../common/container'
+import Title from '../../common/title'
+import styles from './index.module.css'
+import apiCodeImgx2 from '../../../assets/images/home-page/api-section/api-code@2x.png'
+import circleShapex2 from '../../../assets/images/home-page/api-section/circle-shape@2x.png'
+import Button from '../../common/button'
+import CardSeeMore from '../../common/cards/card-see-more'
+import Dots from '../../common/svgs/dots'
 
 const ApiSection = () => {
   return (
     <section className={styles.base}>
       <Container>
-        <Dots sides={{ bottom: "-140px", left: "40px" }} />
-        <Dots sides={{ bottom: "80px", right: "-160px" }} />
+        <Dots sides={{ bottom: '-140px', left: '40px' }} />
+        <Dots sides={{ bottom: '80px', right: '-160px' }} />
         <Title heading="h5">Designed for developers</Title>
         <div className={styles.wrapper}>
           <div className={styles.left}>
@@ -54,7 +54,7 @@ const ApiSection = () => {
         </div>
       </Container>
     </section>
-  );
-};
+  )
+}
 
-export default ApiSection;
+export default ApiSection
