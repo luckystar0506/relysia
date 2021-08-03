@@ -4,10 +4,10 @@ import Title from '../../common/title'
 import Container from '../../common/container'
 import CardWithIcon from '../../common/cards/card-with-icon'
 import {
-  CloudLightningSVG,
-  MessageProgrammingSVG,
-  SmsTrackingSVG,
-  WalletCheckSVG,
+  messageProgrammingSVG,
+  smsTrackingSVG,
+  walletCheckSVG,
+  cloudLightningSVG,
 } from '../../../assets/images/home-page/global-scale/index'
 
 const data = [
@@ -16,28 +16,28 @@ const data = [
     title: 'Flexible invoicing',
     content:
       'Create customizable invoices to accept recurring or one-off payments.',
-    icon: CloudLightningSVG,
+    icon: cloudLightningSVG,
   },
   {
     id: 2,
     title: 'Third-party integrations',
     content:
       'Explore our partner directory for prebuilt integrations to popular platforms and plugins.',
-    icon: MessageProgrammingSVG,
+    icon: messageProgrammingSVG,
   },
   {
     id: 3,
     title: 'Mobile apps',
     content:
       'Accept payments in your iOS or Android app using our mobile SDKs.',
-    icon: WalletCheckSVG,
+    icon: walletCheckSVG,
   },
   {
     id: 4,
     title: 'Shareable links',
     content:
       'Create a full payment page in just a few clicks and share the link with your customers.',
-    icon: SmsTrackingSVG,
+    icon: smsTrackingSVG,
   },
 ]
 
@@ -59,7 +59,7 @@ const GlobalScale = () => {
           <div className={styles.cards}>
             {data.map((item) => (
               <CardWithIcon
-                title={item.tite}
+                title={item.title}
                 icon={item.icon}
                 key={item.id}
                 p={item.content}

@@ -3,7 +3,8 @@
 }
 
 .title {
-  @apply text-white font-bold;
+  @apply text-white font-bold
+  mt-2 mb-3;
 }
 
 .p {

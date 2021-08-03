@@ -1,0 +1,32 @@
+.base {
+  @apply py-28
+  bg-right bg-no-repeat bg-opacity-40;
+}
+
+.wrapper {
+  @apply flex;
+}
+
+.left,
+.right {
+  @apply flex-1;
+}
+
+.right {
+  @apply flex items-center;
+}
+
+.content {
+  max-width: 26.5625rem;
+  @apply ml-8 -mt-36;
+}
+
+.p {
+  @apply text-par-s
+  flex-1
+  my-6;
+}
+
+.appImg {
+  @apply -ml-8 -mt-12;
+}

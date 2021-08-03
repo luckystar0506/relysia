@@ -6,11 +6,11 @@
 }
 
 .content {
-  @apply w-2/3
+  @apply w-1/2
   sm:w-full;
 }
 
 .cards {
-  grid-template-columns: repeat(2, 18rem);
-  @apply grid gap-5;
+  grid-template-columns: repeat(2, 17.35rem);
+  @apply grid gap-x-5 gap-y-12;
 }

@@ -19,5 +19,9 @@
 }
 
 .h5 {
-  @apply text-h5 text-secondary font-semibold uppercase;
+  @apply text-h5 text-secondary font-semibold uppercase tracking-tightS;
+}
+
+.border {
+  @apply flex w-28 h-2 bg-gradient rounded-2xl mb-6;
 }
