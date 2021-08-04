@@ -1,15 +1,14 @@
-import React from "react";
-import Header from "../../components/Layouts/Header";
-import Footer from "../../components/Layouts/Footer";
-import GoTop from "../../components/Layouts/GoTop";
-import ServicesContent from "../../components/services/ServicesContent";
-import Head from "next/head";
+import React from 'react'
+import Header from '../../components/Layouts/header'
+import Footer from '../../components/Layouts/footer'
+import GoTop from '../../components/Layouts/GoTop'
+import ServicesContent from '../../components/services/ServicesContent'
+import Head from 'next/head'
 
 class Features extends React.Component {
   render() {
     return (
       <div>
-       
         <Header />
         <ServicesContent />
         <Footer />
@@ -22,8 +21,8 @@ class Features extends React.Component {
           />
         </Head>
       </div>
-    );
+    )
   }
 }
 
-export default Features;
+export default Features

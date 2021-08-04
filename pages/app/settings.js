@@ -1,18 +1,17 @@
-import React from "react";
-import NoSSR from "react-no-ssr";
-import Header from "../../components/Layouts/Header";
-import Footer from "../../components/Layouts/Footer";
-import GoTop from "../../components/Layouts/GoTop";
-import SettingsPage from "../../components/settings/SettingsPage";
-import DashboardSidebar from "../../components/Layouts/DashboardSidebar";
-import Head from "next/head";
+import React from 'react'
+import NoSSR from 'react-no-ssr'
+import Header from '../../components/Layouts/header'
+import Footer from '../../components/Layouts/footer'
+import GoTop from '../../components/Layouts/GoTop'
+import SettingsPage from '../../components/settings/SettingsPage'
+import DashboardSidebar from '../../components/Layouts/DashboardSidebar'
+import Head from 'next/head'
 
 class Settings extends React.Component {
   render() {
     return (
       <NoSSR>
         <div>
-        
           <Header />
           <DashboardSidebar>
             <SettingsPage />
@@ -28,8 +27,8 @@ class Settings extends React.Component {
           />
         </Head>
       </NoSSR>
-    );
+    )
   }
 }
 
-export default Settings;
+export default Settings

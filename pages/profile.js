@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from "react";
-import Header from "../components/Layouts/Header";
-import Footer from "../components/Layouts/Footer";
-import GoTop from "../components/Layouts/GoTop";
-import PageTitle from "../components/profile/PageTitle";
-import ProfileView from "../components/profile/ProfileView";
-import firebase from "../config/fire-conf";
-import { useRouter } from "next/router";
-import Head from "next/head";
+import React, { useEffect, useState } from 'react'
+import Header from '../components/Layouts/header'
+import Footer from '../components/Layouts/footer'
+import GoTop from '../components/Layouts/GoTop'
+import PageTitle from '../components/profile/PageTitle'
+import ProfileView from '../components/profile/ProfileView'
+import firebase from '../config/fire-conf'
+import { useRouter } from 'next/router'
+import Head from 'next/head'
 
 function Features() {
-  const router = useRouter();
+  const router = useRouter()
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (!user) {
-        router.push("/auth/login");
+        router.push('/auth/login')
       }
-    });
-  }, []);
+    })
+  }, [])
 
   return (
     <div>
-     <Header />
+      <Header />
       <PageTitle />
       <ProfileView />
 
@@ -32,7 +32,7 @@ function Features() {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
     </div>
-  );
+  )
 }
 
-export default Features;
+export default Features

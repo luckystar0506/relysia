@@ -1,10 +1,10 @@
-import React from "react";
-import Header from "../components/Layouts/Header";
-import Footer from "../components/Layouts/Footer";
-import GoTop from "../components/Layouts/GoTop";
-import PageTitle from "../components/contact/PageTitle";
-import ContactBody from "../components/contact/ContactBody";
-import Head from "next/head";
+import React from 'react'
+import Header from '../components/Layouts/header'
+import Footer from '../components/Layouts/footer'
+import GoTop from '../components/Layouts/GoTop'
+import PageTitle from '../components/contact/PageTitle'
+import ContactBody from '../components/contact/ContactBody'
+import Head from 'next/head'
 
 export default () => (
   <div>
@@ -18,4 +18,4 @@ export default () => (
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     </Head>
   </div>
-);
+)
