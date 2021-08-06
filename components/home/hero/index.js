@@ -14,7 +14,7 @@ function Hero() {
         <Dots sides={{ bottom: '44px', left: '64px' }} />
         <Dots sides={{ top: '90px', right: '-20px' }} />
         <Dots sides={{ top: '460px', right: '160px' }} />
-        <div>
+        <div className="h-full">
           <div className={cn(styles.heroLeft)}>
             <Title heading="h1">Jump start your crypto portfolio</Title>
             <p className={styles.p}>

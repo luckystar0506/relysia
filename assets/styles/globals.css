@@ -5,42 +5,57 @@
 @layer base {
   @font-face {
     font-family: 'Sofia Pro';
-    src: url('../fonts/sofia_pro_light_az-webfont.woff2') format('woff2'),
+    src: local('Sofia Pro'), local('Roboto'), local('sans-serif'),
+      url('../fonts/sofia_pro_light_az-webfont.woff2') format('woff2'),
+      local('Sofia Pro'), local('Roboto'), local('sans-serif'),
       url('../fonts/sofia_pro_light_az-webfont.woff') format('woff');
     font-weight: 300;
     font-style: normal;
+    font-display: swap;
   }
 
   @font-face {
     font-family: 'Sofia Pro';
-    src: url('../fonts/sofia_pro_regular_az-webfont.woff2') format('woff2'),
+    src: local('Sofia Pro'), local('Roboto'), local('sans-serif'),
+      url('../fonts/sofia_pro_regular_az-webfont.woff2') format('woff2'),
+      local('Sofia Pro'), local('Roboto'), local('sans-serif'),
       url('../fonts/sofia_pro_regular_az-webfont.woff') format('woff');
     font-weight: 400;
     font-style: normal;
+    font-display: swap;
   }
 
   @font-face {
     font-family: 'Sofia Pro';
-    src: url('../fonts/sofia_pro_medium_az-webfont.woff2') format('woff2'),
+    src: local('Sofia Pro'), local('Roboto'), local('sans-serif'),
+      url('../fonts/sofia_pro_medium_az-webfont.woff2') format('woff2'),
+      local('Sofia Pro'), local('Roboto'), local('sans-serif'),
       url('../fonts/sofia_pro_medium_az-webfont.woff') format('woff');
     font-weight: 500;
     font-style: normal;
+    font-display: swap;
   }
 
   @font-face {
     font-family: 'Sofia Pro';
-    src: url('../fonts/sofia_pro_semi_bold_az-webfont.woff2') format('woff2'),
+    src: local('Sofia Pro'), local('Roboto'), local('sans-serif'),
+      url('../fonts/sofia_pro_semi_bold_az-webfont.woff2') format('woff2'),
+      local('Sofia Pro'), local('Roboto'), local('sans-serif'),
       url('../fonts/sofia_pro_semi_bold_az-webfont.woff') format('woff');
     font-weight: 600;
     font-style: normal;
+    font-display: swap;
   }
 
   @font-face {
     font-family: 'Sofia Pro';
-    src: url('../fonts/sofia_pro_bold_az-webfont.woff2') format('woff2'),
+    src: local('Sofia Pro'), local('Roboto'), local('sans-serif'),
+      url('../fonts/sofia_pro_bold_az-webfont.woff2') format('woff2'),
+      local('Sofia Pro'), local('Roboto'), local('sans-serif'),
       url('../fonts/sofia_pro_bold_az-webfont.woff') format('woff');
     font-weight: 700;
     font-style: normal;
+    font-display: swap;
   }
 }
 

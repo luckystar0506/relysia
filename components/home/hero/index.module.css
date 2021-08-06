@@ -1,17 +1,13 @@
 .hero {
   height: 50rem;
-  margin-top: -5.5rem;
-  /* z-index: -1; */
   @apply relative;
 }
 
 .heroLeft {
   @apply absolute
-  transform
-  -translate-y-8
-  z-20;
+  z-20 top-1/2;
   max-width: 25.875rem;
-  top: 22%;
+  transform: translateY(-66%);
 }
 
 .heroRight {
