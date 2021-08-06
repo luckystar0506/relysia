@@ -34,14 +34,22 @@ const DownloadOurApp = () => {
                 for Android or iOS.
               </p>
               <div>
-                <a href="" rel="noopener noreferrer" target="_blank">
+                <a
+                  href="https://www.relysia.com"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
                   <img
                     className="mr-6"
                     src={appStoreImg}
                     alt="Download Our App"
                   />
                 </a>
-                <a href="" rel="noopener noreferrer" target="_blank">
+                <a
+                  href="https://www.relysia.com"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
                   <img src={playStoreImg} alt="Download Our App" />
                 </a>
               </div>

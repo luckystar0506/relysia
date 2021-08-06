@@ -1,0 +1,24 @@
+.base {
+  border-top: 2px solid #4c496d;
+}
+
+.column {
+  @apply flex-1;
+}
+
+.icons {
+  @apply flex my-4;
+}
+
+.icon {
+  @apply mr-2.5
+  last:mr-0;
+}
+
+.linkItem {
+  @apply text-lg tracking-tightS mb-2.5;
+}
+
+.copyright {
+  @apply flex justify-center py-2 bg-black bg-opacity-10 font-light;
+}

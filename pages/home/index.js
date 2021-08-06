@@ -10,8 +10,9 @@ import DownloadOurApp from '../../components/home/download-our-app'
 import GlobalScale from '../../components/home/global-scale'
 import Hero from '../../components/home/hero'
 import Platform from '../../components/home/platform'
+import Footer from '../../components/Layouts/footer'
 
-const HomeOne = () => {
+const Home = () => {
   return (
     <div className="relative">
       <MainGradient />
@@ -22,8 +23,9 @@ const HomeOne = () => {
       <ApiSection />
       <GlobalScale />
       <DownloadOurApp />
+      <Footer />
     </div>
   )
 }
 
-export default HomeOne
+export default Home

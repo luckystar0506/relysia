@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import cn from 'classnames'
 import styles from './index.module.css'
 
-const Title = ({ children, heading, classNames, border }) => {
+const Title = ({ children, heading, classNames, border, style }) => {
   const headingStyle = []
   let Component
 
@@ -28,7 +28,10 @@ const Title = ({ children, heading, classNames, border }) => {
   }
 
   return (
-    <Component className={cn(styles.base, headingStyle, classNames)}>
+    <Component
+      style={{ ...style }}
+      className={cn(styles.base, headingStyle, classNames)}
+    >
       {border && <span className={styles.border}></span>}
       {children}
     </Component>
@@ -36,8 +39,11 @@ const Title = ({ children, heading, classNames, border }) => {
 }
 
 Title.propTypes = {
+  children: PropTypes.node.isRequired,
   heading: PropTypes.string.isRequired,
   classNames: PropTypes.string,
+  border: PropTypes.bool,
+  style: PropTypes.object,
 }
 
 export default Title
