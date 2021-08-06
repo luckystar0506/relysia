@@ -13,7 +13,6 @@ import {
 } from '../../../assets/images/home-page/download-our-app'
 import styles from './index.module.css'
 import Link from 'next/link'
-import style from 'react-syntax-highlighter/dist/cjs/styles/prism/xonokai'
 import Title from '../../common/title'
 
 const Footer = () => {
@@ -175,7 +174,7 @@ const Footer = () => {
           </div>
         </div>
       </Container>
-      <div className={styles.copyright}>
+      <div className={styles.copyright} style={{ letterSpacing: '-0.32px' }}>
         Copyright © 2021 Vaionex Corporation | All rights reserved
       </div>
     </footer>

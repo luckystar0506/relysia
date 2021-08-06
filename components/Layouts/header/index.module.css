@@ -1,4 +1,20 @@
 .header {
-  @apply py-8
-  bg-transparent;
+  @apply relative bg-transparent z-50;
+}
+
+.navItem {
+  @apply py-8 px-1 mr-16 last:mr-0;
+}
+
+.active {
+  @apply relative;
+}
+
+.active::before {
+  content: '';
+  @apply absolute top-0 left-0
+  bg-gradient
+  w-full
+  rounded-b-sm
+  h-1.5;
 }

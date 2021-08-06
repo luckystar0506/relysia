@@ -20,5 +20,5 @@
 }
 
 .copyright {
-  @apply flex justify-center py-2 bg-black bg-opacity-10 font-light;
+  @apply flex justify-center py-2 bg-black bg-opacity-10 font-light text-sm;
 }

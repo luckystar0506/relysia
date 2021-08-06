@@ -10,6 +10,7 @@ import DownloadOurApp from '../../components/home/download-our-app'
 import GlobalScale from '../../components/home/global-scale'
 import Hero from '../../components/home/hero'
 import Platform from '../../components/home/platform'
+import Header from '../../components/Layouts/header'
 import Footer from '../../components/Layouts/footer'
 
 const Home = () => {
@@ -18,6 +19,7 @@ const Home = () => {
       <MainGradient />
       <CloudOneSVG />
       <CloudTwoSVG />
+      <Header />
       <Hero />
       <Platform />
       <ApiSection />

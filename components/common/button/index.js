@@ -12,6 +12,7 @@ const Button = ({
   arrow,
   href,
   fill,
+  small,
   ...props
 }) => {
   const btnClass = []
@@ -31,6 +32,8 @@ const Button = ({
   if (appearance === 'noBox') {
     btnClass.push(styles.noBox)
   }
+
+  if (small) btnClass.push(styles.small)
 
   if (href) {
     return (

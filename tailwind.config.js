@@ -1,3 +1,5 @@
+const plugin = require('tailwindcss/plugin')
+
 module.exports = {
   important: true,
   mode: 'jit',
@@ -69,6 +71,9 @@ module.exports = {
       letterSpacing: {
         tightS: '-0.5px',
       },
+      borderColor: {
+        gradient: 'linear-gradient(92.55deg, #E70077 3.08%, #FC8F0C 97.48%)',
+      },
     },
     fontFamily: {
       body: ['Sofia Pro'],
@@ -89,5 +94,17 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-pseudo-elements'),
+    plugin(({ addUtilities }) => {
+      const newUtilities = {
+        '.active-nav': {
+          content: "''",
+        },
+      }
+      addUtilities(newUtilities, {
+        variants: ['before', 'after'],
+      })
+    }),
+  ],
 }

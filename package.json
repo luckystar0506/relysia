@@ -94,6 +94,7 @@
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0",
     "tailwindcss": "^2.2.7",
+    "tailwindcss-pseudo-elements": "^2.0.0",
     "url-loader": "^4.1.0",
     "webpack": "^4.43.0"
   }

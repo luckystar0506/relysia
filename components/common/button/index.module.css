@@ -30,3 +30,7 @@
 .noBox {
   @apply font-normal bg-transparent p-0;
 }
+
+.small {
+  @apply py-2.5 px-4;
+}
