@@ -1,21 +1,21 @@
-const withImages = require("next-images");
+const withImages = require('next-images')
 
 module.exports = withImages({
   webpack: (config, { isServer }) => {
     // Fixes npm packages that depend on `fs` module
     if (!isServer) {
       config.node = {
-        fs: "empty",
-      };
+        fs: 'empty',
+      }
     }
 
-    return config;
+    return config
   },
   images: {
     domains: [
-      "firebasestorage.googleapis.com",
-      "lh3.googleusercontent.com",
-      "assets.vercel.com",
+      'firebasestorage.googleapis.com',
+      'lh3.googleusercontent.com',
+      'assets.vercel.com',
     ],
   },
-});
+})

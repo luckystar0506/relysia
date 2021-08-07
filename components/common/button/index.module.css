@@ -1,12 +1,13 @@
 .base {
-  @apply rounded-default
-  bg-gray-500
+  @apply relative rounded-default
+  bg-primary
   px-8 py-3
   leading-4
   inline-flex
   items-center
   font-semibold
   cursor-pointer
+  transition-all duration-300 ease-in-out
 
   focus:outline-none;
 }
@@ -16,15 +17,40 @@
 }
 
 .primary {
+  @apply shadow-primaryButton z-0;
+}
+
+.gradientBg {
   @apply bg-gradient;
 }
 
+.gradientBg::after {
+  content: '';
+  @apply absolute top-0 left-0
+  w-full h-full
+  rounded-default
+  opacity-0
+  bg-gradientHover
+  transition-all duration-500 ease-in-out
+  z-5;
+}
+
+.gradientBg:hover::after {
+  opacity: 1;
+}
+
+.gradientBg span {
+  @apply relative z-10;
+}
+
 .secondary {
-  @apply bg-third;
+  @apply bg-third
+
+  hover:bg-sHover;
 }
 
 .fat {
-  @apply bg-gradient py-4 items-end;
+  @apply py-4 items-end;
 }
 
 .noBox {

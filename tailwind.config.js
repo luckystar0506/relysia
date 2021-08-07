@@ -13,9 +13,12 @@ module.exports = {
         third: '#3F4060',
         fourth: '#FF9199',
         fifth: '#282554',
+        sHover: '#434262',
       },
       backgroundImage: {
         gradient: 'linear-gradient(92.55deg, #E70077 3.08%, #FC8F0C 97.48%)',
+        gradientHover:
+          'linear-gradient(111.07deg, #E7009A 10.57%, #FC5C0C 105.27%)',
         gradient2: 'linear-gradient(180deg, #1F87EF 0%, #D614A8 100%)',
         gradient3: 'linear-gradient(101.46deg, #40CA69 9.74%, #0CFCD1 118.22%)',
       },
@@ -73,6 +76,9 @@ module.exports = {
       },
       borderColor: {
         gradient: 'linear-gradient(92.55deg, #E70077 3.08%, #FC8F0C 97.48%)',
+      },
+      boxShadow: {
+        primaryButton: '0px 20px 40px rgba(254, 44, 61, 0.15)',
       },
     },
     fontFamily: {

@@ -13,12 +13,14 @@ const Button = ({
   href,
   fill,
   small,
+  gradientBg,
   ...props
 }) => {
   const btnClass = []
 
   if (appearance === 'primary') {
     btnClass.push(styles.primary)
+    btnClass.push(styles.gradientBg)
   }
 
   if (appearance === 'secondary') {
@@ -34,6 +36,8 @@ const Button = ({
   }
 
   if (small) btnClass.push(styles.small)
+
+  if (gradientBg) btnClass.push(styles.gradientBg)
 
   if (href) {
     return (
@@ -51,7 +55,11 @@ const Button = ({
             <img className={'mr-2'} src={ArrowDownBordered} alt="" />
           )}
 
-          {children}
+          {appearance === 'primary' || gradientBg ? (
+            <span>{children}</span>
+          ) : (
+            children
+          )}
 
           {arrow === 'right' && (
             <span className="ml-2">
@@ -65,7 +73,11 @@ const Button = ({
 
   return (
     <button className={cn(styles.base, ...btnClass, className)} {...props}>
-      {children}
+      {appearance === 'primary' || gradientBg ? (
+        <span>{children}</span>
+      ) : (
+        children
+      )}
     </button>
   )
 }

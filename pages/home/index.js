@@ -19,6 +19,8 @@ const Home = () => {
       <MainGradient />
       <CloudOneSVG />
       <CloudTwoSVG />
+      <CloudThreeSVG top="30%" opacity="0.2" />
+      <CloudThreeSVG top="65%" />
       <Header />
       <Hero />
       <Platform />

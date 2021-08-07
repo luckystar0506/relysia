@@ -3,18 +3,28 @@
 }
 
 .navItem {
-  @apply py-8 px-1 mr-16 last:mr-0;
+  @apply relative
+  w-14
+  text-center
+  py-8 mr-16 last:mr-0
+  hover:text-white;
 }
 
-.active {
-  @apply relative;
+.navItem:hover::before {
+  @apply opacity-100;
 }
 
-.active::before {
+.navItem::before {
   content: '';
   @apply absolute top-0 left-0
   bg-gradient
   w-full
   rounded-b-sm
-  h-1.5;
+  h-1.5
+  transition-all duration-300 ease-in-out
+  opacity-0;
+}
+
+.navItem.active::before {
+  @apply opacity-100;
 }

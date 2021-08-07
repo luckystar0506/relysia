@@ -24,7 +24,7 @@ const ApiSection = () => {
               stitch together disparate systems or spend months integrating
               payments functionality.
             </p>
-            <Button appearance="fat" href="/docs" arrow="right">
+            <Button appearance="fat" href="/docs" arrow="right" gradientBg>
               Read the docs
             </Button>
 

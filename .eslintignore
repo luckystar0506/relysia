@@ -2,3 +2,4 @@
 dist
 node_modules/
 tailwind.config.js
+next.config.js

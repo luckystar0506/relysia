@@ -101,3 +101,15 @@ h6 {
   color: #fff;
   font-weight: 700;
 }
+
+a {
+  transition: all 0.2s ease-in-out;
+}
+
+a:hover,
+a:focus {
+  color: rgb(254, 44, 61);
+}
+a:active {
+  color: #fff;
+}
