@@ -1,4 +1,6 @@
-function LineV({ height = '100%', sides = {} }) {
+import PropTypes from 'prop-types'
+
+const LineV = ({ height = '100%', sides = {} }) => {
   return (
     <svg
       width="2"
@@ -19,6 +21,11 @@ function LineV({ height = '100%', sides = {} }) {
       />
     </svg>
   )
+}
+
+LineV.propTypes = {
+  height: PropTypes.string,
+  sides: PropTypes.object,
 }
 
 export default LineV

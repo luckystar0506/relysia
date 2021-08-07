@@ -6,8 +6,6 @@ import PropTypes from 'prop-types'
 const ActiveLink = ({ router, children, ...props }) => {
   const child = Children.only(children)
 
-  console.log(props)
-
   let className = child.props.className || ''
   if (router.pathname === props.href && props.activeClassName) {
     className = `${className} ${props.activeClassName}`.trim()

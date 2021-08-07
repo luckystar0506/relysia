@@ -1,4 +1,6 @@
-function LineH({ width = '100vw', sides }) {
+import PropTypes from 'prop-types'
+
+const LineH = ({ width = '100vw', sides }) => {
   return (
     <svg
       width={width}
@@ -18,6 +20,11 @@ function LineH({ width = '100vw', sides }) {
       />
     </svg>
   )
+}
+
+LineH.propTypes = {
+  width: PropTypes.string,
+  sides: PropTypes.object,
 }
 
 export default LineH

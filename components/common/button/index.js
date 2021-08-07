@@ -2,7 +2,7 @@ import Link from 'next/link'
 import cn from 'classnames'
 import ArrowRight from '../svgs/arrow-right'
 import ArrowDownBordered from '../../../assets/images/arrow-down-bordered.svg'
-
+import PropTypes from 'prop-types'
 import styles from './index.module.css'
 
 const Button = ({
@@ -80,6 +80,17 @@ const Button = ({
       )}
     </button>
   )
+}
+
+Button.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+  appearance: PropTypes.string.isRequired,
+  arrow: PropTypes.string,
+  href: PropTypes.string,
+  fill: PropTypes.string,
+  small: PropTypes.bool,
+  gradientBg: PropTypes.bool,
 }
 
 export default Button

@@ -1,4 +1,5 @@
 import styles from './index.module.css'
+import PropTypes from 'prop-types'
 
 const CloudThreeSVG = ({ opacity = '0.1', top = '0' }) => {
   return (
@@ -52,6 +53,11 @@ const CloudThreeSVG = ({ opacity = '0.1', top = '0' }) => {
       </defs>
     </svg>
   )
+}
+
+CloudThreeSVG.propTypes = {
+  opacity: PropTypes.string,
+  top: PropTypes.string,
 }
 
 export default CloudThreeSVG

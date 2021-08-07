@@ -1,4 +1,4 @@
-import React from 'react'
+import PropTypes from 'prop-types'
 
 const Dots = ({ sides = {} }) => {
   return (
@@ -80,28 +80,11 @@ const Dots = ({ sides = {} }) => {
         strokeDasharray="0.24 29.77"
       />
     </svg>
-
-    // <svg
-    //   width="144"
-    //   height="150"
-    //   viewBox="0 0 156 150"
-    //   fill="none"
-    //   xmlns="http://www.w3.org/2000/svg"
-    //   className="absolute"
-    //   style={{
-    //     ...sides,
-    //   }}
-    // >
-    //   <path
-    //     stroke="#FFCCD0"
-    //     strokeOpacity=".3"
-    //     strokeWidth="5.114"
-    //     strokeLinecap="round"
-    //     strokeDasharray="0.24 29.77"
-    //     d="M3.443 140.63V2.557M33.103 140.63V2.557M93.446 140.63V2.557M123.107 140.63V2.557M152.767 140.63V2.557M62.763 140.63V2.557"
-    //   />
-    // </svg>
   )
+}
+
+Dots.propTypes = {
+  sides: PropTypes.object,
 }
 
 export default Dots

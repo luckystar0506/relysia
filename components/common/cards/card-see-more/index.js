@@ -1,4 +1,5 @@
 import Button from '../../button'
+import PropTypes from 'prop-types'
 import styles from './index.module.css'
 
 const CardSeeMore = ({ title, p, btnText }) => {
@@ -21,6 +22,12 @@ const CardSeeMore = ({ title, p, btnText }) => {
       </div>
     </div>
   )
+}
+
+CardSeeMore.propTypes = {
+  title: PropTypes.string.isRequired,
+  p: PropTypes.string.isRequired,
+  btnText: PropTypes.string.isRequired,
 }
 
 export default CardSeeMore

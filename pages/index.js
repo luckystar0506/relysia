@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
 import { Preloader, Placeholder } from 'react-preloading-screen'
 import NoSSR from 'react-no-ssr'
-import Header from '../components/Layouts/header'
-import Footer from '../components/Layouts/footer'
 
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -29,10 +27,7 @@ function Index() {
             <div className="spinner"></div>
           </div>
         </Placeholder>
-
-        {/* <Header /> */}
         <Home />
-        {/* <Footer /> */}
       </Preloader>
       <Head>
         <title>Relysia - The Bitcoin database</title>

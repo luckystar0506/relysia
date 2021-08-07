@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import styles from './index.module.css'
 
 const CardWithIcon = ({ title, p, icon }) => {
@@ -10,6 +11,12 @@ const CardWithIcon = ({ title, p, icon }) => {
       </div>
     </div>
   )
+}
+
+CardWithIcon.propTypes = {
+  title: PropTypes.string.isRequired,
+  p: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
 }
 
 export default CardWithIcon
