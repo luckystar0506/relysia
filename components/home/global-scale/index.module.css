@@ -5,7 +5,7 @@
   h-worldMap
   z-5
 
-  2xl:h-worldMapBig;
+  3xl:h-worldMapBig;
 }
 
 .content {

@@ -66,8 +66,8 @@ module.exports = {
         'par-s': ['1rem', { lineHeight: '1.625rem' }],
       },
       height: {
-        worldMap: '92vh',
-        worldMapBig: '100vh',
+        worldMap: '63.75rem',
+        worldMapBig: '85rem',
       },
       width: {
         hero: '60.5rem',
