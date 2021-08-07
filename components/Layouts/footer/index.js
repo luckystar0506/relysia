@@ -1,19 +1,13 @@
 import Logo from '../../common/logo'
 import Container from '../../common/container'
 import {
-  vk,
-  pinterest,
-  instagram,
-  twitter,
-  facebook,
-} from '../../../assets/images/icons'
-import {
   appStoreImg,
   playStoreImg,
 } from '../../../assets/images/home-page/download-our-app'
 import styles from './index.module.css'
 import Link from 'next/link'
 import Title from '../../common/title'
+import SocialIcon from '../../common/svgs/social-icon'
 
 const Footer = () => {
   return (
@@ -28,7 +22,7 @@ const Footer = () => {
               target="_blank"
               className={styles.icon}
             >
-              <img src={vk} alt="Relysia Vk" />
+              <SocialIcon iconType="vk" />
             </a>
             <a
               href="https://www.relysia.com"
@@ -36,7 +30,7 @@ const Footer = () => {
               target="_blank"
               className={styles.icon}
             >
-              <img src={pinterest} alt="Relysia Pinterest" />
+              <SocialIcon iconType="pinterest" />
             </a>
             <a
               href="https://www.relysia.com"
@@ -44,7 +38,7 @@ const Footer = () => {
               target="_blank"
               className={styles.icon}
             >
-              <img src={instagram} alt="Relysia Instagram" />
+              <SocialIcon iconType="instagram" />
             </a>
             <a
               href="https://www.relysia.com"
@@ -52,7 +46,7 @@ const Footer = () => {
               target="_blank"
               className={styles.icon}
             >
-              <img src={twitter} alt="Relysia Twitter" />
+              <SocialIcon iconType="twitter" />
             </a>
             <a
               href="https://www.relysia.com"
@@ -60,7 +54,7 @@ const Footer = () => {
               target="_blank"
               className={styles.icon}
             >
-              <img src={facebook} alt="Relysia Facebook" />
+              <SocialIcon iconType="facebook" />
             </a>
           </div>
           <div className="mb-7">

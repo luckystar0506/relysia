@@ -87,6 +87,9 @@ module.exports = {
       boxShadow: {
         primaryButton: '0px 20px 40px rgba(254, 44, 61, 0.15)',
       },
+      fill: {
+        socialIconHover: '#FF9199',
+      },
     },
     fontFamily: {
       body: ['Sofia Pro'],
