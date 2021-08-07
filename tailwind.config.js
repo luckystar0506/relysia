@@ -65,6 +65,13 @@ module.exports = {
         ],
         'par-s': ['1rem', { lineHeight: '1.625rem' }],
       },
+      height: {
+        worldMap: '92vh',
+        worldMapBig: '100vh',
+      },
+      width: {
+        hero: '60.5rem',
+      },
       maxWidth: {
         heroMax: '60.5rem',
       },
@@ -85,8 +92,10 @@ module.exports = {
       body: ['Sofia Pro'],
     },
     screens: {
-      '2xl': { max: '1535px' },
-      // => @media (max-width: 1535px) { ... }
+      '3xl': { min: '1600px' },
+      // => @media (max-width: 1600px) { ... }
+      '2xl': { min: '1440px' },
+      // => @media (min-width: 1535px) { ... }
       xl: { max: '1279px' },
       // => @media (max-width: 1279px) { ... }
       lg: { max: '1023px' },

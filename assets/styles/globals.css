@@ -89,7 +89,7 @@ body {
 }
 
 p {
-  color: #ffffff;
+  @apply text-white;
 }
 
 h1,
@@ -98,8 +98,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #fff;
-  font-weight: 700;
+  @apply text-white font-bold;
 }
 
 a {
@@ -108,8 +107,8 @@ a {
 
 a:hover,
 a:focus {
-  color: rgb(254, 44, 61);
+  @apply text-secondary;
 }
 a:active {
-  color: #fff;
+  @apply text-white;
 }
