@@ -117,11 +117,7 @@ const SocialIcon = ({ iconType }) => {
     ),
   }
 
-  if (iconType === 'facebook') return icons.facebook
-  if (iconType === 'pinterest') return icons.pinterest
-  if (iconType === 'twitter') return icons.twitter
-  if (iconType === 'vk') return icons.vk
-  if (iconType === 'instagram') return icons.instagram
+  return icons[iconType]
 }
 
 SocialIcon.propTypes = {
