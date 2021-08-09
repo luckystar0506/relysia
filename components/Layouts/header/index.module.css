@@ -1,9 +1,11 @@
 .header {
+  min-height: 5.5rem;
   @apply relative bg-transparent z-50;
 }
 
 .navItem {
   @apply relative
+  inline-block
   w-14
   text-center
   py-8 mr-16 last:mr-0

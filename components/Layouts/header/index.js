@@ -17,7 +17,7 @@ const Header = () => {
           <ActiveLink href="/docs" activeClassName={styles.active}>
             <a className={styles.navItem}>Docs</a>
           </ActiveLink>
-          <ActiveLink href="/wallet" activeClassName={styles.active}>
+          <ActiveLink href="/docs/wallet" activeClassName={styles.active}>
             <a className={styles.navItem}>Wallet</a>
           </ActiveLink>
           <ActiveLink href="/demo" activeClassName={styles.active}>
@@ -25,10 +25,10 @@ const Header = () => {
           </ActiveLink>
         </nav>
         <div>
-          <Link href="/signin">
+          <Link href="/auth/register">
             <a className="py-3 px-4 font-semibold">Sign In</a>
           </Link>
-          <Button href="/login" appearance="primary" small>
+          <Button href="/auth/login" appearance="primary" small>
             Sign Up
           </Button>
         </div>

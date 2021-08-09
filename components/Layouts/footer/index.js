@@ -41,7 +41,7 @@ const Footer = () => {
               <SocialIcon iconType="instagram" />
             </a>
             <a
-              href="https://www.relysia.com"
+              href="https://twitter.com/Relysia_SV"
               rel="noopener noreferrer"
               target="_blank"
               className={styles.icon}
@@ -86,7 +86,7 @@ const Footer = () => {
             </Title>
             <ul>
               <li className={styles.linkItem}>
-                <Link href="/">
+                <Link href="/features">
                   <a>Features</a>
                 </Link>
               </li>
@@ -101,7 +101,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li className={styles.linkItem}>
-                <Link href="/">
+                <Link href="/pricing">
                   <a>Pricing Options</a>
                 </Link>
               </li>
@@ -118,7 +118,7 @@ const Footer = () => {
             </Title>
             <ul>
               <li className={styles.linkItem}>
-                <Link href="/">
+                <Link href="/about">
                   <a>About</a>
                 </Link>
               </li>
@@ -133,7 +133,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li className={styles.linkItem}>
-                <Link href="/">
+                <Link href="/contact">
                   <a>Contact</a>
                 </Link>
               </li>
@@ -160,7 +160,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li className={styles.linkItem}>
-                <Link href="/">
+                <Link href="/faq">
                   <a>FAQ</a>
                 </Link>
               </li>

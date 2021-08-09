@@ -1,132 +1,132 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import DepositeDialog from "./depositeDialog";
-import WithdrawDialog from "./withdrawDialog";
-import IconButton from "@material-ui/core/IconButton";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import RefreshIcon from "@material-ui/icons/Refresh";
-import firebase, { DB1 } from "../../config/fire-conf";
-import Tooltip from "@material-ui/core/Tooltip";
-import WalletGraph from "./walletGraph";
-import Activity from "./activity";
-import { useRouter } from "next/router";
-import PerfectScrollbar from "react-perfect-scrollbar";
-import { Menu, Dropdown } from "antd";
-import FilterListIcon from "@material-ui/icons/FilterList";
-import { Checkbox } from "antd";
-import Computer from "bitcoin-computer";
-import TokensCon from "./tokensCon";
-import StasTokenCon from "./stasTokenCon";
-import axios from "axios";
+import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import DepositeDialog from './depositeDialog'
+import WithdrawDialog from './withdrawDialog'
+import IconButton from '@material-ui/core/IconButton'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import RefreshIcon from '@material-ui/icons/Refresh'
+import firebase, { DB1 } from '../../config/fire-conf'
+import Tooltip from '@material-ui/core/Tooltip'
+import WalletGraph from './walletGraph'
+import Activity from './activity'
+import { useRouter } from 'next/router'
+import PerfectScrollbar from 'react-perfect-scrollbar'
+import { Menu, Dropdown } from 'antd'
+import FilterListIcon from '@material-ui/icons/FilterList'
+import { Checkbox } from 'antd'
+import Computer from 'bitcoin-computer'
+import TokensCon from './tokensCon'
+import StasTokenCon from './stasTokenCon'
+import axios from 'axios'
 
-const CryptoJS = require("crypto-js");
-const bsv = require("bsv");
+const CryptoJS = require('crypto-js')
+const bsv = require('bsv')
 
 function WalletPage(props) {
-  const router = useRouter();
+  const router = useRouter()
 
-  const [depositeDialogState, setdepositeDialogState] = useState(false);
-  const [withdrawDialogState, setwithdrawDialogState] = useState(false);
-  const [refreshBalance, setrefreshBalance] = useState(false);
-  const [walletTransactions, setwalletTransactions] = useState([]);
-  const [selectedActivityState, setselectedActivityState] = useState(2);
-  const [bsvRate, setbsvRate] = useState(0);
-  const [dropdownState, setdropdownState] = useState(false);
-  const [walletComputerObj, setwalletComputerObj] = useState(null);
-  const [tokensList, settokensList] = useState([]);
-  const [loadingTokens, setloadingTokens] = useState(true);
-  const userDataRedux = useSelector((state) => state.userData);
-  const [walletStasTokens, setwalletStasTokens] = useState([]); //wallet tokens
-  const [walletPrivateKey, setwalletPrivateKey] = useState("");
+  const [depositeDialogState, setdepositeDialogState] = useState(false)
+  const [withdrawDialogState, setwithdrawDialogState] = useState(false)
+  const [refreshBalance, setrefreshBalance] = useState(false)
+  const [walletTransactions, setwalletTransactions] = useState([])
+  const [selectedActivityState, setselectedActivityState] = useState(2)
+  const [bsvRate, setbsvRate] = useState(0)
+  const [dropdownState, setdropdownState] = useState(false)
+  const [walletComputerObj, setwalletComputerObj] = useState(null)
+  const [tokensList, settokensList] = useState([])
+  const [loadingTokens, setloadingTokens] = useState(true)
+  const userDataRedux = useSelector((state) => state.userData)
+  const [walletStasTokens, setwalletStasTokens] = useState([]) //wallet tokens
+  const [walletPrivateKey, setwalletPrivateKey] = useState('')
 
   useEffect(() => {
     if (userDataRedux) {
       firebase
         .database()
         .ref(
-          "userTransactions/" +
+          'userTransactions/' +
             userDataRedux.uid +
-            "/" +
+            '/' +
             router.query.walletId +
-            "/transactions"
+            '/transactions',
         )
-        .on("value", (snapshot) => {
+        .on('value', (snapshot) => {
           if (snapshot.val()) {
-            setwalletTransactions([...Object.values(snapshot.val())]);
+            setwalletTransactions([...Object.values(snapshot.val())])
           } else {
-            setwalletTransactions([]);
+            setwalletTransactions([])
           }
-        });
+        })
     }
     if (userDataRedux && props.currentWalletsData) {
       let gethdPrivateKey = CryptoJS.AES.decrypt(
         props.currentWalletsData.hdPrivateKey,
-        props.currentWalletsData.password
-      ).toString(CryptoJS.enc.Utf8);
+        props.currentWalletsData.password,
+      ).toString(CryptoJS.enc.Utf8)
 
-      let hdPrivateKey = bsv.HDPrivateKey.fromString(gethdPrivateKey);
+      let hdPrivateKey = bsv.HDPrivateKey.fromString(gethdPrivateKey)
 
       let standardPrivateKey = hdPrivateKey
         .deriveChild("m/44'/0'/0'/0/0")
-        .privateKey.toString();
+        .privateKey.toString()
 
-      setwalletPrivateKey(standardPrivateKey);
-      getWalletStasTokens(standardPrivateKey);
+      setwalletPrivateKey(standardPrivateKey)
+      getWalletStasTokens(standardPrivateKey)
     }
-  }, [userDataRedux, props.currentWalletsData]);
+  }, [userDataRedux, props.currentWalletsData])
 
   const getWalletStasTokens = async (privateKey) => {
-    let privKey = privateKey ? privateKey : walletPrivateKey;
+    let privKey = privateKey ? privateKey : walletPrivateKey
 
     let walletAddress = bsv.PrivateKey.fromString(privKey)
-      .toAddress("testnet")
-      .toString(); //test
+      .toAddress('testnet')
+      .toString() //test
     let res = await axios({
-      method: "get",
+      method: 'get',
       url: `https://taalnet.whatsonchain.com/v1/bsv/taalnet/address/${walletAddress}/tokens`,
-    });
+    })
 
     if (res && res.status === 200 && res.data && res.data.tokens) {
       if (res.data.tokens) {
-        setwalletStasTokens([...res.data.tokens]);
+        setwalletStasTokens([...res.data.tokens])
       } else {
-        setwalletStasTokens([]);
+        setwalletStasTokens([])
       }
     } else {
-      setwalletStasTokens([]);
+      setwalletStasTokens([])
     }
-  };
+  }
 
   useEffect(() => {
-    DB1.ref("stats/market_price_usd")
-      .once("value")
+    DB1.ref('stats/market_price_usd')
+      .once('value')
       .then((snap) => {
         if (snap.val()) {
-          setbsvRate(snap.val());
+          setbsvRate(snap.val())
         }
-      });
-  }, []);
+      })
+  }, [])
 
   useEffect(() => {
     if (props.currentWalletsData) {
-      setloadingTokens(true);
+      setloadingTokens(true)
 
       try {
         let newComputerObj = new Computer({
-          chain: "BSV",
-          network: "testnet",
+          chain: 'BSV',
+          network: 'testnet',
           // network: "livenet",
           seed: props.currentWalletsData.mnemonic,
           path: "m/44'/0'/0'/0/0",
-        });
-        setwalletComputerObj(newComputerObj);
+        })
+        setwalletComputerObj(newComputerObj)
 
-        getTokens(newComputerObj);
+        getTokens(newComputerObj)
       } catch (err) {
-        console.log("bitoin-computer err", err);
+        console.log('bitoin-computer err', err)
       }
     }
-  }, [props.currentWalletsData]);
+  }, [props.currentWalletsData])
 
   const showDollarBal = (val) => {
     if (Number(val) < 1) {
@@ -135,66 +135,66 @@ function WalletPage(props) {
           {(Number(val) * 100).toFixed(2)}
           <span className="main1-color">¢</span>
         </span>
-      );
+      )
     } else {
       return (
         <span>
           <span className="main1-color">$</span>
           {Number(val).toFixed(2)}
         </span>
-      );
+      )
     }
-  };
+  }
 
   const refreshBalanceHandler = async () => {
-    setrefreshBalance(true);
-    let walletListAPI = firebase.functions().httpsCallable("getWalletBalances");
-    await walletListAPI();
-    setrefreshBalance(false);
-  };
+    setrefreshBalance(true)
+    let walletListAPI = firebase.functions().httpsCallable('getWalletBalances')
+    await walletListAPI()
+    setrefreshBalance(false)
+  }
 
   const onChangeDeposite = (e) => {
     if (selectedActivityState === 2) {
-      setselectedActivityState(1);
+      setselectedActivityState(1)
     } else if (selectedActivityState === 1) {
-      setselectedActivityState(2);
+      setselectedActivityState(2)
     } else if (selectedActivityState === 0) {
-      setselectedActivityState(-1);
+      setselectedActivityState(-1)
     } else {
-      setselectedActivityState(0);
+      setselectedActivityState(0)
     }
-  };
+  }
 
   const onChangeWithdraw = () => {
     if (selectedActivityState === 2) {
-      setselectedActivityState(0);
+      setselectedActivityState(0)
     } else if (selectedActivityState === 0) {
-      setselectedActivityState(2);
+      setselectedActivityState(2)
     } else if (selectedActivityState === 1) {
-      setselectedActivityState(-1);
+      setselectedActivityState(-1)
     } else {
-      setselectedActivityState(1);
+      setselectedActivityState(1)
     }
-  };
+  }
 
   const getTokens = async (obj) => {
-    setloadingTokens(true);
+    setloadingTokens(true)
 
     if (walletComputerObj || obj) {
-      let localComputerObj = obj ? obj : walletComputerObj;
+      let localComputerObj = obj ? obj : walletComputerObj
       const revs = await localComputerObj.getRevs(
-        localComputerObj.db.wallet.getPublicKey().toString()
-      );
+        localComputerObj.db.wallet.getPublicKey().toString(),
+      )
       let locallist = await Promise.all(
         revs.map(async (rev) => {
-          return localComputerObj.sync(rev);
-        })
-      );
+          return localComputerObj.sync(rev)
+        }),
+      )
 
-      settokensList([...locallist]);
-      setloadingTokens(false);
+      settokensList([...locallist])
+      setloadingTokens(false)
     }
-  };
+  }
 
   const tranTypeSele = (
     <Menu style={{ minWidth: 150 }}>
@@ -213,7 +213,7 @@ function WalletPage(props) {
         }
       ></Menu.Item>
     </Menu>
-  );
+  )
 
   return (
     <section className="ptb-50">
@@ -221,20 +221,20 @@ function WalletPage(props) {
         <div className="wallet-view-con">
           <div className="wallet-con1">
             <div className="wallet-head">
-              <h2 className="dbTag" style={{ display: "block" }}>
+              <h2 className="dbTag" style={{ display: 'block' }}>
                 Wallet
               </h2>
               <h1>
                 {props.currentWalletsData && props.currentWalletsData.title
                   ? props.currentWalletsData.title
-                  : "-"}
+                  : '-'}
               </h1>
             </div>
 
             <div className="balance-Head">
               <h2
                 className="dbTag"
-                style={{ display: "block", marginBottom: 10 }}
+                style={{ display: 'block', marginBottom: 10 }}
               >
                 Your Balance
                 <Tooltip title="Refresh">
@@ -250,16 +250,16 @@ function WalletPage(props) {
                         <CircularProgress
                           size={16}
                           thickness={4}
-                          style={{ color: "#f48665" }}
+                          style={{ color: '#f48665' }}
                         />
                       ) : (
                         <RefreshIcon
-                          style={{ height: 17, width: 17, color: "#f48665" }}
+                          style={{ height: 17, width: 17, color: '#f48665' }}
                         />
                       )}
                     </IconButton>
                   </div>
-                </Tooltip>{" "}
+                </Tooltip>{' '}
               </h2>
               <h1>
                 {props.currentWalletsData &&
@@ -272,11 +272,11 @@ function WalletPage(props) {
                 )}
               </h1>
               <p>
-                {" "}
+                {' '}
                 {props.currentWalletsData && props.currentWalletsData.bsvBal
                   ? (props.currentWalletsData.bsvBal / 100000000).toFixed(8) +
-                    " BSV"
-                  : "0 BSV"}
+                    ' BSV'
+                  : '0 BSV'}
               </p>
             </div>
 
@@ -285,8 +285,8 @@ function WalletPage(props) {
                 <a
                   href="#"
                   onClick={(e) => {
-                    e.preventDefault();
-                    setdepositeDialogState(true);
+                    e.preventDefault()
+                    setdepositeDialogState(true)
                   }}
                   className="btn btn-primary btn-primary-inverse-color"
                 >
@@ -297,8 +297,8 @@ function WalletPage(props) {
                 <a
                   href="#"
                   onClick={(e) => {
-                    e.preventDefault();
-                    setwithdrawDialogState(true);
+                    e.preventDefault()
+                    setwithdrawDialogState(true)
                   }}
                   className="btn btn-primary "
                 >
@@ -324,17 +324,17 @@ function WalletPage(props) {
               walletId={
                 props.currentWalletsData && props.currentWalletsData.id
                   ? props.currentWalletsData.id
-                  : ""
+                  : ''
               }
               getWalletStasTokens={getWalletStasTokens}
             />
           </div>
           <div className="wallet-con2">
             <PerfectScrollbar
-              style={{ maxHeight: "100vh", height: "auto", padding: "0px 2px" }}
+              style={{ maxHeight: '100vh', height: 'auto', padding: '0px 2px' }}
             >
               <div className="wallet-head">
-                <h2 className="dbTag" style={{ display: "block" }}>
+                <h2 className="dbTag" style={{ display: 'block' }}>
                   Transactions History
                 </h2>
               </div>
@@ -342,12 +342,12 @@ function WalletPage(props) {
                 <WalletGraph activities={walletTransactions} />
               </div>
               <div className="wallet-head">
-                <h2 className="dbTag" style={{ display: "block" }}>
+                <h2 className="dbTag" style={{ display: 'block' }}>
                   Transactions Details
                 </h2>
                 <div
                   style={{
-                    position: "absolute",
+                    position: 'absolute',
 
                     marginTop: -30,
                     marginLeft: 100,
@@ -359,13 +359,13 @@ function WalletPage(props) {
                     onVisibleChange={setdropdownState}
                     visible={dropdownState}
                   >
-                    <IconButton style={{ outline: "none" }}>
+                    <IconButton style={{ outline: 'none' }}>
                       <FilterListIcon />
                     </IconButton>
                   </Dropdown>
                 </div>
               </div>
-              <div style={{ margin: "15px 0px" }}>
+              <div style={{ margin: '15px 0px' }}>
                 <Activity
                   activities={walletTransactions}
                   bsvRate={bsvRate}
@@ -375,14 +375,14 @@ function WalletPage(props) {
             </PerfectScrollbar>
           </div>
         </div>
-      </div> 
+      </div>
       <DepositeDialog
         dialogState={depositeDialogState}
         setdialogState={setdepositeDialogState}
         userDataRedux={userDataRedux}
         walletData={props.currentWalletsData ? props.currentWalletsData : null}
         walletComputerObj={walletComputerObj}
-      /> 
+      />
       <WithdrawDialog
         dialogState={withdrawDialogState}
         setdialogState={setwithdrawDialogState}
@@ -396,13 +396,12 @@ function WalletPage(props) {
         walletId={
           props.currentWalletsData && props.currentWalletsData.id
             ? props.currentWalletsData.id
-            : ""
+            : ''
         }
         getWalletStasTokens={getWalletStasTokens}
-
       />
     </section>
-  );
+  )
 }
 
-export default WalletPage;
+export default WalletPage
