@@ -7,6 +7,7 @@ import GoTop from '../../components/Layouts/GoTop'
 // import DocsContainer from "../../components/Layouts/DocsContainer";
 import NewDocsContainer from '../../components/Layouts/NewDocsContainer'
 import { listData } from '../../components/docs/data/DocsListData'
+import DocsHome from '../../components/docs/docs-home'
 
 class DocsOverview extends React.Component {
   render() {
@@ -17,7 +18,8 @@ class DocsOverview extends React.Component {
           {/* <DocsContainer>
             <RelysiaOverviewPage />
           </DocsContainer> */}
-          <NewDocsContainer data={{ groupData: listData }} />
+          {/* <NewDocsContainer data={{ groupData: listData }} /> */}
+          <DocsHome />
           <Footer />
           <GoTop scrollStepInPx="50" delayInMs="16.66" />
         </div>

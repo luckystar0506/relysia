@@ -14,6 +14,7 @@ module.exports = {
         fourth: '#FF9199',
         fifth: '#282554',
         sHover: '#434262',
+        pinkTransparent: 'rgba(255, 204, 208, 0.2)',
       },
       backgroundImage: {
         gradient: 'linear-gradient(92.55deg, #E70077 3.08%, #FC8F0C 97.48%)',
