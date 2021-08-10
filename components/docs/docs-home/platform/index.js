@@ -55,7 +55,7 @@ const DocsPlatform = () => {
   return (
     <section className={styles.base}>
       <img src={graphsSVG} alt="Graph" className={styles.graphSVG} />
-      <Container classNames="-mt-80">
+      <Container classNames="-mt-1/4">
         <Title heading="h5" classNames="text-center py-1">
           Hi-tech platform
         </Title>

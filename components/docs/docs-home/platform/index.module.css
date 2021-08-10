@@ -1,5 +1,6 @@
 .base {
-  @apply relative -mt-52;
+  @apply relative;
+  margin-top: -13%;
 }
 
 .graphSVG {

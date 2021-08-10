@@ -94,6 +94,10 @@ module.exports = {
       fill: {
         socialIconHover: '#FF9199',
       },
+      margin: {
+        '1/4': '20%',
+        '-1/4': '-20%',
+      },
     },
     fontFamily: {
       body: ['Sofia Pro'],
