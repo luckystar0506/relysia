@@ -15,7 +15,8 @@
 }
 
 .p {
-  @apply text-par text-white my-8;
+  @apply text-par text-white my-8 track;
+  letter-spacing: -0.99px;
 }
 
 .heroImg {

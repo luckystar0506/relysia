@@ -15,6 +15,7 @@ module.exports = {
         fifth: '#282554',
         sHover: '#434262',
         pinkTransparent: 'rgba(255, 204, 208, 0.2)',
+        bgLight: 'rgba(255, 245, 246, 0.2)',
       },
       backgroundImage: {
         gradient: 'linear-gradient(92.55deg, #E70077 3.08%, #FC8F0C 97.48%)',
@@ -87,6 +88,8 @@ module.exports = {
       },
       boxShadow: {
         primaryButton: '0px 20px 40px rgba(254, 44, 61, 0.15)',
+        platformCardIconPink: '0px 40px 100px 0px rgba(255, 204, 208, 0.8)',
+        platformCardIconGreen: '0px 20px 100px 0px rgba(212, 247, 223, 0.5)',
       },
       fill: {
         socialIconHover: '#FF9199',

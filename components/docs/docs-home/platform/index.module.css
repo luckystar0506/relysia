@@ -1,0 +1,12 @@
+.base {
+  @apply relative -mt-52;
+}
+
+.graphSVG {
+  @apply w-full;
+}
+
+.cards {
+  @apply grid gap-10;
+  grid-template-columns: repeat(auto-fit, minmax(21.8rem, 1fr));
+}
