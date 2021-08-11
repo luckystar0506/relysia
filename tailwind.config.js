@@ -8,21 +8,22 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#2E2E47',
-        secondary: '#FE2C3D',
-        third: '#3F4060',
-        fourth: '#FF9199',
-        fifth: '#282554',
-        sHover: '#434262',
-        pinkTransparent: 'rgba(255, 204, 208, 0.2)',
-        bgLight: 'rgba(255, 245, 246, 0.2)',
+        primary: 'var(--primary)',
+        secondary: 'var(--secondary)',
+        third: 'var(--third)',
+        fourth: 'var(--fourth)',
+        fifth: 'var(--fifth)',
+        sHover: 'var(--sHover)',
+        pinkTransparent: 'var(--pinkTransparent)',
+        bgLight: 'var(--bgLight)',
+        relPink: 'var(--relPink)',
+        relGreen: 'var(--relGreen)',
       },
       backgroundImage: {
-        gradient: 'linear-gradient(92.55deg, #E70077 3.08%, #FC8F0C 97.48%)',
-        gradientHover:
-          'linear-gradient(111.07deg, #E7009A 10.57%, #FC5C0C 105.27%)',
-        gradient2: 'linear-gradient(180deg, #1F87EF 0%, #D614A8 100%)',
-        gradient3: 'linear-gradient(101.46deg, #40CA69 9.74%, #0CFCD1 118.22%)',
+        gradient: 'var(--gradient)',
+        gradientHover: 'var(--gradientHover)',
+        gradient2: 'var(--gradient2)',
+        gradient3: 'var(--gradient3)',
       },
       borderRadius: {
         default: '32px',

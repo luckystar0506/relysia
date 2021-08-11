@@ -45,7 +45,7 @@ CardPlatformGray.propTypes = {
 }
 
 CardPlatformGray.defaultProps = {
-  btnFill: '#FF99A2',
+  btnFill: 'var(--relPink)',
   href: '/',
   shadow: 'shadow-platformCardIconPink',
 }

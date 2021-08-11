@@ -72,7 +72,7 @@ const DocsPlatform = () => {
               title={card.title}
               p={card.content}
               icon={card.icon}
-              btnFill={card.id % 2 === 0 ? '#79E59A' : '#FF99A2'}
+              btnFill={card.id % 2 === 0 ? 'var(--relGreen)' : 'var(--relPink)'}
               shadow={
                 card.id % 2 === 0
                   ? 'shadow-platformCardIconGreen'
