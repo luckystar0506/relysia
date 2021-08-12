@@ -124,14 +124,20 @@ h6 {
   @apply text-white font-bold;
 }
 
-a {
+a:hover {
   transition: all 0.2s ease-in-out;
+}
+
+a.text-secondary:focus,
+a.text-secondary:hover {
+  @apply text-secondary !important;
 }
 
 a:hover,
 a:focus {
   @apply text-secondary;
 }
+
 a:active {
   @apply text-white;
 }

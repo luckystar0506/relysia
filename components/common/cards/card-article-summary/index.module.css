@@ -1,6 +1,6 @@
 .base {
-  @apply relative w-full bg-cardArticleBg
-  backdrop-filter backdrop-blur-cardBLur
+  @apply relative w-full
+  bg-cardArticleBg
   rounded-2xl
   overflow-hidden;
 }
@@ -31,5 +31,14 @@
 }
 
 .read {
-  @apply leading-4 font-bold;
+  @apply flex items-baseline leading-4 font-bold transition-none;
+}
+
+.read span {
+  @apply mr-2;
+}
+
+.read:hover svg {
+  fill: var(--secondary);
+  @apply transition duration-200 ease-in-out;
 }
