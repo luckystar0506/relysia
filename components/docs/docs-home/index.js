@@ -1,4 +1,5 @@
 import React from 'react'
+import DocsArticles from './articles'
 import DocsHero from './hero'
 import DocsPlatform from './platform'
 
@@ -7,6 +8,7 @@ const DocsHome = () => {
     <div className="relative">
       <DocsHero />
       <DocsPlatform />
+      <DocsArticles />
     </div>
   )
 }

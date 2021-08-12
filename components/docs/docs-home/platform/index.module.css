@@ -1,5 +1,5 @@
 .base {
-  @apply relative;
+  @apply relative mb-28;
   margin-top: -13%;
 }
 

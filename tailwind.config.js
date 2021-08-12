@@ -18,6 +18,7 @@ module.exports = {
         bgLight: 'var(--bgLight)',
         relPink: 'var(--relPink)',
         relGreen: 'var(--relGreen)',
+        cardArticleBg: 'var(--cardArticleBg)',
       },
       backgroundImage: {
         gradient: 'var(--gradient)',
@@ -98,6 +99,9 @@ module.exports = {
       margin: {
         '1/4': '20%',
         '-1/4': '-20%',
+      },
+      backdropBlur: {
+        cardBLur: 'var(--cardBLur)',
       },
     },
     fontFamily: {

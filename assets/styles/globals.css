@@ -22,6 +22,8 @@
     );
     --gradient2: linear-gradient(180deg, #1f87ef 0%, #d614a8 100%);
     --gradient3: linear-gradient(101.46deg, #40ca69 9.74%, #0cfcd1 118.22%);
+    --cardBLur: 100px;
+    --cardArticleBg: rgba(36, 0, 0, 0.2);
   }
 
   @font-face {
