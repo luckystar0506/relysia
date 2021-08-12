@@ -1,17 +1,19 @@
 import styles from './index.module.css'
-import Title from '../../common/title'
-import Container from '../../common/container'
+import cn from 'classnames'
+import PropTypes from 'prop-types'
+import Title from '../../../common/title'
+import Container from '../../../common/container'
 import {
   appMockup,
   appStoreImg,
   playStoreImg,
   mapImg,
-} from '../../../assets/images/home-page/download-our-app'
+} from '../../../../assets/images/home-page/download-our-app'
 
-const DownloadOurApp = () => {
+const DownloadOurApp = ({ classNames }) => {
   return (
     <section
-      className={styles.base}
+      className={cn(styles.base, classNames)}
       style={{ backgroundImage: `url(${mapImg})` }}
     >
       <Container>
@@ -59,6 +61,10 @@ const DownloadOurApp = () => {
       </Container>
     </section>
   )
+}
+
+DownloadOurApp.propTypes = {
+  classNames: PropTypes.string,
 }
 
 export default DownloadOurApp

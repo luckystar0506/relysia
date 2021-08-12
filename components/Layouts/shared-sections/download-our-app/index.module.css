@@ -28,5 +28,5 @@
 }
 
 .appImg {
-  @apply -ml-8 -mt-12;
+  @apply -ml-8;
 }
