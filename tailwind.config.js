@@ -19,6 +19,8 @@ module.exports = {
         relPink: 'var(--relPink)',
         relGreen: 'var(--relGreen)',
         cardArticleBg: 'var(--cardArticleBg)',
+        borderOne: 'var(--borderOne)',
+        sidebar: 'var(--sidebar)',
       },
       backgroundImage: {
         gradient: 'var(--gradient)',
