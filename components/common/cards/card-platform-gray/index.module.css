@@ -1,0 +1,16 @@
+.base {
+  @apply w-full backdrop-blur-md bg-bgLight rounded-2xl py-8 px-5;
+}
+
+.icon {
+  @apply mb-8 rounded-2xl;
+}
+
+.p {
+  @apply text-par mt-4 mb-6 w-4/5;
+  letter-spacing: -0.99px;
+}
+
+.explore {
+  @apply flex items-center;
+}

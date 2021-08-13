@@ -1,0 +1,32 @@
+.header {
+  min-height: 5.5rem;
+  @apply relative bg-transparent z-50;
+}
+
+.navItem {
+  @apply relative
+  inline-block
+  w-14
+  text-center
+  py-8 mr-16 last:mr-0
+  hover:text-white;
+}
+
+.navItem:hover::before {
+  @apply opacity-100;
+}
+
+.navItem::before {
+  content: '';
+  @apply absolute top-0 left-0
+  bg-gradient
+  w-full
+  rounded-b-sm
+  h-1.5
+  transition-all duration-300 ease-in-out
+  opacity-0;
+}
+
+.navItem.active::before {
+  @apply opacity-100;
+}

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Link from "../common/ActiveLink";
+import Link from "../common/active-link";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { tomorrowNightBright } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import Head from "next/head";

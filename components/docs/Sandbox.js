@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Link from "../common/ActiveLink";
+import Link from "../common/active-link";
 import { Button } from "@material-ui/core";
 import Iframe from "react-iframe";
 import Head from "next/head";
@@ -98,20 +98,17 @@ const detailsArray = [
   {
     prop: "amount",
     type: "ARRAY",
-    desc:
-      "'tokens quantity' if transferring tokens , 'amount in US $' if transferring Bsvs",
+    desc: "'tokens quantity' if transferring tokens , 'amount in US $' if transferring Bsvs",
   },
   {
     prop: "to",
     type: "ARRAY",
-    desc:
-      "'public-key' if transferring tokens , 'wallet-address' if transferring Bsvs",
+    desc: "'public-key' if transferring tokens , 'wallet-address' if transferring Bsvs",
   },
   {
     prop: "token",
     type: "STRING",
-    desc:
-      "'token-id' if transferring tokens , 'BSV'(default) if transferring Bsvs",
+    desc: "'token-id' if transferring tokens , 'BSV'(default) if transferring Bsvs",
   },
   {
     prop: "currency",
@@ -121,8 +118,7 @@ const detailsArray = [
   {
     prop: "allowMultipleWallets",
     type: "BOOLEAN",
-    desc:
-      "if 'true'(default), display select wallet option, if(false) vaionex-wallet will be used for transction",
+    desc: "if 'true'(default), display select wallet option, if(false) vaionex-wallet will be used for transction",
   },
   {
     prop: "onLoad",

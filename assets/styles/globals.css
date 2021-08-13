@@ -1,0 +1,147 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary: #2e2e47;
+    --secondary: #fe2c3d;
+    --third: #3f4060;
+    --fourth: #ff9199;
+    --fifth: #282554;
+    --sHover: #434262;
+    --pinkTransparent: rgba(255, 204, 208, 0.2);
+    --bgLight: rgba(255, 245, 246, 0.2);
+    --relPink: #ff9199;
+    --relGreen: #79e59a;
+    --gradient: linear-gradient(92.55deg, #e70077 3.08%, #fc8f0c 97.48%);
+    --gradientHover: linear-gradient(
+      111.07deg,
+      #e7009a 10.57%,
+      #fc5c0c 105.27%
+    );
+    --gradient2: linear-gradient(180deg, #1f87ef 0%, #d614a8 100%);
+    --gradient3: linear-gradient(101.46deg, #40ca69 9.74%, #0cfcd1 118.22%);
+    --cardBLur: 100px;
+    --cardArticleBg: rgba(36, 0, 0, 0.2);
+  }
+
+  @font-face {
+    font-family: 'Sofia Pro';
+    src: local('Sofia Pro'), local('Roboto'), local('sans-serif'),
+      url('../fonts/sofia_pro_light_az-webfont.woff2') format('woff2'),
+      local('Sofia Pro'), local('Roboto'), local('sans-serif'),
+      url('../fonts/sofia_pro_light_az-webfont.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Sofia Pro';
+    src: local('Sofia Pro'), local('Roboto'), local('sans-serif'),
+      url('../fonts/sofia_pro_regular_az-webfont.woff2') format('woff2'),
+      local('Sofia Pro'), local('Roboto'), local('sans-serif'),
+      url('../fonts/sofia_pro_regular_az-webfont.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Sofia Pro';
+    src: local('Sofia Pro'), local('Roboto'), local('sans-serif'),
+      url('../fonts/sofia_pro_medium_az-webfont.woff2') format('woff2'),
+      local('Sofia Pro'), local('Roboto'), local('sans-serif'),
+      url('../fonts/sofia_pro_medium_az-webfont.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Sofia Pro';
+    src: local('Sofia Pro'), local('Roboto'), local('sans-serif'),
+      url('../fonts/sofia_pro_semi_bold_az-webfont.woff2') format('woff2'),
+      local('Sofia Pro'), local('Roboto'), local('sans-serif'),
+      url('../fonts/sofia_pro_semi_bold_az-webfont.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Sofia Pro';
+    src: local('Sofia Pro'), local('Roboto'), local('sans-serif'),
+      url('../fonts/sofia_pro_bold_az-webfont.woff2') format('woff2'),
+      local('Sofia Pro'), local('Roboto'), local('sans-serif'),
+      url('../fonts/sofia_pro_bold_az-webfont.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+}
+
+html {
+  @apply overflow-x-hidden;
+}
+
+body {
+  @apply relative
+  font-body
+  text-body
+  bg-primary
+  text-white
+  font-normal
+  antialiased
+  w-full
+  h-full
+  overflow-x-hidden;
+}
+
+.container {
+  max-width: calc(1128px + 2.5rem);
+  @apply relative
+  m-auto
+  px-5
+  h-full;
+}
+
+.preloader {
+  @apply bg-gradient;
+}
+
+.page {
+  @apply relative h-full;
+}
+
+p {
+  @apply text-white;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply text-white font-bold;
+}
+
+a:hover {
+  transition: all 0.2s ease-in-out;
+}
+
+a.text-secondary:focus,
+a.text-secondary:hover {
+  @apply text-secondary !important;
+}
+
+a:hover,
+a:focus {
+  @apply text-secondary;
+}
+
+a:active {
+  @apply text-white;
+}

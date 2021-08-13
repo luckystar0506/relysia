@@ -1,0 +1,44 @@
+.base {
+  @apply relative w-full
+  bg-cardArticleBg
+  rounded-2xl
+  overflow-hidden;
+}
+
+.img {
+  @apply w-full object-cover;
+  height: 15.625rem;
+}
+
+.info {
+  @apply py-8 px-5;
+}
+
+.title {
+  @apply text-xl font-bold leading-5 min-h-[2.5rem];
+}
+
+.p {
+  @apply text-par-s my-6;
+}
+
+.bottom {
+  @apply flex justify-between items-center;
+}
+
+.date {
+  @apply text-sm leading-none;
+}
+
+.read {
+  @apply flex items-baseline leading-4 font-bold transition-none;
+}
+
+.read span {
+  @apply mr-2;
+}
+
+.read:hover svg {
+  fill: var(--secondary);
+  @apply transition duration-200 ease-in-out;
+}

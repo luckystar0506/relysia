@@ -1,11 +1,11 @@
-import React from "react";
-import NoSSR from "react-no-ssr";
-import Header from "../components/Layouts/Header";
-import Footer from "../components/Layouts/Footer";
-import GoTop from "../components/Layouts/GoTop";
-import PageTitle from "../components/terms/PageTitle";
-import AboutArea from "../components/terms/AboutArea";
-import Head from "next/head";
+import React from 'react'
+import NoSSR from 'react-no-ssr'
+import Header from '../components/Layouts/header'
+import Footer from '../components/Layouts/footer'
+import GoTop from '../components/Layouts/GoTop'
+import PageTitle from '../components/terms/PageTitle'
+import AboutArea from '../components/terms/AboutArea'
+import Head from 'next/head'
 
 class About extends React.Component {
   render() {
@@ -26,8 +26,8 @@ class About extends React.Component {
           />
         </Head>
       </NoSSR>
-    );
+    )
   }
 }
 
-export default About;
+export default About

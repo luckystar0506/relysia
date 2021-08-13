@@ -1,32 +1,24 @@
-import React from "react";
-import NoSSR from "react-no-ssr";
-import Header from "../../components/Layouts/Header";
-import Footer from "../../components/Layouts/Footer";
-import GoTop from "../../components/Layouts/GoTop";
-// import RelysiaOverviewPage from "../../components/docs/Overview";
-// import DocsContainer from "../../components/Layouts/DocsContainer";
-import NewDocsContainer from "../../components/Layouts/NewDocsContainer";
-import {listData} from "../../components/docs/data/DocsListData";
+import React from 'react'
+import NoSSR from 'react-no-ssr'
+import Header from '../../components/Layouts/header'
+import Footer from '../../components/Layouts/footer'
+import DocsHome from '../../components/docs/docs-home'
+import { CloudThreeSVG } from '../../components/common/svgs/clouds'
 
 class DocsOverview extends React.Component {
   render() {
     return (
       <NoSSR>
-        <div>
+        <div className="page">
+          <CloudThreeSVG top="20%" opacity="0.2" />
+          <CloudThreeSVG top="62%" />
           <Header />
-          {/* <DocsContainer>
-            <RelysiaOverviewPage />
-          </DocsContainer> */}
-          <NewDocsContainer data={{groupData: listData}} />
+          <DocsHome />
           <Footer />
-          <GoTop scrollStepInPx="50" delayInMs="16.66" />
         </div>
       </NoSSR>
-    );
+    )
   }
-
- 
-
 }
 
-export default DocsOverview;
+export default DocsOverview

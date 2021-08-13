@@ -1,11 +1,11 @@
-import React from "react";
-import NoSSR from "react-no-ssr";
-import Header from "../../../components/Layouts/Header";
-import Footer from "../../../components/Layouts/Footer";
-import GoTop from "../../../components/Layouts/GoTop";
-import StasTokenComponent from "../../../components/stasTokens/index";
-import DashboardSidebar from "../../../components/Layouts/DashboardSidebar";
-import Head from "next/head";
+import React from 'react'
+import NoSSR from 'react-no-ssr'
+import Header from '../../../components/Layouts/header'
+import Footer from '../../../components/Layouts/footer'
+import GoTop from '../../../components/Layouts/GoTop'
+import StasTokenComponent from '../../../components/stasTokens/index'
+import DashboardSidebar from '../../../components/Layouts/DashboardSidebar'
+import Head from 'next/head'
 
 class StasTokenPage extends React.Component {
   render() {
@@ -27,8 +27,8 @@ class StasTokenPage extends React.Component {
           />
         </Head>
       </NoSSR>
-    );
+    )
   }
 }
 
-export default StasTokenPage;
+export default StasTokenPage

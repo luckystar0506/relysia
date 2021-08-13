@@ -1,0 +1,36 @@
+.hero {
+  height: 50rem;
+  @apply relative;
+}
+
+.heroLeft {
+  @apply absolute
+  z-20 top-1/2;
+  max-width: 25.875rem;
+  transform: translateY(-66%);
+}
+
+.heroRight {
+  @apply relative h-full;
+}
+
+.p {
+  @apply text-par text-white my-8;
+  letter-spacing: -0.99px;
+}
+
+.heroImg {
+  @apply absolute top-0 -right-40 max-w-heroMax z-10;
+}
+
+.heroImgLines {
+  @apply absolute top-0 -right-8 z-10;
+}
+
+.actions {
+  @apply mb-8;
+}
+
+.actions button {
+  @apply mr-8;
+}
