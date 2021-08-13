@@ -111,6 +111,10 @@ body {
   @apply bg-gradient;
 }
 
+.page {
+  @apply relative h-full;
+}
+
 p {
   @apply text-white;
 }

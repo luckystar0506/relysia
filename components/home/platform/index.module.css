@@ -1,16 +1,15 @@
 .platform {
-  /* height: 49.4375rem; */
-
   @apply relative;
 }
 
 .wrapper {
-  @apply flex justify-between;
+  @apply grid gap-44;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
 }
 
-.card {
+/* .card {
   @apply w-64;
-}
+} */
 
 .img {
   @apply mb-7 w-full;

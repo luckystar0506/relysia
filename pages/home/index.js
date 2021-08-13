@@ -5,28 +5,20 @@ import {
 } from '../../components/common/svgs/clouds'
 
 import MainGradient from '../../components/common/svgs/main-gradient'
-import ApiSection from '../../components/home/api-section'
-import DownloadOurApp from '../../components/Layouts/shared-sections/download-our-app'
-import GlobalScale from '../../components/home/global-scale'
-import Hero from '../../components/home/hero'
-import Platform from '../../components/home/platform'
 import Header from '../../components/Layouts/header'
 import Footer from '../../components/Layouts/footer'
+import HomeMain from '../../components/home'
 
 const Home = () => {
   return (
-    <div className="relative">
+    <div className="page">
       <MainGradient />
       <CloudOneSVG />
       <CloudTwoSVG />
       <CloudThreeSVG top="30%" opacity="0.2" />
       <CloudThreeSVG top="65%" />
       <Header />
-      <Hero />
-      <Platform />
-      <ApiSection />
-      <GlobalScale />
-      <DownloadOurApp />
+      <HomeMain />
       <Footer />
     </div>
   )

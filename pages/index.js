@@ -21,6 +21,10 @@ function Index() {
 
   return (
     <NoSSR>
+      <Head>
+        <title>Relysia - The Bitcoin database</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <Preloader>
         <Placeholder>
           <div className="preloader">
@@ -29,10 +33,6 @@ function Index() {
         </Placeholder>
         <Home />
       </Preloader>
-      <Head>
-        <title>Relysia - The Bitcoin database</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
     </NoSSR>
   )
 }
