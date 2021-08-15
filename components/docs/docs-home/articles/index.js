@@ -63,8 +63,11 @@ const articles = [
   },
 ]
 
-const DocsArticles = () => {
-  return (
+const DocsArticles = ({stories}) => {
+  {
+    console.log(stories[0].content.content)
+  }
+return (
     <section
       style={{
         backgroundImage: `url(${gradientBg})`,
@@ -81,8 +84,17 @@ const DocsArticles = () => {
           Top Help Articles
         </Title>
         <div className={styles.cards}>
-          {/* cards with static data now */}
-          {articles.map((card) => (
+          {stories.map((card) => (
+            <CardArticleSummary
+              key={card.id}
+              title={card.content.content[0].title}
+              p={card.content.content[0].intro_text}
+              img={card.content.content[0].image.filename}
+              href={"/docs/" + card.slug}
+              date={new Date(card.published_at).toLocaleString()}
+            />
+          ))}
+          {/* {articles.map((card) => (
             <CardArticleSummary
               key={card.id}
               title={card.title}
@@ -91,7 +103,7 @@ const DocsArticles = () => {
               href={card.href}
               date={card.date}
             />
-          ))}
+          ))} */}
         </div>
       </Container>
     </section>
