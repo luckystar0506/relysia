@@ -1,5 +1,7 @@
 .base {
-  @apply relative w-full
+  @apply relative
+  flex flex-col
+  w-full
   bg-cardArticleBg
   rounded-2xl
   overflow-hidden;
@@ -11,7 +13,8 @@
 }
 
 .info {
-  @apply py-8 px-5;
+  @apply py-8 px-5
+  flex flex-col flex-grow;
 }
 
 .title {
@@ -19,7 +22,10 @@
 }
 
 .p {
-  @apply text-par-s my-6;
+  @apply text-par-s my-6
+  flex-1
+  h-[182px]
+  line-clamp-7;
 }
 
 .bottom {
@@ -31,7 +37,9 @@
 }
 
 .read {
-  @apply flex items-baseline leading-4 font-bold transition-none;
+  @apply flex items-baseline
+  leading-4 font-bold
+  transition-none;
 }
 
 .read span {

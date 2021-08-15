@@ -1,3 +1,7 @@
+.base {
+  @apply min-h-[75rem];
+}
+
 .cards {
   @apply mt-20 grid gap-10;
   grid-template-columns: repeat(auto-fit, minmax(21.8rem, 1fr));
