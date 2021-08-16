@@ -26,6 +26,7 @@
     --cardArticleBg: rgba(36, 0, 0, 0.2);
     --borderOne: #4c496d;
     --sidebar: #343450;
+    --scrollbar: #64649b;
   }
 
   @font-face {
@@ -84,6 +85,8 @@
   }
 }
 
+@import './redoc.css';
+
 html {
   @apply overflow-x-hidden;
 }
@@ -96,9 +99,33 @@ body {
   text-white
   font-normal
   antialiased
-  w-full
-  h-full
   overflow-x-hidden;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar);
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar);
+}
+
+::selection {
+  background: var(--fourth);
 }
 
 .container {
