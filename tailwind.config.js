@@ -13,7 +13,9 @@ module.exports = {
         third: 'var(--third)',
         fourth: 'var(--fourth)',
         fifth: 'var(--fifth)',
+        sixth: 'var(--sixth)',
         sHover: 'var(--sHover)',
+        sHover2: 'var(--sHover2)',
         pinkTransparent: 'var(--pinkTransparent)',
         bgLight: 'var(--bgLight)',
         relPink: 'var(--relPink)',
@@ -21,6 +23,7 @@ module.exports = {
         cardArticleBg: 'var(--cardArticleBg)',
         borderOne: 'var(--borderOne)',
         sidebar: 'var(--sidebar)',
+        codeBg: 'var(--codeBg)',
       },
       backgroundImage: {
         gradient: 'var(--gradient)',

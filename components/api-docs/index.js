@@ -16,6 +16,7 @@ const APIDocs = () => {
           options={{
             nativeScrollbars: true,
             hideDownloadButton: true,
+            hideLoading: true,
             theme: {
               colors: {
                 primary: {
