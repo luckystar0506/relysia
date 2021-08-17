@@ -2,7 +2,7 @@ import APIDocs from '../../components/api-docs'
 
 const APIPage = () => {
   return (
-    <div className="page page-api">
+    <div className="page">
       <APIDocs />
     </div>
   )

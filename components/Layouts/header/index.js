@@ -1,12 +1,45 @@
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import ActiveLink from '../../common/active-link'
 import Button from '../../common/button'
+import Caption from '../../common/caption'
 import Container from '../../common/container'
 import Logo from '../../common/logo'
 import styles from './index.module.css'
 
 const Header = () => {
-  return (
+  const { pathname } = useRouter()
+
+  return pathname === '/api-docs' ? (
+    <header className={styles.headerApi}>
+      <div className="flex item-center">
+        <Logo />
+        <Caption text="API" classNames="text-white ml-4" />
+      </div>
+      <nav className={styles.nav}>
+        <ActiveLink href="/" activeClassName={styles.active}>
+          <a className={styles.navItem}>Home</a>
+        </ActiveLink>
+        <ActiveLink href="/docs" activeClassName={styles.active}>
+          <a className={styles.navItem}>Docs</a>
+        </ActiveLink>
+        <ActiveLink href="/docs/wallet" activeClassName={styles.active}>
+          <a className={styles.navItem}>Wallet</a>
+        </ActiveLink>
+        <ActiveLink href="/demo" activeClassName={styles.active}>
+          <a className={styles.navItem}>Demo</a>
+        </ActiveLink>
+      </nav>
+      <div>
+        <Link href="/auth/register">
+          <a className="py-3 px-4 font-semibold">Sign In</a>
+        </Link>
+        <Button href="/auth/login" appearance="primary" small>
+          Sign Up
+        </Button>
+      </div>
+    </header>
+  ) : (
     <header className={styles.header}>
       <Container classNames="flex justify-between items-center">
         <Logo />

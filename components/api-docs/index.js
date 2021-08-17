@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { RedocStandalone } from 'redoc'
-import APIHeader from '../Layouts/api-docs/api-header'
-import APISidebar from '../Layouts/api-docs/api-sidebar'
+import Header from '../Layouts/header'
 
 const APIDocs = () => {
   useEffect(() => {
@@ -10,7 +9,7 @@ const APIDocs = () => {
 
   return (
     <div>
-      <APIHeader />
+      <Header />
       <div id="redoc-container">
         <RedocStandalone
           specUrl="https://wallet.vaionex.com/docs/json"
@@ -22,10 +21,6 @@ const APIDocs = () => {
                 primary: {
                   main: '#343450',
                 },
-                border: {
-                  light: '#4ae4ae',
-                  dark: '#4ae4ae',
-                },
                 text: {
                   primary: '#ccc',
                   secondary: '#fe2c3d',
@@ -33,6 +28,7 @@ const APIDocs = () => {
                 responses: {},
               },
               schema: {
+                linesColor: 'transparent',
                 typeNameColor: '#eee',
                 typeTitleColor: '#eee',
                 nestedBackground: '#222235',
