@@ -1,16 +1,12 @@
-import { useEffect } from 'react'
 import { RedocStandalone } from 'redoc'
 import Header from '../Layouts/header'
+import Footer from '../Layouts/footer'
 
 const APIDocs = () => {
-  useEffect(() => {
-    document.body.style.overflowX = 'initial'
-  }, [])
-
   return (
-    <div>
+    <>
       <Header />
-      <div id="redoc-container">
+      <div id="redoc-container" className="min-h-screen">
         <RedocStandalone
           specUrl="https://wallet.vaionex.com/docs/json"
           options={{
@@ -56,7 +52,8 @@ const APIDocs = () => {
           }}
         />
       </div>
-    </div>
+      <Footer />
+    </>
   )
 }
 
