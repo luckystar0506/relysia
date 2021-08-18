@@ -145,7 +145,7 @@ body {
 }
 
 .page {
-  @apply relative h-full;
+  @apply relative h-full overflow-hidden;
 }
 
 p {

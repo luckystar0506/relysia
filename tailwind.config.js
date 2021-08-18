@@ -108,6 +108,10 @@ module.exports = {
       backdropBlur: {
         cardBLur: 'var(--cardBLur)',
       },
+      lineClamp: {
+        7: '7',
+        8: '8',
+      },
     },
     fontFamily: {
       body: ['Sofia Pro'],
@@ -131,6 +135,7 @@ module.exports = {
     extend: {},
   },
   plugins: [
+    require('@tailwindcss/line-clamp'),
     require('tailwindcss-pseudo-elements'),
     plugin(({ addUtilities }) => {
       const newUtilities = {
