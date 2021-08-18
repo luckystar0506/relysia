@@ -18,36 +18,42 @@ const data = [
     title: 'APIs',
     content: 'In Authentication, create user, auth, send otp, verify otp',
     icon: apiSVG,
+    href: '/api-docs',
   },
   {
     id: 2,
     title: 'SDKs',
     content: 'In User, get user details, update user Details',
     icon: sdkSVG,
+    href: '/',
   },
   {
     id: 3,
     title: 'Demo',
     content: 'In wallet, get user details, update user Details',
     icon: demoSVG,
+    href: '/',
   },
   {
     id: 4,
     title: 'Transaction',
     content: 'In User, get user details, update user Details.',
     icon: transactionSVG,
+    href: '/',
   },
   {
     id: 5,
     title: 'FAQs',
     content: 'In User, get user details, update user Details',
     icon: faqSVG,
+    href: '/',
   },
   {
     id: 6,
     title: 'Wallet',
     content: 'In wallet, get user details, update user Details',
     icon: walletSVG,
+    href: '/',
   },
 ]
 
@@ -72,6 +78,7 @@ const DocsPlatform = () => {
               title={card.title}
               p={card.content}
               icon={card.icon}
+              href={card.href}
               btnFill={card.id % 2 === 0 ? 'var(--relGreen)' : 'var(--relPink)'}
               shadow={
                 card.id % 2 === 0

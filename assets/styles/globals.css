@@ -129,6 +129,7 @@ body {
 
 ::selection {
   background: var(--fourth);
+  color: var(--primary);
 }
 
 .container {

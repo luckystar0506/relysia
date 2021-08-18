@@ -13,7 +13,11 @@ const Header = () => {
   return pathname === '/api-docs' ? (
     <header className={styles.headerApi}>
       <div className="flex item-center">
-        <Logo />
+        <Link href="/">
+          <a>
+            <Logo />
+          </a>
+        </Link>
         <Caption text="API" classNames="text-white ml-4" />
       </div>
       <nav className={styles.nav}>
@@ -42,7 +46,11 @@ const Header = () => {
   ) : (
     <header className={styles.header}>
       <Container classNames="flex justify-between items-center">
-        <Logo />
+        <Link href="/">
+          <a>
+            <Logo />
+          </a>
+        </Link>
         <nav className={styles.nav}>
           <ActiveLink href="/" activeClassName={styles.active}>
             <a className={styles.navItem}>Home</a>
