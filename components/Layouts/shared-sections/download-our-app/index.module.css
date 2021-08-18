@@ -26,7 +26,3 @@
   flex-1
   my-6;
 }
-
-.appImg {
-  @apply -ml-8;
-}

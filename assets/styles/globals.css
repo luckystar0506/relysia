@@ -9,7 +9,9 @@
     --third: #3f4060;
     --fourth: #ff9199;
     --fifth: #282554;
+    --sixth: #29293b;
     --sHover: #434262;
+    --sHover2: #43435a;
     --pinkTransparent: rgba(255, 204, 208, 0.2);
     --bgLight: rgba(255, 245, 246, 0.2);
     --relPink: #ff9199;
@@ -24,6 +26,10 @@
     --gradient3: linear-gradient(101.46deg, #40ca69 9.74%, #0cfcd1 118.22%);
     --cardBLur: 100px;
     --cardArticleBg: rgba(36, 0, 0, 0.2);
+    --borderOne: #4c496d;
+    --sidebar: #343450;
+    --scrollbar: #64649b;
+    --codeBg: #1d1d30;
   }
 
   @font-face {
@@ -82,6 +88,8 @@
   }
 }
 
+@import './redoc.css';
+
 html {
   @apply overflow-x-hidden;
 }
@@ -94,9 +102,34 @@ body {
   text-white
   font-normal
   antialiased
-  w-full
-  h-full
   overflow-x-hidden;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar);
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar);
+}
+
+::selection {
+  background: var(--fourth);
+  color: var(--primary);
 }
 
 .container {

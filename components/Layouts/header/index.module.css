@@ -1,6 +1,15 @@
 .header {
-  min-height: 5.5rem;
-  @apply relative bg-transparent z-50;
+  @apply relative bg-transparent z-50 min-h-[5.5rem];
+}
+
+.headerApi {
+  @apply flex items-center justify-between
+  px-6
+  min-h-[5.5rem]
+  border-b-2 border-borderOne
+  bg-primary
+  relative
+  z-5;
 }
 
 .navItem {
