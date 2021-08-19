@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import Container from '../../../components/common/container'
 import Title from '../../../components/common/title'
 import styles from './index.module.css'
@@ -32,9 +33,9 @@ const platformData = [
   },
 ]
 
-const Platform = () => {
+const Platform = ({ platformRef }) => {
   return (
-    <section className={styles.platform}>
+    <section className={styles.platform} ref={platformRef}>
       <Container classNames="pb-52">
         <Dots sides={{ bottom: '22px', left: '-156px' }} />
         <Dots sides={{ bottom: '22px', left: '30%' }} />
@@ -59,6 +60,10 @@ const Platform = () => {
       </Container>
     </section>
   )
+}
+
+Platform.propTypes = {
+  platformRef: PropTypes.object,
 }
 
 export default Platform

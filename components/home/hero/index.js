@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import Button from '../../../components/common/button'
 import Container from '../../../components/common/container'
 import styles from './index.module.css'
@@ -7,7 +8,7 @@ import cn from 'classnames'
 import Dots from '../../../components/common/svgs/dots'
 import Title from '../../../components/common/title'
 
-function Hero() {
+function Hero({ goToPlatform }) {
   return (
     <section className={styles.hero}>
       <Container>
@@ -31,8 +32,8 @@ function Hero() {
               <Button
                 arrow="down-bordered"
                 appearance="noBox"
-                href="/about"
                 className="underline"
+                onClick={goToPlatform}
               >
                 Discover More
               </Button>
@@ -46,6 +47,10 @@ function Hero() {
       </Container>
     </section>
   )
+}
+
+Hero.propTypes = {
+  goToPlatform: PropTypes.func.isRequired,
 }
 
 export default Hero
