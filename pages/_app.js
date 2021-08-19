@@ -36,14 +36,14 @@ import '../assets/styles/globals.css'
 
 import { Provider } from 'react-redux'
 import App from 'next/app'
+import Head from 'next/head'
 import { DefaultSeo } from 'next-seo'
 import withRedux from 'next-redux-wrapper'
 import { initStore } from '../store/reducers/authReducer'
 import React from 'react'
 import GetCurrentUser from '../components/Layouts/GetCurrentUser'
-
-import Head from 'next/head'
 import { Placeholder, Preloader } from 'react-preloading-screen'
+import SharedLayout from '../components/Layouts/shared-layout'
 
 export default withRedux(initStore)(
   class MyApp extends App {
@@ -81,7 +81,9 @@ export default withRedux(initStore)(
                 </div>
               </Placeholder>
               <GetCurrentUser />
-              <Component {...pageProps} />
+              <SharedLayout>
+                <Component {...pageProps} />
+              </SharedLayout>
             </Preloader>
           </Provider>
         </>
