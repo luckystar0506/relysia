@@ -3,12 +3,12 @@ import 'react-phone-number-input/style.css'
 import 'react-bootstrap-country-select/dist/react-bootstrap-country-select.css'
 
 import 'vionex-pay-button/dist/index.css'
-import '../static/css/bootstrap.min.css'
-import '../static/css/slick.css'
-import '../static/css/animate.css'
-import '../static/css/flaticon.css'
-import '../static/css/boxicons.min.css'
-import 'odometer/themes/odometer-theme-default.css'
+// import '../static/css/bootstrap.min.css'
+// import '../static/css/slick.css'
+// import '../static/css/animate.css'
+// import '../static/css/flaticon.css'
+// import '../static/css/boxicons.min.css'
+// import 'odometer/themes/odometer-theme-default.css'
 import 'react-toastify/dist/ReactToastify.css'
 import 'react-accessible-accordion/dist/fancy-example.css'
 import '../node_modules/react-modal-video/css/modal-video.min.css'
@@ -16,19 +16,19 @@ import 'react-image-lightbox/style.css'
 import '../static/styles/style.css'
 import 'react-perfect-scrollbar/dist/css/styles.css'
 
-// If you want to change the theme color you should comment out above line and uncomment the below line and change the color names from list
-/*
- * brink-pink-style.css
- * pink-style.css
- * purple-style.css
- */
-import '../static/styles/brink-pink-style.css'
-import '../static/css/responsive.css'
-import '../static/css/custom.css'
+// // If you want to change the theme color you should comment out above line and uncomment the below line and change the color names from list
+// /*
+//  * brink-pink-style.css
+//  * pink-style.css
+//  * purple-style.css
+//  */
+// import '../static/styles/brink-pink-style.css'
+// import '../static/css/responsive.css'
+// import '../static/css/custom.css'
 
-// global css of docs container
+// // global css of docs container
 
-import '../static/styles/GlobalNewDocsContainer.css'
+// import '../static/styles/GlobalNewDocsContainer.css'
 
 // tailwindcss
 import 'tailwindcss/tailwind.css'
@@ -41,20 +41,9 @@ import withRedux from 'next-redux-wrapper'
 import { initStore } from '../store/reducers/authReducer'
 import React from 'react'
 import GetCurrentUser from '../components/Layouts/GetCurrentUser'
-import { createTheme } from '@material-ui/core/styles'
-import { ThemeProvider } from '@material-ui/styles'
-import Head from 'next/head'
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#f48665',
-    },
-    secondary: {
-      main: '#44ce6f',
-    },
-  },
-})
+import Head from 'next/head'
+import { Placeholder, Preloader } from 'react-preloading-screen'
 
 export default withRedux(initStore)(
   class MyApp extends App {
@@ -85,10 +74,15 @@ export default withRedux(initStore)(
             />
           </Head>
           <Provider store={store}>
-            <ThemeProvider theme={theme}>
+            <Preloader>
+              <Placeholder>
+                <div className="preloader">
+                  <div className="spinner"></div>
+                </div>
+              </Placeholder>
               <GetCurrentUser />
               <Component {...pageProps} />
-            </ThemeProvider>
+            </Preloader>
           </Provider>
         </>
       )
