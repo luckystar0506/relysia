@@ -91,7 +91,6 @@
 @import './redoc.css';
 
 html {
-  @apply overflow-x-hidden;
   scroll-behavior: smooth;
 }
 
