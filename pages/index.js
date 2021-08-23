@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { Preloader, Placeholder } from 'react-preloading-screen'
 import NoSSR from 'react-no-ssr'
 
 import Head from 'next/head'
@@ -25,14 +24,8 @@ function Index() {
         <title>Relysia - The Bitcoin database</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <Preloader>
-        <Placeholder>
-          <div className="preloader">
-            <div className="spinner"></div>
-          </div>
-        </Placeholder>
-        <Home />
-      </Preloader>
+
+      <Home />
     </NoSSR>
   )
 }

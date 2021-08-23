@@ -73,6 +73,9 @@ const Button = ({
 
   return (
     <button className={cn(styles.base, ...btnClass, className)} {...props}>
+      {arrow === 'down-bordered' && (
+        <img className={'mr-2'} src={ArrowDownBordered} alt="" />
+      )}
       {appearance === 'primary' || gradientBg ? (
         <span>{children}</span>
       ) : (

@@ -35,10 +35,10 @@ const Header = () => {
         </ActiveLink>
       </nav>
       <div>
-        <Link href="/auth/register">
-          <a className="py-3 px-4 font-semibold">Sign In</a>
+        <Link href="/auth/login">
+          <a className="py-3 px-4 font-semibold hover:text-white">Sign In</a>
         </Link>
-        <Button href="/auth/login" appearance="primary" small>
+        <Button href="/auth/register" appearance="primary" small>
           Sign Up
         </Button>
       </div>
@@ -66,10 +66,10 @@ const Header = () => {
           </ActiveLink>
         </nav>
         <div>
-          <Link href="/auth/register">
-            <a className="py-3 px-4 font-semibold">Sign In</a>
+          <Link href="/auth/login">
+            <a className="py-3 px-4 font-semibold hover:text-white">Sign In</a>
           </Link>
-          <Button href="/auth/login" appearance="primary" small>
+          <Button href="/auth/register" appearance="primary" small>
             Sign Up
           </Button>
         </div>

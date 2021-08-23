@@ -4,14 +4,14 @@ import DocsArticles from './articles'
 import DocsHero from './hero'
 import DocsPlatform from './platform'
 
-const DocsHome = ({stories}) => {  
+const DocsHome = ({ stories }) => {
   return (
-    <div className="relative">
+    <>
       <DocsHero />
       <DocsPlatform />
-      <DocsArticles stories = {stories}/>
+      <DocsArticles stories={stories} />
       <DownloadOurApp />
-    </div>
+    </>
   )
 }
 

@@ -1,5 +1,5 @@
 .base {
-  @apply w-full backdrop-blur-md bg-bgLight rounded-2xl py-8 px-5;
+  @apply w-full bg-bgLight rounded-2xl py-8 px-5;
 }
 
 .icon {

@@ -1,17 +1,10 @@
-import Header from '../../../components/Layouts/header'
-import Footer from '../../../components/Layouts/footer'
-import GoTop from '../../../components/Layouts/GoTop'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
-
 import { pageListData } from '../../../components/docs/data/DocsPageList'
-
 import MainBackButton from '../../..//components/docs/new-component/MainBackButton'
 import GoBackAndNextButton from '../../../components/docs/new-component/GoBackAndfNextButton'
 import PageNotFoundPage from '../../../components/docs/pages/404'
-
 import { Layout } from 'antd'
-
 import NoSSR from 'react-no-ssr'
 import { listData } from '../../../components/docs/data/DocsListData'
 
@@ -39,7 +32,6 @@ function index() {
   return (
     <NoSSR>
       <div>
-        <Header />
         <section
           className="about-area ptb-80 more-top-padding"
           style={{ paddingBottom: 0 }}
@@ -79,8 +71,6 @@ function index() {
             </Layout>
           </Layout>
         </section>
-        <Footer />
-        <GoTop scrollStepInPx="50" delayInMs="16.66" />
       </div>
     </NoSSR>
   )

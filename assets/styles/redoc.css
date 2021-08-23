@@ -135,9 +135,9 @@
       hover:text-white;
 
       &.active {
-        @apply bg-white bg-opacity-5 text-secondary
+        @apply bg-white bg-opacity-5 text-secondaryLight
 
-        hover:text-secondary;
+        hover:text-secondaryLight;
       }
 
       span {
