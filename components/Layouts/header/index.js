@@ -36,7 +36,7 @@ const Header = () => {
       </nav>
       <div>
         <Link href="/auth/login">
-          <a className="py-3 px-4 font-semibold">Sign In</a>
+          <a className="py-3 px-4 font-semibold hover:text-white">Sign In</a>
         </Link>
         <Button href="/auth/register" appearance="primary" small>
           Sign Up
@@ -67,7 +67,7 @@ const Header = () => {
         </nav>
         <div>
           <Link href="/auth/login">
-            <a className="py-3 px-4 font-semibold">Sign In</a>
+            <a className="py-3 px-4 font-semibold hover:text-white">Sign In</a>
           </Link>
           <Button href="/auth/register" appearance="primary" small>
             Sign Up

@@ -6,6 +6,7 @@
   :root {
     --primary: #2e2e47;
     --secondary: #fe2c3d;
+    --secondaryLight: #f75463;
     --third: #3f4060;
     --fourth: #ff9199;
     --fifth: #282554;
@@ -128,7 +129,7 @@ body {
 }
 
 ::selection {
-  background: var(--fourth);
+  background: var(--secondaryLight);
   color: var(--primary);
 }
 
@@ -167,12 +168,12 @@ a:hover {
 
 a.text-secondary:focus,
 a.text-secondary:hover {
-  @apply text-secondary !important;
+  @apply text-secondaryLight !important;
 }
 
 a:hover,
 a:focus {
-  @apply text-secondary;
+  @apply text-secondaryLight;
 }
 
 a:active {
